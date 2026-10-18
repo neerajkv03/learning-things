@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>React Artifact</title>
     <style>
+      @import url("https://fonts.googleapis.com/css2?family=Geist+Mono:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap");
       *,
       :after,
       :before {
@@ -112,7 +113,9 @@
         --tw-contain-layout: ;
         --tw-contain-paint: ;
         --tw-contain-style: ;
-      } /*! tailwindcss v3.4.18 | MIT License | https://tailwindcss.com*/
+      }
+
+      /*! tailwindcss v3.4.18 | MIT License | https://tailwindcss.com*/
       *,
       :after,
       :before {
@@ -143,6 +146,7 @@
         -webkit-tap-highlight-color: transparent;
       }
       body {
+        margin: 0;
         line-height: inherit;
       }
       hr {
@@ -335,14 +339,8 @@
       [hidden]:where(:not([hidden="until-found"])) {
         display: none;
       }
-      .pointer-events-none {
-        pointer-events: none;
-      }
       .visible {
         visibility: visible;
-      }
-      .fixed {
-        position: fixed;
       }
       .absolute {
         position: absolute;
@@ -352,9 +350,6 @@
       }
       .sticky {
         position: sticky;
-      }
-      .inset-0 {
-        inset: 0;
       }
       .left-3 {
         left: 0.75rem;
@@ -368,45 +363,36 @@
       .top-\[56px\] {
         top: 56px;
       }
-      .top-\[58px\] {
-        top: 58px;
-      }
-      .z-20 {
-        z-index: 20;
-      }
-      .z-30 {
-        z-index: 30;
-      }
       .z-40 {
         z-index: 40;
-      }
-      .mx-4 {
-        margin-left: 1rem;
-        margin-right: 1rem;
       }
       .mx-auto {
         margin-left: auto;
         margin-right: auto;
       }
+      .my-4 {
+        margin-top: 1rem;
+        margin-bottom: 1rem;
+      }
+      .my-5 {
+        margin-top: 1.25rem;
+        margin-bottom: 1.25rem;
+      }
       .my-6 {
         margin-top: 1.5rem;
         margin-bottom: 1.5rem;
       }
-      .my-8 {
-        margin-top: 2rem;
-        margin-bottom: 2rem;
-      }
-      .mb-1\.5 {
-        margin-bottom: 0.375rem;
+      .mb-1 {
+        margin-bottom: 0.25rem;
       }
       .mb-12 {
         margin-bottom: 3rem;
       }
+      .mb-16 {
+        margin-bottom: 4rem;
+      }
       .mb-2 {
         margin-bottom: 0.5rem;
-      }
-      .mb-20 {
-        margin-bottom: 5rem;
       }
       .mb-3 {
         margin-bottom: 0.75rem;
@@ -417,20 +403,8 @@
       .mb-6 {
         margin-bottom: 1.5rem;
       }
-      .mb-7 {
-        margin-bottom: 1.75rem;
-      }
-      .ml-2 {
-        margin-left: 0.5rem;
-      }
-      .ml-3 {
-        margin-left: 0.75rem;
-      }
-      .mt-1 {
-        margin-top: 0.25rem;
-      }
-      .mt-10 {
-        margin-top: 2.5rem;
+      .mt-0\.5 {
+        margin-top: 0.125rem;
       }
       .mt-16 {
         margin-top: 4rem;
@@ -444,14 +418,8 @@
       .mt-4 {
         margin-top: 1rem;
       }
-      .mt-5 {
-        margin-top: 1.25rem;
-      }
       .mt-6 {
         margin-top: 1.5rem;
-      }
-      .mt-8 {
-        margin-top: 2rem;
       }
       .block {
         display: block;
@@ -459,44 +427,47 @@
       .flex {
         display: flex;
       }
+      .table {
+        display: table;
+      }
       .grid {
         display: grid;
       }
       .hidden {
         display: none;
       }
-      .h-1 {
-        height: 0.25rem;
+      .h-3 {
+        height: 0.75rem;
       }
-      .h-1\.5 {
-        height: 0.375rem;
+      .h-5 {
+        height: 1.25rem;
       }
-      .h-14 {
-        height: 3.5rem;
+      .h-6 {
+        height: 1.5rem;
       }
-      .h-2\.5 {
-        height: 0.625rem;
+      .h-7 {
+        height: 1.75rem;
       }
-      .h-\[2px\] {
-        height: 2px;
+      .h-\[22px\] {
+        height: 22px;
       }
-      .h-\[calc\(100vh-58px\)\] {
-        height: calc(100vh - 58px);
+      .h-\[36px\] {
+        height: 36px;
       }
-      .h-full {
-        height: 100%;
+      .h-\[56px\] {
+        height: 56px;
       }
-      .h-px {
-        height: 1px;
+      .h-\[calc\(100vh-56px\)\] {
+        height: calc(100vh - 56px);
       }
       .min-h-screen {
         min-height: 100vh;
       }
-      .w-1\.5 {
-        width: 0.375rem;
+      .w-3 {
+        width: 0.75rem;
       }
-      .w-2\.5 {
-        width: 0.625rem;
+      .w-6 {
+        width: 1.5rem;
       }
       .w-\[240px\] {
         width: 240px;
@@ -504,11 +475,11 @@
       .w-\[280px\] {
         width: 280px;
       }
-      .w-\[3\.2rem\] {
-        width: 3.2rem;
-      }
       .w-full {
         width: 100%;
+      }
+      .w-px {
+        width: 1px;
       }
       .min-w-0 {
         min-width: 0;
@@ -516,8 +487,11 @@
       .max-w-3xl {
         max-width: 48rem;
       }
-      .max-w-\[520px\] {
-        max-width: 520px;
+      .max-w-\[1680px\] {
+        max-width: 1680px;
+      }
+      .max-w-\[560px\] {
+        max-width: 560px;
       }
       .max-w-\[60ch\] {
         max-width: 60ch;
@@ -528,65 +502,27 @@
       .shrink-0 {
         flex-shrink: 0;
       }
-      .-translate-x-full {
-        --tw-translate-x: -100%;
-      }
-      .-translate-x-full,
-      .-translate-y-1\/2 {
-        transform: translate(var(--tw-translate-x), var(--tw-translate-y))
-          rotate(var(--tw-rotate)) skewX(var(--tw-skew-x))
-          skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x))
-          scaleY(var(--tw-scale-y));
-      }
       .-translate-y-1\/2 {
         --tw-translate-y: -50%;
       }
-      .translate-x-0 {
-        --tw-translate-x: 0px;
-      }
-      .rotate-0,
-      .translate-x-0 {
-        transform: translate(var(--tw-translate-x), var(--tw-translate-y))
-          rotate(var(--tw-rotate)) skewX(var(--tw-skew-x))
-          skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x))
-          scaleY(var(--tw-scale-y));
-      }
-      .rotate-0 {
-        --tw-rotate: 0deg;
-      }
+      .-translate-y-1\/2,
       .transform {
         transform: translate(var(--tw-translate-x), var(--tw-translate-y))
           rotate(var(--tw-rotate)) skewX(var(--tw-skew-x))
           skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x))
           scaleY(var(--tw-scale-y));
       }
-      @keyframes pulse {
-        50% {
-          opacity: 0.5;
-        }
-      }
-      .animate-pulse {
-        animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
-      }
-      .select-none {
-        -webkit-user-select: none;
-        -moz-user-select: none;
-        user-select: none;
+      .cursor-pointer {
+        cursor: pointer;
       }
       .scroll-mt-\[80px\] {
         scroll-margin-top: 80px;
       }
-      .scroll-mt-\[90px\] {
-        scroll-margin-top: 90px;
-      }
-      .list-disc {
-        list-style-type: disc;
-      }
-      .grid-cols-1 {
-        grid-template-columns: repeat(1, minmax(0, 1fr));
-      }
       .flex-wrap {
         flex-wrap: wrap;
+      }
+      .items-start {
+        align-items: flex-start;
       }
       .items-center {
         align-items: center;
@@ -597,8 +533,8 @@
       .justify-between {
         justify-content: space-between;
       }
-      .gap-1 {
-        gap: 0.25rem;
+      .gap-1\.5 {
+        gap: 0.375rem;
       }
       .gap-2 {
         gap: 0.5rem;
@@ -609,10 +545,23 @@
       .gap-3 {
         gap: 0.75rem;
       }
+      .gap-4 {
+        gap: 1rem;
+      }
+      .space-y-0\.5 > :not([hidden]) ~ :not([hidden]) {
+        --tw-space-y-reverse: 0;
+        margin-top: calc(0.125rem * (1 - var(--tw-space-y-reverse)));
+        margin-bottom: calc(0.125rem * var(--tw-space-y-reverse));
+      }
       .space-y-1 > :not([hidden]) ~ :not([hidden]) {
         --tw-space-y-reverse: 0;
         margin-top: calc(0.25rem * (1 - var(--tw-space-y-reverse)));
         margin-bottom: calc(0.25rem * var(--tw-space-y-reverse));
+      }
+      .space-y-1\.5 > :not([hidden]) ~ :not([hidden]) {
+        --tw-space-y-reverse: 0;
+        margin-top: calc(0.375rem * (1 - var(--tw-space-y-reverse)));
+        margin-bottom: calc(0.375rem * var(--tw-space-y-reverse));
       }
       .space-y-2 > :not([hidden]) ~ :not([hidden]) {
         --tw-space-y-reverse: 0;
@@ -624,10 +573,13 @@
         margin-top: calc(1.5rem * (1 - var(--tw-space-y-reverse)));
         margin-bottom: calc(1.5rem * var(--tw-space-y-reverse));
       }
-      .space-y-8 > :not([hidden]) ~ :not([hidden]) {
-        --tw-space-y-reverse: 0;
-        margin-top: calc(2rem * (1 - var(--tw-space-y-reverse)));
-        margin-bottom: calc(2rem * var(--tw-space-y-reverse));
+      .divide-y > :not([hidden]) ~ :not([hidden]) {
+        --tw-divide-y-reverse: 0;
+        border-top-width: calc(1px * (1 - var(--tw-divide-y-reverse)));
+        border-bottom-width: calc(1px * var(--tw-divide-y-reverse));
+      }
+      .divide-zinc-800\/60 > :not([hidden]) ~ :not([hidden]) {
+        border-color: rgba(39, 39, 42, 0.6);
       }
       .overflow-hidden {
         overflow: hidden;
@@ -638,9 +590,6 @@
       .overflow-y-auto {
         overflow-y: auto;
       }
-      .overflow-x-clip {
-        overflow-x: clip;
-      }
       .truncate {
         overflow: hidden;
         text-overflow: ellipsis;
@@ -649,26 +598,26 @@
       .whitespace-pre {
         white-space: pre;
       }
-      .whitespace-pre-wrap {
-        white-space: pre-wrap;
-      }
       .rounded {
         border-radius: 0.25rem;
       }
       .rounded-\[10px\] {
         border-radius: 10px;
       }
-      .rounded-\[6px\] {
-        border-radius: 6px;
+      .rounded-\[12px\] {
+        border-radius: 12px;
+      }
+      .rounded-\[5px\] {
+        border-radius: 5px;
+      }
+      .rounded-\[7px\] {
+        border-radius: 7px;
       }
       .rounded-\[8px\] {
         border-radius: 8px;
       }
       .rounded-full {
         border-radius: 9999px;
-      }
-      .rounded-lg {
-        border-radius: 0.5rem;
       }
       .rounded-md {
         border-radius: 0.375rem;
@@ -688,11 +637,23 @@
       .border-r {
         border-right-width: 1px;
       }
-      .border-amber-900\/50 {
-        border-color: rgba(120, 53, 15, 0.5);
+      .border-t {
+        border-top-width: 1px;
       }
-      .border-black\/20 {
-        border-color: rgba(0, 0, 0, 0.2);
+      .border-dashed {
+        border-style: dashed;
+      }
+      .border-emerald-900\/30 {
+        border-color: rgba(6, 78, 59, 0.3);
+      }
+      .border-emerald-900\/50 {
+        border-color: rgba(6, 78, 59, 0.5);
+      }
+      .border-red-900\/30 {
+        border-color: rgba(127, 29, 29, 0.3);
+      }
+      .border-red-900\/50 {
+        border-color: rgba(127, 29, 29, 0.5);
       }
       .border-transparent {
         border-color: transparent;
@@ -700,14 +661,6 @@
       .border-white {
         --tw-border-opacity: 1;
         border-color: rgb(255 255 255 / var(--tw-border-opacity, 1));
-      }
-      .border-zinc-100 {
-        --tw-border-opacity: 1;
-        border-color: rgb(244 244 245 / var(--tw-border-opacity, 1));
-      }
-      .border-zinc-200 {
-        --tw-border-opacity: 1;
-        border-color: rgb(228 228 231 / var(--tw-border-opacity, 1));
       }
       .border-zinc-700 {
         --tw-border-opacity: 1;
@@ -717,43 +670,42 @@
         --tw-border-opacity: 1;
         border-color: rgb(39 39 42 / var(--tw-border-opacity, 1));
       }
-      .border-zinc-800\/80 {
-        border-color: rgba(39, 39, 42, 0.8);
-      }
-      .border-zinc-900 {
-        --tw-border-opacity: 1;
-        border-color: rgb(24 24 27 / var(--tw-border-opacity, 1));
-      }
       .bg-\[\#09090b\] {
         --tw-bg-opacity: 1;
         background-color: rgb(9 9 11 / var(--tw-bg-opacity, 1));
       }
-      .bg-amber-950\/20 {
-        background-color: rgba(69, 26, 3, 0.2);
+      .bg-\[\#09090b\]\/90 {
+        background-color: rgba(9, 9, 11, 0.9);
+      }
+      .bg-\[\#101012\] {
+        --tw-bg-opacity: 1;
+        background-color: rgb(16 16 18 / var(--tw-bg-opacity, 1));
+      }
+      .bg-\[\#101815\] {
+        --tw-bg-opacity: 1;
+        background-color: rgb(16 24 21 / var(--tw-bg-opacity, 1));
+      }
+      .bg-\[\#121214\] {
+        --tw-bg-opacity: 1;
+        background-color: rgb(18 18 20 / var(--tw-bg-opacity, 1));
+      }
+      .bg-\[\#181012\] {
+        --tw-bg-opacity: 1;
+        background-color: rgb(24 16 18 / var(--tw-bg-opacity, 1));
       }
       .bg-black {
         --tw-bg-opacity: 1;
         background-color: rgb(0 0 0 / var(--tw-bg-opacity, 1));
       }
-      .bg-black\/60 {
-        background-color: rgba(0, 0, 0, 0.6);
+      .bg-emerald-950\/30 {
+        background-color: rgba(2, 44, 34, 0.3);
       }
-      .bg-black\/80 {
-        background-color: rgba(0, 0, 0, 0.8);
-      }
-      .bg-transparent {
-        background-color: transparent;
+      .bg-red-950\/30 {
+        background-color: rgba(69, 10, 10, 0.3);
       }
       .bg-white {
         --tw-bg-opacity: 1;
         background-color: rgb(255 255 255 / var(--tw-bg-opacity, 1));
-      }
-      .bg-white\/\[0\.03\] {
-        background-color: hsla(0, 0%, 100%, 0.03);
-      }
-      .bg-zinc-700 {
-        --tw-bg-opacity: 1;
-        background-color: rgb(63 63 70 / var(--tw-bg-opacity, 1));
       }
       .bg-zinc-800 {
         --tw-bg-opacity: 1;
@@ -763,21 +715,6 @@
         --tw-bg-opacity: 1;
         background-color: rgb(24 24 27 / var(--tw-bg-opacity, 1));
       }
-      .bg-zinc-900\/40 {
-        background-color: rgba(24, 24, 27, 0.4);
-      }
-      .bg-zinc-900\/50 {
-        background-color: rgba(24, 24, 27, 0.5);
-      }
-      .bg-zinc-900\/60 {
-        background-color: rgba(24, 24, 27, 0.6);
-      }
-      .bg-zinc-900\/80 {
-        background-color: rgba(24, 24, 27, 0.8);
-      }
-      .p-0 {
-        padding: 0;
-      }
       .p-3 {
         padding: 0.75rem;
       }
@@ -786,13 +723,6 @@
       }
       .p-5 {
         padding: 1.25rem;
-      }
-      .p-6 {
-        padding: 1.5rem;
-      }
-      .px-1 {
-        padding-left: 0.25rem;
-        padding-right: 0.25rem;
       }
       .px-1\.5 {
         padding-left: 0.375rem;
@@ -830,49 +760,63 @@
         padding-top: 0.375rem;
         padding-bottom: 0.375rem;
       }
+      .py-10 {
+        padding-top: 2.5rem;
+        padding-bottom: 2.5rem;
+      }
       .py-2 {
         padding-top: 0.5rem;
         padding-bottom: 0.5rem;
       }
-      .py-3 {
-        padding-top: 0.75rem;
+      .py-2\.5 {
+        padding-top: 0.625rem;
+        padding-bottom: 0.625rem;
+      }
+      .py-20 {
+        padding-top: 5rem;
+        padding-bottom: 5rem;
+      }
+      .pb-2 {
+        padding-bottom: 0.5rem;
+      }
+      .pb-3 {
         padding-bottom: 0.75rem;
       }
-      .py-8 {
-        padding-top: 2rem;
+      .pb-8 {
         padding-bottom: 2rem;
-      }
-      .pb-16 {
-        padding-bottom: 4rem;
       }
       .pl-3 {
         padding-left: 0.75rem;
       }
-      .pl-4 {
-        padding-left: 1rem;
+      .pl-8 {
+        padding-left: 2rem;
       }
-      .pl-9 {
-        padding-left: 2.25rem;
+      .pr-3 {
+        padding-right: 0.75rem;
+      }
+      .pr-\[48px\] {
+        padding-right: 48px;
+      }
+      .pt-2 {
+        padding-top: 0.5rem;
+      }
+      .pt-4 {
+        padding-top: 1rem;
+      }
+      .pt-8 {
+        padding-top: 2rem;
+      }
+      .text-left {
+        text-align: left;
       }
       .text-center {
         text-align: center;
       }
-      .text-right {
-        text-align: right;
-      }
-      .font-mono {
-        font-family:
-          ui-monospace,
-          SFMono-Regular,
-          Menlo,
-          Monaco,
-          Consolas,
-          Liberation Mono,
-          Courier New,
-          monospace;
-      }
       .text-\[10px\] {
         font-size: 10px;
+      }
+      .text-\[11\.5px\] {
+        font-size: 11.5px;
       }
       .text-\[11px\] {
         font-size: 11px;
@@ -892,23 +836,28 @@
       .text-\[14px\] {
         font-size: 14px;
       }
-      .text-\[15px\] {
-        font-size: 15px;
+      .text-\[22px\] {
+        font-size: 22px;
       }
-      .text-\[16px\] {
-        font-size: 16px;
-      }
-      .text-\[24px\] {
-        font-size: 24px;
-      }
-      .text-\[28px\] {
-        font-size: 28px;
+      .text-\[30px\] {
+        font-size: 30px;
       }
       .text-\[9px\] {
         font-size: 9px;
       }
+      .text-sm {
+        font-size: 0.875rem;
+        line-height: 1.25rem;
+      }
+      .text-xs {
+        font-size: 0.75rem;
+        line-height: 1rem;
+      }
       .font-bold {
         font-weight: 700;
+      }
+      .font-medium {
+        font-weight: 500;
       }
       .uppercase {
         text-transform: uppercase;
@@ -916,14 +865,26 @@
       .lowercase {
         text-transform: lowercase;
       }
-      .leading-\[0\.95\] {
-        line-height: 0.95;
+      .leading-\[1\.05\] {
+        line-height: 1.05;
+      }
+      .leading-\[1\.15\] {
+        line-height: 1.15;
+      }
+      .leading-\[1\.4\] {
+        line-height: 1.4;
+      }
+      .leading-\[1\.5\] {
+        line-height: 1.5;
+      }
+      .leading-\[1\.65\] {
+        line-height: 1.65;
+      }
+      .leading-\[1\.6\] {
+        line-height: 1.6;
       }
       .leading-\[1\.7\] {
         line-height: 1.7;
-      }
-      .leading-relaxed {
-        line-height: 1.625;
       }
       .leading-tight {
         line-height: 1.25;
@@ -937,28 +898,33 @@
       .tracking-\[0\.14em\] {
         letter-spacing: 0.14em;
       }
-      .tracking-\[0\.2em\] {
-        letter-spacing: 0.2em;
-      }
-      .tracking-tight {
-        letter-spacing: -0.025em;
+      .tracking-wide {
+        letter-spacing: 0.025em;
       }
       .tracking-widest {
         letter-spacing: 0.1em;
-      }
-      .text-amber-200\/80 {
-        color: hsla(48, 97%, 77%, 0.8);
-      }
-      .text-amber-400 {
-        --tw-text-opacity: 1;
-        color: rgb(251 191 36 / var(--tw-text-opacity, 1));
       }
       .text-black {
         --tw-text-opacity: 1;
         color: rgb(0 0 0 / var(--tw-text-opacity, 1));
       }
-      .text-black\/60 {
-        color: rgba(0, 0, 0, 0.6);
+      .text-emerald-200\/80 {
+        color: rgba(167, 243, 208, 0.8);
+      }
+      .text-emerald-300 {
+        --tw-text-opacity: 1;
+        color: rgb(110 231 183 / var(--tw-text-opacity, 1));
+      }
+      .text-emerald-400 {
+        --tw-text-opacity: 1;
+        color: rgb(52 211 153 / var(--tw-text-opacity, 1));
+      }
+      .text-red-200\/80 {
+        color: hsla(0, 96%, 89%, 0.8);
+      }
+      .text-red-300 {
+        --tw-text-opacity: 1;
+        color: rgb(252 165 165 / var(--tw-text-opacity, 1));
       }
       .text-white {
         --tw-text-opacity: 1;
@@ -992,32 +958,30 @@
         --tw-text-opacity: 1;
         color: rgb(63 63 70 / var(--tw-text-opacity, 1));
       }
-      .antialiased {
-        -webkit-font-smoothing: antialiased;
-        -moz-osx-font-smoothing: grayscale;
+      .ring-1 {
+        --tw-ring-offset-shadow: var(--tw-ring-inset) 0 0 0
+          var(--tw-ring-offset-width) var(--tw-ring-offset-color);
+        --tw-ring-shadow: var(--tw-ring-inset) 0 0 0
+          calc(1px + var(--tw-ring-offset-width)) var(--tw-ring-color);
+        box-shadow:
+          var(--tw-ring-offset-shadow), var(--tw-ring-shadow),
+          var(--tw-shadow, 0 0 #0000);
       }
-      .blur {
-        --tw-blur: blur(8px);
+      .ring-white\/20 {
+        --tw-ring-color: hsla(0, 0%, 100%, 0.2);
       }
-      .blur,
       .filter {
         filter: var(--tw-blur) var(--tw-brightness) var(--tw-contrast)
           var(--tw-grayscale) var(--tw-hue-rotate) var(--tw-invert)
           var(--tw-saturate) var(--tw-sepia) var(--tw-drop-shadow);
       }
-      .backdrop-blur-sm {
-        --tw-backdrop-blur: blur(4px);
-      }
-      .backdrop-blur-sm,
       .backdrop-blur-xl {
+        --tw-backdrop-blur: blur(24px);
         backdrop-filter: var(--tw-backdrop-blur) var(--tw-backdrop-brightness)
           var(--tw-backdrop-contrast) var(--tw-backdrop-grayscale)
           var(--tw-backdrop-hue-rotate) var(--tw-backdrop-invert)
           var(--tw-backdrop-opacity) var(--tw-backdrop-saturate)
           var(--tw-backdrop-sepia);
-      }
-      .backdrop-blur-xl {
-        --tw-backdrop-blur: blur(24px);
       }
       .transition-all {
         transition-property: all;
@@ -1031,32 +995,65 @@
         transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
         transition-duration: 0.15s;
       }
-      .transition-transform {
-        transition-property: transform;
-        transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
-        transition-duration: 0.15s;
+      :root {
+        --bg: #09090b;
+        --bg-soft: #121214;
+        --bg-elev: #18181b;
+        --border: #27272a;
+        --border-strong: #3f3f46;
+        --text: #fafafa;
+        --text-muted: #a1a1aa;
+        --text-faint: #71717a;
+        --accent: #fafafa;
+        --code-bg: #101012;
+        --safe-area-inset-top: env(safe-area-inset-top, 0px);
       }
-      #root,
+      @media (prefers-color-scheme: dark) {
+        :root {
+          --bg: #09090b;
+          --bg-soft: #121214;
+        }
+      }
+      * {
+        font-variant-ligatures: none;
+      }
+      html {
+        scroll-behavior: smooth;
+      }
       body,
       html {
-        min-height: 100%;
+        background: var(--bg);
       }
       body {
-        margin: 0;
+        color: var(--text);
         font-family:
-          ui-sans-serif,
-          system-ui,
-          -apple-system,
-          BlinkMacSystemFont,
-          Segoe UI,
-          sans-serif;
+          Geist Mono,
+          ui-monospace,
+          SFMono-Regular,
+          Menlo,
+          monospace;
+        -webkit-font-smoothing: antialiased;
+        text-rendering: optimizeLegibility;
       }
-      [role="button"]:not([aria-disabled="true"]),
-      button:not(:disabled),
-      label[for],
-      select:not(:disabled),
-      summary {
-        cursor: pointer;
+      .font-code,
+      code,
+      pre {
+        font-family:
+          JetBrains Mono,
+          ui-monospace,
+          SFMono-Regular,
+          monospace;
+      }
+      ::-webkit-scrollbar {
+        width: 6px;
+        height: 6px;
+      }
+      ::-webkit-scrollbar-thumb {
+        background: #27272a;
+        border-radius: 999px;
+      }
+      ::-webkit-scrollbar-track {
+        background: transparent;
       }
       .selection\:bg-white ::-moz-selection {
         --tw-bg-opacity: 1;
@@ -1098,88 +1095,85 @@
         --tw-text-opacity: 1;
         color: rgb(113 113 122 / var(--tw-text-opacity, 1));
       }
-      .last\:border-0:last-child {
-        border-width: 0;
+      .hover\:border-zinc-700:hover {
+        --tw-border-opacity: 1;
+        border-color: rgb(63 63 70 / var(--tw-border-opacity, 1));
       }
       .hover\:border-zinc-800:hover {
         --tw-border-opacity: 1;
         border-color: rgb(39 39 42 / var(--tw-border-opacity, 1));
       }
-      .hover\:bg-zinc-700:hover {
+      .hover\:bg-zinc-200:hover {
         --tw-bg-opacity: 1;
-        background-color: rgb(63 63 70 / var(--tw-bg-opacity, 1));
+        background-color: rgb(228 228 231 / var(--tw-bg-opacity, 1));
       }
       .hover\:bg-zinc-900:hover {
         --tw-bg-opacity: 1;
         background-color: rgb(24 24 27 / var(--tw-bg-opacity, 1));
       }
-      .hover\:bg-zinc-900\/50:hover {
-        background-color: rgba(24, 24, 27, 0.5);
-      }
       .hover\:text-white:hover {
         --tw-text-opacity: 1;
         color: rgb(255 255 255 / var(--tw-text-opacity, 1));
       }
-      .hover\:text-zinc-100:hover {
+      .hover\:text-zinc-200:hover {
         --tw-text-opacity: 1;
-        color: rgb(244 244 245 / var(--tw-text-opacity, 1));
+        color: rgb(228 228 231 / var(--tw-text-opacity, 1));
       }
       .hover\:text-zinc-300:hover {
         --tw-text-opacity: 1;
         color: rgb(212 212 216 / var(--tw-text-opacity, 1));
       }
-      .focus\:border-zinc-600:focus {
+      .hover\:text-zinc-400:hover {
+        --tw-text-opacity: 1;
+        color: rgb(161 161 170 / var(--tw-text-opacity, 1));
+      }
+      .focus\:border-zinc-700:focus {
         --tw-border-opacity: 1;
-        border-color: rgb(82 82 91 / var(--tw-border-opacity, 1));
+        border-color: rgb(63 63 70 / var(--tw-border-opacity, 1));
+      }
+      .focus\:bg-\[\#151517\]:focus {
+        --tw-bg-opacity: 1;
+        background-color: rgb(21 21 23 / var(--tw-bg-opacity, 1));
       }
       .focus\:outline-none:focus {
         outline: 2px solid transparent;
         outline-offset: 2px;
       }
-      @media (min-width: 768px) {
-        .md\:sticky {
-          position: sticky;
-        }
-        .md\:top-\[58px\] {
-          top: 58px;
-        }
-        .md\:block {
+      @media (min-width: 640px) {
+        .sm\:block {
           display: block;
         }
+        .sm\:inline-flex {
+          display: inline-flex;
+        }
+      }
+      @media (min-width: 768px) {
         .md\:flex {
           display: flex;
         }
-        .md\:hidden {
+        .md\:grid-cols-2 {
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+      }
+      @media (min-width: 1024px) {
+        .lg\:block {
+          display: block;
+        }
+        .lg\:flex {
+          display: flex;
+        }
+        .lg\:hidden {
           display: none;
         }
-        .md\:h-\[calc\(100vh-58px\)\] {
-          height: calc(100vh - 58px);
+        .lg\:px-6 {
+          padding-left: 1.5rem;
+          padding-right: 1.5rem;
         }
-        .md\:translate-x-0 {
-          --tw-translate-x: 0px;
-          transform: translate(var(--tw-translate-x), var(--tw-translate-y))
-            rotate(var(--tw-rotate)) skewX(var(--tw-skew-x))
-            skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x))
-            scaleY(var(--tw-scale-y));
-        }
-        .md\:grid-cols-3 {
-          grid-template-columns: repeat(3, minmax(0, 1fr));
-        }
-        .md\:grid-cols-\[1fr_auto_1fr_auto_1fr\] {
-          grid-template-columns: 1fr auto 1fr auto 1fr;
-        }
-        .md\:px-8 {
+        .lg\:px-8 {
           padding-left: 2rem;
           padding-right: 2rem;
         }
-        .md\:py-10 {
-          padding-top: 2.5rem;
-          padding-bottom: 2.5rem;
-        }
-        .md\:text-\[28px\] {
-          font-size: 28px;
-        }
-        .md\:text-\[36px\] {
+        .lg\:text-\[36px\] {
           font-size: 36px;
         }
       }
@@ -1188,6 +1182,74 @@
           display: block;
         }
       }
+      @import "https://fonts.googleapis.com/css2?family=Geist+Mono:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap";
+      @tailwind base;
+      @tailwind components;
+      @tailwind utilities;
+      :root {
+        --bg: #09090b;
+        --bg-soft: #121214;
+        --bg-elev: #18181b;
+        --border: #27272a;
+        --border-strong: #3f3f46;
+        --text: #fafafa;
+        --text-muted: #a1a1aa;
+        --text-faint: #71717a;
+        --accent: #fafafa;
+        --code-bg: #101012;
+        --safe-area-inset-top: env(safe-area-inset-top, 0px);
+      }
+      @media (prefers-color-scheme: dark) {
+        :root {
+          --bg: #09090b;
+          --bg-soft: #121214;
+        }
+      }
+      * {
+        font-variant-ligatures: none;
+      }
+      html {
+        scroll-behavior: smooth;
+        background: var(--bg);
+      }
+      body {
+        background: var(--bg);
+        color: var(--text);
+        -webkit-font-smoothing: antialiased;
+        text-rendering: optimizeLegibility;
+        font-family:
+          Geist Mono,
+          ui-monospace,
+          SFMono-Regular,
+          Menlo,
+          monospace;
+      }
+      code,
+      pre,
+      .font-code {
+        font-family:
+          JetBrains Mono,
+          ui-monospace,
+          SFMono-Regular,
+          monospace;
+      }
+      ::-webkit-scrollbar {
+        width: 6px;
+        height: 6px;
+      }
+      ::-webkit-scrollbar-thumb {
+        background: #27272a;
+        border-radius: 999px;
+      }
+      ::-webkit-scrollbar-track {
+        background: 0 0;
+      }
+
+      /* shared additions (identical in every file) */
+      .whitespace-pre-line { white-space: pre-line; }
+      .h-1 { height: 0.25rem; }
+      .h-full { height: 100%; }
+      .ml-auto { margin-left: auto; }
     </style>
   </head>
   <body>
@@ -11901,1246 +11963,478 @@ db.system.profile.find({ millis: { $gt: 200 } }).sort({ ts:-1 }).limit(5);`,
             ],
           },
         ];
-      function Me({ code: e, language: n = "js", title: t }) {
-        let [r, l] = q.useState(!1),
-          u = e.trim().split(`
-`),
-          o = async () => {
-            (await navigator.clipboard.writeText(e),
-              l(!0),
-              setTimeout(() => l(!1), 1200));
-          };
-        return S("div", {
-          className:
-            "group relative my-6 rounded-[8px] border border-zinc-800 bg-zinc-900/80 overflow-hidden",
+var $jx = p, $jxs = S, $R = Hc.default, $F = null;
+function $Tree({ tree: e, file: n }) {
+  return $jxs("div", {
+    className: "my-5 rounded-[10px] border border-zinc-800 bg-[#101012] overflow-hidden",
+    children: [
+      n &&
+        $jxs("div", {
+          className: "flex items-center justify-between px-4 py-2 border-b border-zinc-800 bg-[#121214]",
           children: [
-            S("div", {
-              className:
-                "flex items-center justify-between border-b border-zinc-800 bg-zinc-900 px-4 py-2",
-              children: [
-                S("div", {
-                  className: "flex items-center gap-2",
-                  children: [
-                    p("div", {
-                      className: "h-2.5 w-2.5 rounded-full bg-zinc-700",
-                    }),
-                    p("div", {
-                      className: "h-2.5 w-2.5 rounded-full bg-zinc-700",
-                    }),
-                    p("div", {
-                      className: "h-2.5 w-2.5 rounded-full bg-zinc-700",
-                    }),
-                    S("span", {
-                      className:
-                        "ml-3 font-mono text-[11px] uppercase tracking-widest text-zinc-500",
-                      children: [n, " ", t ? `• ${t}` : ""],
-                    }),
-                  ],
-                }),
-                p("button", {
-                  onClick: o,
-                  className:
-                    "rounded border border-zinc-700 bg-zinc-800 px-2.5 py-1 font-mono text-[11px] text-zinc-300 hover:bg-zinc-700 hover:text-white transition-colors",
-                  children: r ? "COPIED" : "COPY",
-                }),
-              ],
-            }),
-            p("div", {
-              className: "relative overflow-x-auto",
-              children: p("pre", {
-                className: "p-0 text-[12.5px] leading-[1.7] font-mono",
-                children: p("code", {
-                  className: "block",
-                  children: u.map((i, a) =>
-                    S(
-                      "div",
-                      {
-                        className: "flex",
-                        children: [
-                          p("span", {
-                            className:
-                              "w-[3.2rem] shrink-0 select-none border-r border-zinc-800/80 bg-zinc-900/50 px-3 text-right text-zinc-600",
-                            children: a + 1,
-                          }),
-                          p("span", {
-                            className: "whitespace-pre px-4 text-zinc-200",
-                            children: i,
-                          }),
-                        ],
-                      },
-                      a,
-                    ),
-                  ),
-                }),
-              }),
-            }),
+            $jx("span", { className: "text-[11px] font-medium tracking-widest text-zinc-400 uppercase", children: n }),
+            $CFG.treeChip && $jx("span", { className: "text-[10px] px-1.5 py-0.5 rounded bg-zinc-800 text-zinc-400 border border-zinc-700", children: $CFG.treeChip }),
           ],
-        });
-      }
-      function Wc({ type: e, children: n }) {
-        let t = {
-            tip: "border-zinc-700 bg-zinc-900/60",
-            warn: "border-amber-900/50 bg-amber-950/20",
-            perf: "border-zinc-700 bg-white/[0.03]",
-          },
-          r = { tip: "PROD TIP", warn: "WARNING", perf: "PERFORMANCE" };
-        return S("div", {
-          className: `my-6 rounded-md border px-4 py-3 ${t[e]}`,
-          children: [
-            p("div", {
-              className:
-                "mb-1.5 font-mono text-[11px] font-bold tracking-widest text-zinc-400",
-              children: r[e],
-            }),
-            p("div", {
-              className: "text-[13.5px] leading-relaxed text-zinc-300",
-              children: n,
-            }),
-          ],
-        });
-      }
-      function $c({ input: e, stage: n, output: t }) {
-        return S("div", {
-          className:
-            "my-8 grid grid-cols-1 gap-3 rounded-lg border border-zinc-800 bg-zinc-900/40 p-3 md:grid-cols-[1fr_auto_1fr_auto_1fr]",
-          children: [
-            S("div", {
-              className: "rounded bg-black border border-zinc-800 p-3",
-              children: [
-                p("div", {
-                  className:
-                    "mb-2 font-mono text-[10px] tracking-widest text-zinc-500",
-                  children: "INPUT DOCS",
-                }),
-                p("pre", {
-                  className:
-                    "whitespace-pre-wrap font-mono text-[11px] text-zinc-300",
-                  children: e,
-                }),
-              ],
-            }),
-            p("div", {
-              className: "hidden items-center justify-center md:flex",
-              children: p("div", {
-                className: "font-mono text-[10px] text-zinc-500 rotate-0",
-                children: "→",
-              }),
-            }),
-            S("div", {
-              className: "rounded bg-zinc-800 border border-zinc-700 p-3",
-              children: [
-                p("div", {
-                  className:
-                    "mb-2 font-mono text-[10px] tracking-widest text-white",
-                  children: "STAGE",
-                }),
-                p("pre", {
-                  className:
-                    "whitespace-pre-wrap font-mono text-[11px] text-white font-bold",
-                  children: n,
-                }),
-              ],
-            }),
-            p("div", {
-              className: "hidden items-center justify-center md:flex",
-              children: p("div", {
-                className: "font-mono text-[10px] text-zinc-500",
-                children: "→",
-              }),
-            }),
-            S("div", {
-              className: "rounded bg-white border border-zinc-200 p-3",
-              children: [
-                p("div", {
-                  className:
-                    "mb-2 font-mono text-[10px] tracking-widest text-zinc-500",
-                  children: "OUTPUT DOCS",
-                }),
-                p("pre", {
-                  className:
-                    "whitespace-pre-wrap font-mono text-[11px] text-black",
-                  children: t,
-                }),
-              ],
-            }),
-          ],
-        });
-      }
-      function ei() {
-        let [e, n] = q.useState(""),
-          [t, r] = q.useState(yn[0].id),
-          [l, u] = q.useState(""),
-          [o, i] = q.useState(!1),
-          [a, f] = q.useState(0),
-          v = q.useRef(null),
-          y = q.useRef(null),
-          h = q.useMemo(() => {
-            if (!e.trim()) return yn;
-            let m = e.toLowerCase();
-            return yn.filter(
-              (C) =>
-                C.title.toLowerCase().includes(m) ||
-                C.id.toLowerCase().includes(m) ||
-                C.subtopics.some((c) => c.title.toLowerCase().includes(m)) ||
-                C.pipelines.some(
-                  (c) =>
-                    c.code.toLowerCase().includes(m) ||
-                    c.title.toLowerCase().includes(m),
-                ),
-            );
-          }, [e]),
-          k = q.useMemo(() => {
-            let m = { BEGINNER: [], INTERMEDIATE: [], ADVANCED: [] };
-            return (h.forEach((C) => m[C.group].push(C)), m);
-          }, [h]);
-        (q.useEffect(() => {
-          let m = new IntersectionObserver(
-            (C) => {
-              C.forEach((c) => {
-                if (c.isIntersecting) r(c.target.id);
-              });
-            },
-            { rootMargin: "-20% 0px -70% 0px", threshold: 0.1 },
-          );
-          return (
-            yn.forEach((C) => {
-              let c = document.getElementById(C.id);
-              if (c) m.observe(c);
-            }),
-            () => m.disconnect()
-          );
-        }, []),
-          q.useEffect(() => {
-            let m = () => {
-              let C = window.scrollY,
-                c = document.documentElement.scrollHeight - window.innerHeight;
-              f(c > 0 ? C / c : 0);
-              let s = document.querySelectorAll("[data-sub]"),
-                d = "";
-              if (
-                (s.forEach((w) => {
-                  if (w.getBoundingClientRect().top <= 120) d = w.id;
-                }),
-                d)
-              )
-                u(d);
-            };
-            return (
-              window.addEventListener("scroll", m, { passive: !0 }),
-              () => window.removeEventListener("scroll", m)
-            );
-          }, []),
-          q.useEffect(() => {
-            let m = (C) => {
-              if (
-                C.key === "/" &&
-                document.activeElement?.tagName !== "INPUT" &&
-                document.activeElement?.tagName !== "TEXTAREA"
-              )
-                (C.preventDefault(), v.current?.focus());
-              if (C.key === "Escape") (v.current?.blur(), i(!1));
-            };
-            return (
-              window.addEventListener("keydown", m),
-              () => window.removeEventListener("keydown", m)
-            );
-          }, []));
-        let E = yn.find((m) => m.id === t) || yn[0];
-        return S("div", {
-          style: {
-            paddingTop: "var(--safe-area-inset-top)",
-            boxSizing: "border-box",
-          },
-          className:
-            "min-h-screen bg-[#09090b] text-zinc-100 antialiased overflow-x-clip selection:bg-white selection:text-black",
-          children: [
-            p("style", { children: Em }),
-            p("style", {
-              children: `
-        * { font-family: "Geist Mono", "JetBrains Mono", monospace; }
-        code, pre { font-family: "JetBrains Mono", monospace !important; }
-        ::-webkit-scrollbar { width: 6px; height: 6px; }
-        ::-webkit-scrollbar-thumb { background: #27272a; border-radius: 99px; }
-        ::-webkit-scrollbar-track { background: #09090b; }
-      `,
-            }),
-            S("header", {
-              style: { top: "var(--safe-area-inset-top)" },
-              className:
-                "sticky z-40 flex h-14 items-center justify-between border-b border-zinc-800 bg-black/80 backdrop-blur-xl px-4",
-              children: [
-                S("div", {
-                  className: "flex items-center gap-3",
-                  children: [
-                    p("button", {
-                      onClick: () => i(!o),
-                      className:
-                        "md:hidden rounded border border-zinc-800 bg-zinc-900 px-2 py-1 text-[11px]",
-                      children: "MENU",
-                    }),
-                    S("div", {
-                      className: "flex items-center gap-2",
-                      children: [
-                        p("div", {
-                          className:
-                            "font-mono text-[15px] font-bold tracking-[-0.02em]",
-                          children: "MONGO::MASTER",
-                        }),
-                        S("div", {
-                          className:
-                            "hidden md:flex items-center gap-1 rounded-full border border-zinc-800 bg-zinc-900 px-2 py-0.5",
-                          children: [
-                            p("span", {
-                              className:
-                                "h-1.5 w-1.5 rounded-full bg-white animate-pulse",
-                            }),
-                            p("span", {
-                              className:
-                                "font-mono text-[10px] tracking-widest text-zinc-400",
-                              children: "MONGOOSE + AGGREGATION",
-                            }),
-                          ],
-                        }),
-                      ],
-                    }),
-                  ],
-                }),
-                p("div", {
-                  className:
-                    "flex items-center gap-3 flex-1 max-w-[520px] mx-4 hidden md:flex",
-                  children: S("div", {
-                    className: "relative w-full",
-                    children: [
-                      p("input", {
-                        ref: v,
-                        value: e,
-                        onChange: (m) => n(m.target.value),
-                        placeholder:
-                          "Search stages, $lookup, $facet, $group, indexes...",
-                        className:
-                          "w-full rounded-md border border-zinc-800 bg-zinc-900/80 px-3 py-2 pl-9 font-mono text-[12px] text-zinc-200 placeholder:text-zinc-500 focus:border-zinc-600 focus:outline-none",
-                      }),
-                      p("span", {
-                        className:
-                          "absolute left-3 top-1/2 -translate-y-1/2 text-zinc-500 text-[12px]",
-                        children: "⌕",
-                      }),
-                      p("kbd", {
-                        className:
-                          "pointer-events-none absolute right-2 top-1/2 hidden -translate-y-1/2 rounded border border-zinc-700 bg-zinc-800 px-1.5 py-0.5 font-mono text-[10px] text-zinc-400 md:block",
-                        children: "/",
-                      }),
-                    ],
-                  }),
-                }),
-                S("div", {
-                  className: "flex items-center gap-3",
-                  children: [
-                    p("span", {
-                      className:
-                        "font-mono text-[11px] text-zinc-500 hidden md:block",
-                      children: "AGG FOCUS • 60%",
-                    }),
-                    p("span", {
-                      className:
-                        "rounded bg-white px-2 py-1 font-mono text-[11px] font-bold text-black",
-                      children: "v7.0",
-                    }),
-                  ],
-                }),
-              ],
-            }),
-            p("div", {
-              className: "sticky z-30 h-[2px] w-full bg-zinc-900",
-              style: { top: "calc(var(--safe-area-inset-top) + 56px)" },
-              children: p("div", {
-                className: "h-full bg-white transition-all",
-                style: { width: `${a * 100}%` },
-              }),
-            }),
-            S("div", {
-              className: "flex",
-              children: [
-                S("aside", {
-                  className: `
-            fixed md:sticky md:top-[58px] z-30 h-[calc(100vh-58px)] w-[280px] shrink-0 overflow-y-auto border-r border-zinc-800 bg-[#09090b] p-4
-            transition-transform md:translate-x-0
-            ${o ? "translate-x-0" : "-translate-x-full md:translate-x-0"}
-            top-[56px] md:h-[calc(100vh-58px)]
-          `,
-                  children: [
-                    p("div", {
-                      className: "md:hidden mb-4",
-                      children: p("div", {
-                        className: "relative",
-                        children: p("input", {
-                          value: e,
-                          onChange: (m) => n(m.target.value),
-                          placeholder: "Search...",
-                          className:
-                            "w-full rounded-md border border-zinc-800 bg-zinc-900 px-3 py-2 font-mono text-[12px]",
-                        }),
-                      }),
-                    }),
-                    Object.entries(k).map(
-                      ([m, C]) =>
-                        C.length > 0 &&
-                        S(
-                          "div",
-                          {
-                            className: "mb-7",
-                            children: [
-                              p("div", {
-                                className:
-                                  "mb-3 flex items-center justify-between",
-                                children: S("h3", {
-                                  className:
-                                    "font-mono text-[11px] font-bold tracking-[0.14em] text-zinc-500",
-                                  children: [
-                                    m === "BEGINNER"
-                                      ? "BEGINNER"
-                                      : m === "INTERMEDIATE"
-                                        ? "INTERMEDIATE — AGG CORE"
-                                        : "ADVANCED — PRODUCTION",
-                                    p("span", {
-                                      className: "ml-2 text-zinc-600",
-                                      children:
-                                        m === "BEGINNER"
-                                          ? "01-08"
-                                          : m === "INTERMEDIATE"
-                                            ? "09-16"
-                                            : "17-23",
-                                    }),
-                                  ],
-                                }),
-                              }),
-                              p("div", {
-                                className: "space-y-1",
-                                children: C.map((c) =>
-                                  S(
-                                    "a",
-                                    {
-                                      href: `#${c.id}`,
-                                      onClick: () => i(!1),
-                                      className: `
-                        group flex items-center justify-between rounded-[6px] border px-2.5 py-2 transition-all
-                        ${t === c.id ? "border-zinc-100 bg-white text-black" : "border-transparent bg-transparent text-zinc-400 hover:border-zinc-800 hover:bg-zinc-900 hover:text-zinc-100"}
-                      `,
-                                      children: [
-                                        S("div", {
-                                          className:
-                                            "flex items-center gap-2.5 min-w-0",
-                                          children: [
-                                            p("span", {
-                                              className: `font-mono text-[11px] ${t === c.id ? "text-black/60" : "text-zinc-600"}`,
-                                              children: c.number,
-                                            }),
-                                            p("span", {
-                                              className:
-                                                "truncate font-mono text-[12.5px] leading-tight",
-                                              children: c.title,
-                                            }),
-                                          ],
-                                        }),
-                                        c.isAgg &&
-                                          p("span", {
-                                            className: `ml-2 shrink-0 rounded-full border px-1.5 py-0.5 font-mono text-[9px] tracking-widest ${t === c.id ? "border-black/20 bg-black text-white" : "border-zinc-700 bg-zinc-800 text-zinc-300"}`,
-                                            children: "AGG",
-                                          }),
-                                      ],
-                                    },
-                                    c.id,
-                                  ),
-                                ),
-                              }),
-                            ],
-                          },
-                          m,
-                        ),
-                    ),
-                    S("div", {
-                      className:
-                        "mt-8 rounded-md border border-zinc-800 bg-zinc-900/50 p-3",
-                      children: [
-                        p("div", {
-                          className:
-                            "font-mono text-[11px] font-bold tracking-widest text-zinc-400",
-                          children: "PIPELINE MENTAL MODEL",
-                        }),
-                        S("div", {
-                          className:
-                            "mt-2 font-mono text-[11px] leading-relaxed text-zinc-500",
-                          children: [
-                            "docs → $match → $project → $group → $sort → output",
-                            p("br", {}),
-                            "Each stage is pure. Index only at start.",
-                          ],
-                        }),
-                        p("div", { className: "mt-3 h-px bg-zinc-800" }),
-                        S("div", {
-                          className: "mt-3 flex gap-2",
-                          children: [
-                            p("div", {
-                              className: "h-1 w-full rounded-full bg-white",
-                            }),
-                            p("div", {
-                              className: "h-1 w-full rounded-full bg-zinc-800",
-                            }),
-                            p("div", {
-                              className: "h-1 w-full rounded-full bg-zinc-800",
-                            }),
-                          ],
-                        }),
-                      ],
-                    }),
-                  ],
-                }),
-                o &&
-                  p("div", {
-                    className:
-                      "fixed inset-0 z-20 bg-black/60 backdrop-blur-sm md:hidden",
-                    onClick: () => i(!1),
-                  }),
-                p("main", {
-                  ref: y,
-                  className: "min-w-0 flex-1",
-                  children: S("div", {
-                    className: "mx-auto max-w-3xl px-5 py-8 md:px-8 md:py-10",
-                    children: [
-                      S("div", {
-                        className:
-                          "mb-12 rounded-[10px] border border-zinc-800 bg-black p-6",
-                        children: [
-                          S("div", {
-                            className: "flex items-center gap-2 mb-3",
-                            children: [
-                              p("span", {
-                                className:
-                                  "rounded bg-white px-2 py-0.5 font-mono text-[10px] font-bold tracking-widest text-black",
-                                children: "MONOCHROME EDITION",
-                              }),
-                              p("span", {
-                                className:
-                                  "font-mono text-[10px] tracking-widest text-zinc-500",
-                                children:
-                                  "DARK MODE DEFAULT • ZINC-950 #09090B",
-                              }),
-                            ],
-                          }),
-                          S("h1", {
-                            className:
-                              "font-mono text-[28px] md:text-[36px] font-bold leading-[0.95] tracking-[-0.03em]",
-                            children: [
-                              "MongoDB + Mongoose",
-                              p("br", {}),
-                              "from ZERO to",
-                              p("br", {}),
-                              p("span", {
-                                className: "bg-white text-black px-1",
-                                children: "PROD AGGREGATION",
-                              }),
-                            ],
-                          }),
-                          p("p", {
-                            className:
-                              "mt-4 max-w-[60ch] font-mono text-[13px] leading-relaxed text-zinc-400",
-                            children:
-                              "No ORM magic. Pure aggregation pipelines, index-aware patterns, and production checklists. 60% of this OS is $lookup mastery, $facet dashboards, window functions, and sharding-safe $merge.",
-                          }),
-                          S("div", {
-                            className:
-                              "mt-5 flex flex-wrap gap-2 font-mono text-[11px]",
-                            children: [
-                              p("span", {
-                                className:
-                                  "rounded-full border border-zinc-800 bg-zinc-900 px-3 py-1 text-zinc-300",
-                                children: "23 SECTIONS",
-                              }),
-                              p("span", {
-                                className:
-                                  "rounded-full border border-zinc-800 bg-zinc-900 px-3 py-1 text-zinc-300",
-                                children: "~47 PIPELINES",
-                              }),
-                              p("span", {
-                                className:
-                                  "rounded-full bg-white px-3 py-1 font-bold text-black",
-                                children: "AGG HEAVY",
-                              }),
-                            ],
-                          }),
-                        ],
-                      }),
-                      yn.map((m) =>
-                        S(
-                          "section",
-                          {
-                            id: m.id,
-                            className:
-                              "scroll-mt-[80px] mb-20 border-b border-zinc-900 pb-16 last:border-0",
-                            children: [
-                              S("div", {
-                                className: "mb-6 flex items-center gap-3",
-                                children: [
-                                  S("span", {
-                                    className:
-                                      "rounded bg-zinc-900 border border-zinc-800 px-2 py-1 font-mono text-[11px] tracking-widest text-zinc-400",
-                                    children: [m.number, " • ", m.group],
-                                  }),
-                                  m.isAgg &&
-                                    p("span", {
-                                      className:
-                                        "rounded-full bg-white px-2.5 py-1 font-mono text-[10px] font-bold tracking-widest text-black",
-                                      children: "AGG",
-                                    }),
-                                  S("span", {
-                                    className:
-                                      "font-mono text-[11px] text-zinc-600",
-                                    children: ["id: ", m.id],
-                                  }),
-                                ],
-                              }),
-                              p("h2", {
-                                className:
-                                  "font-mono text-[24px] md:text-[28px] font-bold leading-tight tracking-tight",
-                                children: m.title,
-                              }),
-                              S("div", {
-                                className:
-                                  "mt-4 rounded-md border-l-2 border-white bg-zinc-900/50 px-4 py-3",
-                                children: [
-                                  p("div", {
-                                    className:
-                                      "font-mono text-[11px] font-bold tracking-widest text-white",
-                                    children: "WHY IN PRODUCTION",
-                                  }),
-                                  p("div", {
-                                    className:
-                                      "mt-1 font-mono text-[13px] leading-relaxed text-zinc-300",
-                                    children: m.why,
-                                  }),
-                                ],
-                              }),
-                              m.id === "setup-connection" &&
-                                S("div", {
-                                  className: "mt-8 space-y-8",
-                                  children: [
-                                    S("div", {
-                                      id: "conn-string",
-                                      "data-sub": !0,
-                                      className: "scroll-mt-[80px]",
-                                      children: [
-                                        p("h3", {
-                                          className:
-                                            "font-mono text-[16px] font-bold",
-                                          children:
-                                            "Connection String - Production Flags",
-                                        }),
-                                        p(Me, {
-                                          code: `import mongoose from 'mongoose';
-
-await mongoose.connect(process.env.MONGO_URI!, {
-  maxPoolSize: 20, // default 100 is too high for Lambda
-  minPoolSize: 5,
-  retryWrites: true,
-  w: 'majority',
-  readPreference: 'primary',
-  serverSelectionTimeoutMS: 5000,
-  socketTimeoutMS: 45000,
-  autoIndex: false, // build indexes via migration, not on startup
-});
-
-mongoose.connection.on('disconnected', () => {
-  console.error('[mongo] disconnected - attempting reconnect');
-});
-mongoose.connection.on('reconnected', () => console.log('[mongo] reconnected'));
-`,
-                                        }),
-                                        S(Wc, {
-                                          type: "perf",
-                                          children: [
-                                            "Keep poolSize = (cores * 2) + 2. For Node cluster, divide by instances. Monitor ",
-                                            p("span", {
-                                              className: "text-white",
-                                              children:
-                                                "db.serverStatus().connections",
-                                            }),
-                                          ],
-                                        }),
-                                      ],
-                                    }),
-                                    S("div", {
-                                      id: "pooling",
-                                      "data-sub": !0,
-                                      className: "scroll-mt-[80px]",
-                                      children: [
-                                        p("h3", {
-                                          className:
-                                            "font-mono text-[16px] font-bold",
-                                          children: "Pooling & Retry Logic",
-                                        }),
-                                        p(Me, {
-                                          code: `// Exponential backoff wrapper
-async function connectWithRetry(attempts=5) {
-  for (let i=0; i<attempts; i++) {
-    try { return await mongoose.connect(URI, opts); }
-    catch(e) {
-      await new Promise(r => setTimeout(r, 1000 * Math.pow(2,i)));
-    }
-  }
-  throw new Error('mongo connect failed after retries');
-}`,
-                                        }),
-                                      ],
-                                    }),
-                                  ],
-                                }),
-                              m.id === "schema-design" &&
-                                p("div", {
-                                  className: "mt-8 space-y-6",
-                                  children: S("div", {
-                                    id: "schematypes",
-                                    "data-sub": !0,
-                                    className: "scroll-mt-[80px]",
-                                    children: [
-                                      p("h3", {
-                                        className:
-                                          "font-mono text-[16px] font-bold",
-                                        children: "SchemaTypes & strict",
-                                      }),
-                                      p(Me, {
-                                        code: `const userSchema = new Schema({
-  email: { type: String, required: true, lowercase: true, trim: true, index: { unique: true } },
-  age: { type: Number, min: 0, max: 150 },
-  role: { type: String, enum: ['user','admin'], default: 'user' },
-  metadata: { type: Schema.Types.Mixed }, // escape hatch but lose validation
-  tags: [String],
-  settings: {
-    theme: { type: String, default: 'dark' }
-  }
-}, { 
-  timestamps: true, 
-  strict: true, // reject unknown fields
-  versionKey: false,
-  toJSON: { virtuals: true, transform: (_, ret) => { delete ret._id; } }
-});`,
-                                      }),
-                                    ],
-                                  }),
-                                }),
-                              m.id === "crud-production" &&
-                                p("div", {
-                                  className: "mt-8 space-y-6",
-                                  children: S("div", {
-                                    id: "create-patterns",
-                                    "data-sub": !0,
-                                    children: [
-                                      p("h3", {
-                                        className:
-                                          "font-mono text-[16px] font-bold",
-                                        children: "CRUD Production Patterns",
-                                      }),
-                                      p(Me, {
-                                        code: `// insertMany ordered:false - continue on dup key
-await User.insertMany(docs, { ordered: false, lean: true });
-
-// find with lean + select - fastest read
-const users = await User.find({ isActive: true })
-  .select('email name -_id')
-  .lean()
-  .hint({ isActive: 1 });
-
-// findOneAndUpdate with validators
-await User.findOneAndUpdate(
-  { _id: id },
-  { $set: { name } },
-  { new: true, runValidators: true, projection: { email:1 } }
-);
-
-// bulkWrite - mixed ops in one roundtrip
-await Order.bulkWrite([
-  { updateOne: { filter: { _id: id1 }, update: { $set: { status: 'paid' } } } },
-  { insertOne: { document: { productId, total: 42 } } },
-  { deleteOne: { filter: { status: 'abandoned', createdAt: { $lt: dayAgo } } } }
-], { ordered: false });`,
-                                      }),
-                                    ],
-                                  }),
-                                }),
-                              m.id === "query-operators" &&
-                                p("div", {
-                                  className: "mt-8",
-                                  children: p(Me, {
-                                    code: `// Compound logic
-await Product.find({
-  $and: [
-    { category: { $in: ['shoes','hats'] } },
-    { price: { $gte: 20, $lte: 200 } },
-    { $or: [{ stock: { $gt: 0 } }, { preOrder: true }] }
-  ],
-  tags: { $all: ['sale','new'] }, // must contain both
-  variants: { $elemMatch: { size: 'M', stock: { $gt: 0 } } },
-  'supplier.country': 'US', // dot notation
-  deletedAt: { $exists: false }
-});`,
-                                  }),
-                                }),
-                              m.id === "indexes" &&
-                                p("div", {
-                                  className: "mt-8 space-y-6",
-                                  children: S("div", {
-                                    id: "esr-rule",
-                                    "data-sub": !0,
-                                    children: [
-                                      p("h3", {
-                                        className:
-                                          "font-mono text-[16px] font-bold",
-                                        children:
-                                          "ESR Rule: Equality, Sort, Range",
-                                      }),
-                                      p(Me, {
-                                        code: `// Query: { status: 'paid', createdAt: { $gte: date }, sort: { createdAt: -1 } }
-// ESR: status (equality) first, then sort/range field
-orderSchema.index({ status: 1, createdAt: -1 });
-
-// Text index
-productSchema.index({ name: 'text', description: 'text' }, { weights: { name: 10 } });
-
-// TTL - auto delete after 24h
-sessionSchema.index({ createdAt: 1 }, { expireAfterSeconds: 86400 });
-
-// Partial - index only active users
-userSchema.index({ email: 1 }, { unique: true, partialFilterExpression: { isDeleted: false } });
-
-// Collation - case-insensitive unique
-userSchema.index({ email: 1 }, { unique: true, collation: { locale: 'en', strength: 2 } });`,
-                                      }),
-                                      S(Wc, {
-                                        type: "warn",
-                                        children: [
-                                          "Creating index on prod locks collection pre-4.2. Use ",
-                                          "{background:true}",
-                                          " or rolling build on Atlas.",
-                                        ],
-                                      }),
-                                    ],
-                                  }),
-                                }),
-                              m.id === "relationships" &&
-                                p("div", {
-                                  className: "mt-8",
-                                  children: p(Me, {
-                                    code: `// Ref + populate
-const orderSchema = new Schema({ productId: { type: ObjectId, ref: 'Product' } });
-await Order.find().populate({ path: 'productId', select: 'name price', options: { lean: true } });
-
-// Virtual populate - no foreign key stored
-userSchema.virtual('orders', { ref: 'Order', localField: '_id', foreignField: 'userId' });
-await User.findOne().populate('orders');
-
-// Deep populate
-await Order.find().populate({ path: 'productId', populate: { path: 'supplierId' } });
-
-// Autopopulate anti-pattern - kills perf
-// ❌ Don't: pre-find hook that always populates
-`,
-                                  }),
-                                }),
-                              m.id === "validation-middleware" &&
-                                p("div", {
-                                  className: "mt-8",
-                                  children: p(Me, {
-                                    code: `// Custom async validator - check uniqueness via aggregation for speed
-userSchema.path('email').validate(async function(v) {
-  const count = await mongoose.model('User').countDocuments({ email: v, _id: { $ne: this._id } });
-  return count === 0;
-}, 'Email exists');
-
-// Middleware
-orderSchema.pre('save', function(next) {
-  if (this.isModified('total') && this.total < 0) return next(new Error('negative total'));
-  next();
-});
-
-orderSchema.pre('findOneAndUpdate', function() {
-  this.setOptions({ runValidators: true });
-});
-
-orderSchema.post('save', function(doc) {
-  // emit to change stream handler or queue
-});`,
-                                  }),
-                                }),
-                              m.id === "transactions" &&
-                                p("div", {
-                                  className: "mt-8",
-                                  children: p(Me, {
-                                    code: `const session = await mongoose.startSession();
-try {
-  await session.withTransaction(async () => {
-    const order = await Order.create([{ userId, total }], { session });
-    await User.updateOne({ _id: userId }, { $inc: { orderCount: 1 } }, { session });
-    await Inventory.updateOne({ productId }, { $inc: { stock: -1 } }, { session });
-  }, {
-    readConcern: { level: 'snapshot' },
-    writeConcern: { w: 'majority' },
-    maxTimeMS: 10000
+        }),
+      $jx("pre", { className: "p-4 text-[12.5px] leading-[1.7] text-zinc-300 overflow-x-auto font-code whitespace-pre", children: e }),
+    ],
   });
-} finally { await session.endSession(); }
-
-// When NOT to use transaction:
-// - Single doc atomicity is already guaranteed
-// - High throughput ingestion - use bulkWrite instead`,
-                                  }),
-                                }),
-                              m.group !== "BEGINNER" &&
-                                S("div", {
-                                  className: "mt-8",
-                                  children: [
-                                    p("div", {
-                                      className: "grid gap-3",
-                                      children: m.subtopics.map((C) =>
-                                        S(
-                                          "div",
-                                          {
-                                            id: C.id,
-                                            "data-sub": !0,
-                                            className: "scroll-mt-[90px]",
-                                            children: [
-                                              p("div", {
-                                                className:
-                                                  "font-mono text-[11px] tracking-widest text-zinc-500",
-                                                children: "SUBTOPIC",
-                                              }),
-                                              p("h3", {
-                                                className:
-                                                  "font-mono text-[15px] font-bold",
-                                                children: C.title,
-                                              }),
-                                            ],
-                                          },
-                                          C.id,
-                                        ),
-                                      ),
-                                    }),
-                                    m.isAgg &&
-                                      m.number === "09" &&
-                                      p($c, {
-                                        input: `{ status: 'paid', total: 100 }
-{ status: 'cancelled', total: 20 }
-{ status: 'paid', total: 50 }`,
-                                        stage: `$match {status:'paid'}
-↓
-$group _id:null revenue:$sum`,
-                                        output: "{ _id:null, revenue:150 }",
-                                      }),
-                                    m.pipelines.map((C, c) =>
-                                      S(
-                                        "div",
-                                        {
-                                          className: "mt-10",
-                                          children: [
-                                            p("h4", {
-                                              className:
-                                                "font-mono text-[14px] font-bold tracking-tight text-zinc-100 border-l-2 border-white pl-3",
-                                              children: C.title,
-                                            }),
-                                            p(Me, {
-                                              code: C.code,
-                                              language:
-                                                C.title.includes("dashboard") ||
-                                                C.title.includes("revenue")
-                                                  ? "aggregation"
-                                                  : "js",
-                                            }),
-                                            (C.whyFast ||
-                                              C.indexNeeded ||
-                                              C.pitfall) &&
-                                              S("div", {
-                                                className:
-                                                  "grid gap-3 md:grid-cols-3 mt-4",
-                                                children: [
-                                                  C.whyFast &&
-                                                    S("div", {
-                                                      className:
-                                                        "rounded border border-zinc-800 bg-zinc-900/60 p-3",
-                                                      children: [
-                                                        p("div", {
-                                                          className:
-                                                            "font-mono text-[10px] tracking-widest text-zinc-500",
-                                                          children:
-                                                            "WHY FAST IN PROD",
-                                                        }),
-                                                        p("div", {
-                                                          className:
-                                                            "mt-1 font-mono text-[12px] leading-relaxed text-zinc-300",
-                                                          children: C.whyFast,
-                                                        }),
-                                                      ],
-                                                    }),
-                                                  C.indexNeeded &&
-                                                    S("div", {
-                                                      className:
-                                                        "rounded border border-zinc-800 bg-black p-3",
-                                                      children: [
-                                                        p("div", {
-                                                          className:
-                                                            "font-mono text-[10px] tracking-widest text-zinc-500",
-                                                          children:
-                                                            "INDEX NEEDED",
-                                                        }),
-                                                        p("div", {
-                                                          className:
-                                                            "mt-1 font-mono text-[12px] leading-relaxed text-white",
-                                                          children:
-                                                            C.indexNeeded,
-                                                        }),
-                                                      ],
-                                                    }),
-                                                  C.pitfall &&
-                                                    S("div", {
-                                                      className:
-                                                        "rounded border border-amber-900/50 bg-amber-950/20 p-3",
-                                                      children: [
-                                                        p("div", {
-                                                          className:
-                                                            "font-mono text-[10px] tracking-widest text-amber-400",
-                                                          children:
-                                                            "COMMON PITFALL",
-                                                        }),
-                                                        p("div", {
-                                                          className:
-                                                            "mt-1 font-mono text-[12px] leading-relaxed text-amber-200/80",
-                                                          children: C.pitfall,
-                                                        }),
-                                                      ],
-                                                    }),
-                                                ],
-                                              }),
-                                            m.id === "essential-1" &&
-                                              c === 0 &&
-                                              p($c, {
-                                                input: `{status:'paid', total:100, createdAt: 2024-01-01}
-{status:'paid', total:20, createdAt: 2024-01-01}`,
-                                                stage: `$project {day, revenue, userId}
-→ cut to 3 fields`,
-                                                output: `{day:2024-01-01, revenue:100}
-→ 70% smaller docs`,
-                                              }),
-                                          ],
-                                        },
-                                        c,
-                                      ),
-                                    ),
-                                  ],
-                                }),
-                              m.group === "BEGINNER" &&
-                                m.pipelines.length > 0 &&
-                                p("div", {
-                                  className: "mt-6",
-                                  children: m.pipelines.map((C, c) =>
-                                    p(Me, { code: C.code }, c),
-                                  ),
-                                }),
-                            ],
-                          },
-                          m.id,
-                        ),
-                      ),
-                      S("footer", {
-                        className:
-                          "mt-16 rounded border border-zinc-800 bg-black p-6 text-center",
+}
+function $Code({ lang: e, file: n, code: t }) {
+  let [r, l] = $R.useState(!1);
+  return $jxs("div", {
+    className: "my-5 rounded-[10px] border border-zinc-800 bg-[#101012] overflow-hidden group",
+    children: [
+      (n || e) &&
+        $jxs("div", {
+          className: "flex items-center justify-between px-4 py-2.5 border-b border-zinc-800 bg-[#121214]",
+          children: [
+            $jxs("div", {
+              className: "flex items-center gap-2.5",
+              children: [
+                n && $jx("span", { className: "text-[11px] font-medium tracking-wide text-zinc-300 font-code", children: n }),
+                e && $jx("span", { className: "text-[10px] px-1.5 py-0.5 rounded bg-zinc-900 text-zinc-500 border border-zinc-800 uppercase font-medium tracking-widest", children: e }),
+              ],
+            }),
+            $jxs("button", {
+              onClick: async () => {
+                await navigator.clipboard.writeText(t);
+                l(!0);
+                setTimeout(() => l(!1), 1500);
+              },
+              className: "flex items-center gap-1.5 text-[11px] px-2.5 py-1 rounded-md bg-zinc-900 border border-zinc-800 text-zinc-400 hover:text-white hover:border-zinc-700 transition-colors",
+              children: [
+                $jx("span", { className: "w-3 h-3 flex items-center justify-center", children: r ? "✓" : "⎙" }),
+                r ? ($CFG.copy ? $CFG.copy[1] : "Copied") : ($CFG.copy ? $CFG.copy[0] : "Copy"),
+              ],
+            }),
+          ],
+        }),
+      $jx("pre", { className: "p-4 text-[12.5px] leading-[1.65] text-zinc-200 overflow-x-auto font-code", children: $jx("code", { children: t }) }),
+    ],
+  });
+}
+function $Note({ kind: k, title: t, children: c }) {
+  let box = "border-zinc-800 bg-[#121214]", dot = "bg-white text-black", head = "text-zinc-200", body = "text-zinc-400";
+  return $jxs("div", {
+    className: `my-6 rounded-[10px] border ${box} p-4 flex gap-3`,
+    children: [
+      $jx("div", { className: `shrink-0 w-6 h-6 rounded-full ${dot} flex items-center justify-center text-[11px] font-bold`, children: "!" }),
+      $jxs("div", {
+        children: [
+          t && $jx("div", { className: `text-[11px] font-bold tracking-widest ${head} mb-1`, children: t }),
+          $jx("div", { className: `text-[12.5px] leading-[1.6] ${body}`, children: c }),
+        ],
+      }),
+    ],
+  });
+}
+function $Block({ b: m }) {
+  if (m.type === "para") return $jx("p", { className: "text-[13.5px] leading-[1.7] text-zinc-300" + (m.pre ? " whitespace-pre-line" : ""), children: m.text });
+  if (m.type === "h3")
+    return m.eyebrow
+      ? $jxs("div", { id: m.id, className: "scroll-mt-[80px] mt-6 mb-3", children: [$jx("div", { className: "mb-1 text-[10px] tracking-widest text-zinc-500", children: m.eyebrow }), $jx("div", { className: "text-[11px] font-bold tracking-widest text-zinc-200", children: m.text })] })
+      : $jx("div", { id: m.id, className: "scroll-mt-[80px] mt-6 mb-3 text-[11px] font-bold tracking-widest text-zinc-200", children: m.text });
+  if (m.type === "chips")
+    return $jx("div", {
+      className: "my-4 flex flex-wrap gap-2",
+      children: m.items.map((R, c) => $jx("span", { className: "text-[11px] px-2.5 py-1 rounded-full bg-zinc-900 border border-zinc-800 text-zinc-400", children: R }, c)),
+    });
+  if (m.type === "list")
+    return $jx("ul", {
+      className: "my-4 space-y-1.5",
+      children: m.items.map((R, c) =>
+        $jxs("li", {
+          className: "flex gap-2.5 text-[13px] leading-[1.6] text-zinc-400",
+          children: [$jx("span", { className: "text-zinc-600 mt-0.5", children: "—" }), $jx("span", { children: R })],
+        }, c)),
+    });
+  if (m.type === "table")
+    return $jx("div", {
+      className: "my-5 overflow-hidden rounded-[10px] border border-zinc-800",
+      children: $jxs("table", {
+        className: "w-full text-[12.5px]",
+        children: [
+          $jx("thead", {
+            className: "bg-[#121214] border-b border-zinc-800",
+            children: $jx("tr", {
+              children: m.headers.map((R, i) => $jx("th", { className: "text-left px-4 py-2.5 font-medium text-zinc-400 tracking-wide uppercase text-[11px]", children: R }, i)),
+            }),
+          }),
+          $jx("tbody", {
+            className: "divide-y divide-zinc-800/60",
+            children: m.rows.map((R, c) =>
+              $jx("tr", {
+                className: "bg-[#101012]",
+                children: R.map((a, d) => $jx("td", { className: "px-4 py-2.5 text-zinc-300 font-code", children: a }, d)),
+              }, c)),
+          }),
+        ],
+      }),
+    });
+  if (m.type === "fileTree") return $jx($Tree, { tree: m.tree, file: m.file });
+  if (m.type === "code") return $jx($Code, { lang: m.lang, file: m.file, code: m.code });
+  if (m.type === "tip") return $jx($Note, { kind: "tip", title: m.title || $CFG.tipDefault, children: m.text });
+  if (m.type === "warn") return $jx($Note, { kind: "warn", title: m.title, children: m.text });
+  if (m.type === "perf") return $jx($Note, { kind: "perf", title: m.title, children: m.text });
+  if (m.type === "badgood")
+    return $jxs("div", {
+      className: "my-6 grid md:grid-cols-2 gap-3",
+      children: [
+        $jxs("div", {
+          className: "rounded-[10px] border border-red-900/50 bg-[#181012] overflow-hidden",
+          children: [
+            $jx("div", { className: "px-3 py-2 border-b border-red-900/30 bg-red-950/30 text-[11px] font-bold tracking-widest text-red-300", children: m.bad.file }),
+            $jx("pre", { className: "p-3 text-[11.5px] leading-[1.6] text-red-200/80 font-code overflow-x-auto", children: m.bad.code }),
+          ],
+        }),
+        $jxs("div", {
+          className: "rounded-[10px] border border-emerald-900/50 bg-[#101815] overflow-hidden",
+          children: [
+            $jx("div", { className: "px-3 py-2 border-b border-emerald-900/30 bg-emerald-950/30 text-[11px] font-bold tracking-widest text-emerald-300", children: m.good.file }),
+            $jx("pre", { className: "p-3 text-[11.5px] leading-[1.6] text-emerald-200/80 font-code overflow-x-auto", children: m.good.code }),
+          ],
+        }),
+      ],
+    });
+  return null;
+}
+function $Box({ title: t, children: c, mb: mb }) {
+  return $jxs("div", {
+    className: "rounded-[10px] border border-zinc-800 bg-[#121214] p-3" + (mb ? " mb-4" : ""),
+    children: [$jx("div", { className: "text-[11px] font-bold tracking-widest text-zinc-300 mb-2", children: t }), c],
+  });
+}
+function $blockText(b) {
+  let o = [];
+  for (let k in b) { let v = b[k]; if (typeof v === "string") o.push(v); else if (Array.isArray(v)) v.forEach((x) => (typeof x === "string" ? o.push(x) : Array.isArray(x) && x.forEach((y) => typeof y === "string" && o.push(y)))); else if (v && typeof v === "object") o.push($blockText(v)); }
+  return o.join(" ");
+}
+function $App() {
+  let C = $CFG, S0 = $SECTIONS;
+  let [e, n] = $R.useState(""),
+    [t, r] = $R.useState(S0[0].id),
+    [l, o] = $R.useState(C.action ? C.action.label : ""),
+    [u, i] = $R.useState(""),
+    [pr, setPr] = $R.useState(0),
+    s = $R.useRef(null),
+    f = $R.useRef(null),
+    h = $R.useMemo(() => {
+      if (!e.trim()) return S0;
+      let p = e.toLowerCase();
+      return S0.filter((m) => m.title.toLowerCase().includes(p) || (m.summary || "").toLowerCase().includes(p) || (m.meta || []).some((q) => String(q).toLowerCase().includes(p)) || m.blocks.some((b) => $blockText(b).toLowerCase().includes(p)));
+    }, [e]);
+  ($R.useEffect(() => {
+    let p = (m) => {
+      if (m.key === "/" && document.activeElement?.tagName !== "INPUT") (m.preventDefault(), s.current?.focus());
+    };
+    window.addEventListener("keydown", p);
+    return () => window.removeEventListener("keydown", p);
+  }, []),
+    $R.useEffect(() => {
+      if (!C.progress) return;
+      let q = () => { let c = document.documentElement, p = (c.scrollTop / (c.scrollHeight - c.clientHeight)) * 100; setPr(isNaN(p) ? 0 : p); };
+      window.addEventListener("scroll", q, { passive: !0 });
+      return () => window.removeEventListener("scroll", q);
+    }, []),
+    $R.useEffect(() => {
+      let p = new IntersectionObserver(
+        (m) => { m.forEach((S) => { if (S.isIntersecting) r(S.target.id); }); },
+        { rootMargin: "-20% 0px -70% 0px", threshold: 0 },
+      );
+      S0.forEach((m) => { let S = document.getElementById(m.id); if (S) p.observe(S); });
+      return () => p.disconnect();
+    }, []));
+  let y = (p) => {
+      r(p);
+      let m = document.getElementById(p);
+      if (m) (m.scrollIntoView({ behavior: "smooth", block: "start" }), m.classList.add("ring-1", "ring-white/20"), setTimeout(() => m.classList.remove("ring-1", "ring-white/20"), 800));
+      try { history.replaceState(null, "", `#${p}`); } catch {}
+    },
+    v = S0.find((p) => p.id === t) || S0[0],
+    groups = C.groups || [],
+    api = { progress: pr, query: e, setQuery: n, active: t, go: y, action: l, setAction: o, toast: u, setToast: i, current: v, sections: S0, visible: h };
+  return $jxs("div", {
+    className: "min-h-screen bg-[#09090b] text-zinc-100 selection:bg-white selection:text-black",
+    style: { paddingTop: "var(--safe-area-inset-top)" },
+    children: [
+      $jxs("header", {
+        className: "sticky z-40 border-b border-zinc-800 bg-[#09090b]/90 backdrop-blur-xl",
+        style: { top: "var(--safe-area-inset-top)" },
+        children: [
+          $jxs("div", {
+            className: "flex h-[56px] items-center justify-between px-4 lg:px-6 gap-4",
+            children: [
+              $jxs("div", {
+                className: "flex items-center gap-4 shrink-0",
+                children: [
+                  $jxs("div", {
+                    className: "flex items-center gap-2",
+                    children: [
+                      $jx("span", { className: "font-bold tracking-[-0.02em] text-[14px]", children: C.brand }),
+                      C.badge && $jx("span", { className: "hidden sm:inline-flex items-center gap-1.5 text-[10px] px-2 py-0.5 rounded-full bg-white text-black font-bold tracking-widest", children: C.badge }),
+                    ],
+                  }),
+                  C.tags && $jx("div", {
+                    className: "hidden md:flex items-center gap-2",
+                    children: (typeof C.tags === "function" ? C.tags(api) : C.tags).map((p) => $jx("span", { className: "text-[10px] px-2 py-1 rounded bg-zinc-900 border border-zinc-800 text-zinc-300 tracking-widest font-medium", children: p }, p)),
+                  }),
+                ],
+              }),
+              $jx("div", {
+                className: "flex-1 max-w-[560px] hidden lg:flex items-center",
+                children: $jxs("div", {
+                  className: "relative w-full",
+                  children: [
+                    $jx("span", { className: "absolute left-3 top-1/2 -translate-y-1/2 text-zinc-500 text-[12px]", children: "⌕" }),
+                    $jx("input", {
+                      ref: s, value: e, onChange: (p) => n(p.target.value), placeholder: C.placeholder,
+                      className: "w-full h-[36px] pl-8 pr-[48px] rounded-[8px] bg-[#121214] border border-zinc-800 text-[13px] placeholder:text-zinc-500 focus:outline-none focus:border-zinc-700 focus:bg-[#151517] transition-colors",
+                    }),
+                    e && C.clearLabel
+                      ? $jx("button", { onClick: () => n(""), className: "absolute right-2 top-1/2 -translate-y-1/2 h-[22px] px-1.5 rounded-[5px] bg-zinc-800 border border-zinc-700 text-[11px] text-zinc-400 flex items-center", children: C.clearLabel })
+                      : $jx("kbd", { className: "absolute right-2 top-1/2 -translate-y-1/2 h-[22px] px-1.5 rounded-[5px] bg-zinc-800 border border-zinc-700 text-[11px] text-zinc-400 flex items-center", children: "/" }),
+                  ],
+                }),
+              }),
+              C.headerRight && $jxs("div", { className: "flex items-center gap-3 shrink-0", children: C.headerRight(api) }),
+            ],
+          }),
+          u && $jx("div", { className: "px-4 lg:px-6 pb-2 text-[11px] text-emerald-400 font-code", children: u }),
+          C.headerExtra && $jx("div", { className: "px-4 lg:px-6 pb-2 flex flex-wrap gap-2", children: C.headerExtra(api) }),
+          (e && C.status) ? $jx("div", { className: "px-4 lg:px-6 pb-2 text-[11px] text-zinc-500 font-code", children: C.status(api) }) : null,
+          $jx("div", {
+            className: "lg:hidden px-4 pb-3",
+            children: $jxs("div", {
+              className: "relative",
+              children: [
+                $jx("span", { className: "absolute left-3 top-1/2 -translate-y-1/2 text-zinc-500 text-[12px]", children: "⌕" }),
+                $jx("input", {
+                  value: e, onChange: (p) => n(p.target.value), placeholder: C.placeholderMobile || C.placeholder,
+                  className: "w-full h-[36px] pl-8 pr-3 rounded-[8px] bg-[#121214] border border-zinc-800 text-[13px] placeholder:text-zinc-500 focus:outline-none focus:border-zinc-700",
+                }),
+              ],
+            }),
+          }),
+        ],
+      }),
+      $jxs("div", {
+        className: "flex max-w-[1680px] mx-auto",
+        children: [
+          $jx("aside", {
+            className: "hidden lg:block w-[280px] shrink-0 sticky top-[56px] h-[calc(100vh-56px)] overflow-y-auto border-r border-zinc-800 bg-[#09090b]",
+            children: $jxs("div", {
+              className: "p-4 space-y-6",
+              children: [
+                C.sidebarHead && C.sidebarHead(api),
+                groups.map((p) => { let list = h.filter((m) => p.test(m)); if (p.hideEmpty && list.length === 0) return null; return (
+                  $jxs("div", {
+                    children: [
+                      $jxs("div", {
+                        className: "flex items-center justify-between mb-3 px-2",
                         children: [
-                          p("div", {
-                            className:
-                              "font-mono text-[12px] tracking-[0.2em] text-zinc-500",
-                            children: "BUILT FOR AGGREGATION ENGINEERS",
-                          }),
-                          p("div", {
-                            className:
-                              "mt-2 font-mono text-[11px] text-zinc-600",
-                            children:
-                              "MONGO::MASTER • Mongoose v7 + MongoDB 7 Aggregation Pipeline • zinc-950 #09090b • JetBrains Mono + Geist Mono",
-                          }),
-                          S("div", {
-                            className:
-                              "mt-4 flex justify-center gap-2 font-mono text-[10px]",
+                          $jx("span", { className: "text-[11px] font-bold tracking-[0.14em] text-zinc-500", children: p.label }),
+                          (() => { let tg = typeof p.tag === "function" ? p.tag(list) : p.tag; if (tg == null) return null; if (!Array.isArray(tg)) return $jx("span", { className: "text-[9px] px-1.5 py-0.5 rounded bg-zinc-900 border border-zinc-800 text-zinc-500 tracking-widest", children: tg }); let arr = tg; return $jx("div", { className: "flex items-center gap-1.5", children: arr.map((x, xi) => $jx("span", { className: "text-[9px] px-1.5 py-0.5 rounded bg-zinc-900 border border-zinc-800 text-zinc-500 tracking-widest", children: x }, xi)) }); })(),
+                        ],
+                      }),
+                      $jx("div", {
+                        className: "space-y-0.5",
+                        children: [list.map((m) => {
+                          let S = t === m.id;
+                          return $jxs("button", {
+                            onClick: () => y(m.id),
+                            className: `w-full text-left flex items-center gap-3 px-2.5 py-2 rounded-[7px] text-[13px] transition-all border ${S ? "bg-white text-black border-white font-medium" : "border-transparent text-zinc-400 hover:text-zinc-200 hover:bg-zinc-900 hover:border-zinc-800"}`,
                             children: [
-                              p("span", {
-                                className:
-                                  "rounded border border-zinc-800 px-2 py-1",
-                                children: "INDEXES → $MATCH EARLY",
+                              $jx("span", { className: `text-[11px] font-code tracking-wide ${S ? "text-zinc-700" : "text-zinc-600"}`, children: m.num }),
+                              $jx("span", { className: "truncate leading-tight", children: m.title }),
+                              m.side != null && $jx("span", { className: "ml-auto text-[10px] font-code text-zinc-600", children: m.side }),
+                            ],
+                          }, m.id);
+                        }), list.length === 0 && p.empty && $jx("div", { className: "px-2.5 py-2 text-[12px] text-zinc-600", children: p.empty })],
+                      }),
+                    ],
+                  }, p.label)); }),
+                C.sidebarBox && $jx("div", { className: "pt-4 border-t border-zinc-800", children: C.sidebarBox(api) }),
+              ],
+            }),
+          }),
+          $jx("main", {
+            ref: f,
+            className: "flex-1 min-w-0",
+            children: $jxs("div", {
+              className: "max-w-3xl mx-auto px-5 lg:px-8 py-10",
+              children: [
+                C.hero && $jxs("div", {
+                  className: "mb-12 pb-8 border-b border-zinc-800",
+                  children: [
+                    C.hero.badges && $jxs("div", {
+                      className: "flex items-center gap-2 mb-4",
+                      children: [
+                        C.hero.badges[0] && $jx("span", { className: "text-[10px] px-2 py-1 rounded-full bg-white text-black font-bold tracking-widest", children: C.hero.badges[0] }),
+                        C.hero.badges.slice(1).map((q, qi) => $jx("span", { className: "text-[10px] px-2 py-1 rounded-full border border-zinc-800 text-zinc-500 tracking-widest", children: q }, qi)),
+                      ],
+                    }),
+                    $jx("h1", { className: "text-[30px] lg:text-[36px] font-bold tracking-[-0.03em] leading-[1.05]", children: C.hero.title }),
+                    C.hero.desc && $jx("p", { className: "mt-4 text-[14px] leading-[1.6] text-zinc-400 max-w-[60ch]", children: C.hero.desc }),
+                    C.hero.stats && $jx("div", {
+                      className: "mt-6 flex flex-wrap gap-3",
+                      children: C.hero.stats.map((q, qi) => $jx($Box, { title: q[0], children: $jx("div", { className: "text-[12px] leading-[1.5] text-zinc-400", children: q[1] }) }, qi)),
+                    }),
+                    C.hero.chips && $jx("div", {
+                      className: "mt-6 flex flex-wrap gap-2",
+                      children: C.hero.chips.map((p) => $jx("span", { className: "text-[11px] px-2.5 py-1 rounded-full bg-zinc-900 border border-zinc-800 text-zinc-400", children: p }, p)),
+                    }),
+                  ],
+                }),
+                h.length === 0 && $jxs("div", {
+                  className: "py-20 text-center border border-dashed border-zinc-800 rounded-[12px]",
+                  children: [
+                    $jxs("div", { className: "text-zinc-500 text-sm", children: C.emptyText ? C.emptyText(e) : ["No results for “", e, "”"] }),
+                    $jx("button", { onClick: () => n(""), className: "mt-3 text-xs px-3 py-1.5 rounded bg-white text-black font-bold", children: C.clearText || "Clear" }),
+                  ],
+                }),
+                h.map((p) =>
+                  $jxs("section", {
+                    id: p.id,
+                    className: "scroll-mt-[80px] mb-16",
+                    children: [
+                      $jxs("div", {
+                        className: "flex items-start gap-4 mb-6",
+                        children: [
+                          $jx("span", { className: "shrink-0 h-7 px-2.5 rounded-[7px] bg-zinc-900 border border-zinc-800 text-[11px] font-bold tracking-widest flex items-center text-zinc-400", children: p.num }),
+                          $jxs("div", {
+                            className: "min-w-0",
+                            children: [
+                              p.meta && p.meta.length > 0 && $jx("div", {
+                                className: "mb-2 flex flex-wrap items-center gap-2",
+                                children: p.meta.map((q, qi) => $jx("span", { className: "text-[10px] px-2 py-1 rounded-full border border-zinc-800 text-zinc-500 tracking-widest", children: q }, qi)),
                               }),
-                              p("span", {
-                                className:
-                                  "rounded border border-zinc-800 px-2 py-1",
-                                children: "$PROJECT EARLY",
-                              }),
-                              p("span", {
-                                className:
-                                  "rounded bg-white px-2 py-1 text-black",
-                                children: "NO $WHERE",
-                              }),
+                              $jx("h2", { className: "text-[22px] font-bold tracking-[-0.02em] leading-[1.15]", children: p.title }),
+                              p.summary && $jx("p", { className: "mt-2 text-[13.5px] leading-[1.6] text-zinc-400", children: p.summary }),
                             ],
                           }),
                         ],
                       }),
+                      $jx("div", { className: "space-y-1", children: p.blocks.map((m, S) => $jx($Block, { b: m }, S)) }),
                     ],
-                  }),
-                }),
-                S("aside", {
-                  className:
-                    "hidden xl:block w-[240px] shrink-0 sticky top-[58px] h-[calc(100vh-58px)] overflow-y-auto border-l border-zinc-800 p-5",
+                  }, p.id)),
+                C.afterMain && C.afterMain(api),
+                C.footer && $jxs("div", {
+                  className: "mt-16 pt-8 border-t border-zinc-800 flex items-center justify-between",
                   children: [
-                    S("div", {
-                      className: "mb-6",
-                      children: [
-                        p("div", {
-                          className:
-                            "font-mono text-[11px] font-bold tracking-[0.14em] text-zinc-500",
-                          children: "ON THIS PAGE",
-                        }),
-                        S("div", {
-                          className:
-                            "mt-1 font-mono text-[11px] text-zinc-600 truncate",
-                          children: [E.number, " — ", E.title],
-                        }),
-                      ],
-                    }),
-                    p("div", {
-                      className: "space-y-1",
-                      children: E.subtopics.map((m) =>
-                        p(
-                          "a",
-                          {
-                            href: `#${m.id}`,
-                            className: `
-                  block rounded px-2 py-1.5 font-mono text-[12px] leading-tight border-l-2 transition-all
-                  ${l === m.id ? "border-white bg-zinc-900 text-white" : "border-transparent text-zinc-500 hover:text-zinc-300 hover:bg-zinc-900/50"}
-                `,
-                            children: m.title,
-                          },
-                          m.id,
-                        ),
-                      ),
-                    }),
-                    S("div", {
-                      className:
-                        "mt-8 rounded border border-zinc-800 bg-zinc-900/40 p-3",
-                      children: [
-                        p("div", {
-                          className:
-                            "font-mono text-[10px] tracking-widest text-zinc-500",
-                          children: "READING PROGRESS",
-                        }),
-                        p("div", {
-                          className:
-                            "mt-2 h-1 w-full rounded-full bg-zinc-800 overflow-hidden",
-                          children: p("div", {
-                            className: "h-full bg-white",
-                            style: { width: `${a * 100}%` },
-                          }),
-                        }),
-                        S("div", {
-                          className: "mt-2 font-mono text-[11px] text-zinc-500",
-                          children: [
-                            Math.round(a * 100),
-                            "% • ",
-                            yn.length,
-                            " sections",
-                          ],
-                        }),
-                        S("div", {
-                          className: "mt-3 space-y-2",
-                          children: [
-                            S("div", {
-                              className:
-                                "flex justify-between font-mono text-[10px] text-zinc-600",
-                              children: [
-                                p("span", { children: "AGG STAGES" }),
-                                p("span", { children: "16" }),
-                              ],
-                            }),
-                            S("div", {
-                              className:
-                                "flex justify-between font-mono text-[10px] text-zinc-600",
-                              children: [
-                                p("span", { children: "PIPELINES" }),
-                                p("span", { children: "~47" }),
-                              ],
-                            }),
-                            S("div", {
-                              className:
-                                "flex justify-between font-mono text-[10px] text-white",
-                              children: [
-                                p("span", { children: "ACTIVE" }),
-                                p("span", { children: E.id }),
-                              ],
-                            }),
-                          ],
-                        }),
-                      ],
-                    }),
-                    S("div", {
-                      className: "mt-6 rounded bg-white p-3",
-                      children: [
-                        p("div", {
-                          className:
-                            "font-mono text-[11px] font-bold tracking-widest text-black",
-                          children: "PROD RULES",
-                        }),
-                        S("ul", {
-                          className:
-                            "mt-2 space-y-1 font-mono text-[11px] text-zinc-700 leading-relaxed list-disc pl-4",
-                          children: [
-                            p("li", { children: "$match first, always" }),
-                            p("li", { children: "$project to cut fat" }),
-                            p("li", { children: "$sort needs index" }),
-                            p("li", { children: "No $where ever" }),
-                            p("li", { children: "$lookup after $match" }),
-                            p("li", { children: "explain() before ship" }),
-                          ],
-                        }),
-                      ],
-                    }),
-                    S("div", {
-                      className: "mt-6",
-                      children: [
-                        p("div", {
-                          className:
-                            "font-mono text-[10px] tracking-widest text-zinc-600",
-                          children: "SHORTCUTS",
-                        }),
-                        S("div", {
-                          className:
-                            "mt-2 space-y-1 font-mono text-[11px] text-zinc-500",
-                          children: [
-                            S("div", {
-                              className: "flex justify-between",
-                              children: [
-                                p("span", { children: "/" }),
-                                p("span", { children: "search" }),
-                              ],
-                            }),
-                            S("div", {
-                              className: "flex justify-between",
-                              children: [
-                                p("span", { children: "esc" }),
-                                p("span", { children: "clear" }),
-                              ],
-                            }),
-                          ],
-                        }),
-                      ],
-                    }),
+                    $jx("span", { className: "text-[11px] tracking-widest text-zinc-500", children: C.footer.left }),
+                    C.footer.right && $jx("span", { className: "text-[11px] text-zinc-600 font-code", children: C.footer.right }),
                   ],
                 }),
               ],
             }),
-          ],
-        });
-      }
+          }),
+          $jx("aside", {
+            className: "hidden xl:block w-[240px] shrink-0 sticky top-[56px] h-[calc(100vh-56px)] overflow-y-auto border-l border-zinc-800 bg-[#09090b]",
+            children: $jxs("div", {
+              className: "p-5",
+              children: [
+                $jx("div", { className: "text-[11px] font-bold tracking-[0.14em] text-zinc-500 mb-4", children: C.tocLabel || "ON THIS PAGE" }),
+                $jx("div", {
+                  className: "space-y-1 mb-6",
+                  children: (C.toc ? C.toc(api) : v.toc).map((p, pi) =>
+                    $jx("div", {
+                      onClick: p.id ? () => { let el = document.getElementById(p.id); if (el) el.scrollIntoView({ behavior: "smooth", block: "start" }); } : undefined,
+                      className: "text-[12px] leading-[1.4] text-zinc-500 hover:text-zinc-300 cursor-pointer py-1 border-l-2 border-transparent hover:border-zinc-700 pl-3 transition-colors",
+                      children: p.label || p,
+                    }, pi)),
+                }),
+                C.railBoxes && C.railBoxes(api),
+                C.jump && $jxs("div", {
+                  className: "space-y-2",
+                  children: [
+                    $jx("div", { className: "text-[11px] font-bold tracking-widest text-zinc-500", children: C.jump.label }),
+                    S0.slice(0, C.jump.count || 8).map((p) =>
+                      $jx("button", {
+                        onClick: () => y(p.id),
+                        className: `block w-full text-left text-[11px] font-code py-1 ${t === p.id ? "text-white" : "text-zinc-600 hover:text-zinc-400"}`,
+                        children: C.jump.text(p),
+                      }, p.id)),
+                    C.jump.more && $jx("div", { className: "pt-2 text-[10px] text-zinc-600", children: C.jump.more(S0.length - (C.jump.count || 8)) }),
+                  ],
+                }),
+                C.railEnd && C.railEnd(api),
+              ],
+            }),
+          }),
+        ],
+      }),
+    ],
+  });
+}
+
+var $D = yn;
+var $INLINE = {"setup-connection": [{"type": "h3", "text": "Connection String - Production Flags", "id": "conn-string"}, {"type": "code", "lang": "js", "code": "import mongoose from 'mongoose';\n\nawait mongoose.connect(process.env.MONGO_URI!, {\n  maxPoolSize: 20, // default 100 is too high for Lambda\n  minPoolSize: 5,\n  retryWrites: true,\n  w: 'majority',\n  readPreference: 'primary',\n  serverSelectionTimeoutMS: 5000,\n  socketTimeoutMS: 45000,\n  autoIndex: false, // build indexes via migration, not on startup\n});\n\nmongoose.connection.on('disconnected', () => {\n  console.error('[mongo] disconnected - attempting reconnect');\n});\nmongoose.connection.on('reconnected', () => console.log('[mongo] reconnected'));\n"}, {"type": "perf", "title": "PERFORMANCE", "text": "Keep poolSize = (cores * 2) + 2. For Node cluster, divide by instances. Monitor db.serverStatus().connections"}, {"type": "h3", "text": "Pooling & Retry Logic", "id": "pooling"}, {"type": "code", "lang": "js", "code": "// Exponential backoff wrapper\nasync function connectWithRetry(attempts=5) {\n  for (let i=0; i<attempts; i++) {\n    try { return await mongoose.connect(URI, opts); }\n    catch(e) {\n      await new Promise(r => setTimeout(r, 1000 * Math.pow(2,i)));\n    }\n  }\n  throw new Error('mongo connect failed after retries');\n}"}], "schema-design": [{"type": "h3", "text": "SchemaTypes & strict", "id": "schematypes"}, {"type": "code", "lang": "js", "code": "const userSchema = new Schema({\n  email: { type: String, required: true, lowercase: true, trim: true, index: { unique: true } },\n  age: { type: Number, min: 0, max: 150 },\n  role: { type: String, enum: ['user','admin'], default: 'user' },\n  metadata: { type: Schema.Types.Mixed }, // escape hatch but lose validation\n  tags: [String],\n  settings: {\n    theme: { type: String, default: 'dark' }\n  }\n}, { \n  timestamps: true, \n  strict: true, // reject unknown fields\n  versionKey: false,\n  toJSON: { virtuals: true, transform: (_, ret) => { delete ret._id; } }\n});"}], "crud-production": [{"type": "h3", "text": "CRUD Production Patterns", "id": "create-patterns"}, {"type": "code", "lang": "js", "code": "// insertMany ordered:false - continue on dup key\nawait User.insertMany(docs, { ordered: false, lean: true });\n\n// find with lean + select - fastest read\nconst users = await User.find({ isActive: true })\n  .select('email name -_id')\n  .lean()\n  .hint({ isActive: 1 });\n\n// findOneAndUpdate with validators\nawait User.findOneAndUpdate(\n  { _id: id },\n  { $set: { name } },\n  { new: true, runValidators: true, projection: { email:1 } }\n);\n\n// bulkWrite - mixed ops in one roundtrip\nawait Order.bulkWrite([\n  { updateOne: { filter: { _id: id1 }, update: { $set: { status: 'paid' } } } },\n  { insertOne: { document: { productId, total: 42 } } },\n  { deleteOne: { filter: { status: 'abandoned', createdAt: { $lt: dayAgo } } } }\n], { ordered: false });"}], "query-operators": [{"type": "code", "lang": "js", "code": "// Compound logic\nawait Product.find({\n  $and: [\n    { category: { $in: ['shoes','hats'] } },\n    { price: { $gte: 20, $lte: 200 } },\n    { $or: [{ stock: { $gt: 0 } }, { preOrder: true }] }\n  ],\n  tags: { $all: ['sale','new'] }, // must contain both\n  variants: { $elemMatch: { size: 'M', stock: { $gt: 0 } } },\n  'supplier.country': 'US', // dot notation\n  deletedAt: { $exists: false }\n});"}], "indexes": [{"type": "h3", "text": "ESR Rule: Equality, Sort, Range", "id": "esr-rule"}, {"type": "code", "lang": "js", "code": "// Query: { status: 'paid', createdAt: { $gte: date }, sort: { createdAt: -1 } }\n// ESR: status (equality) first, then sort/range field\norderSchema.index({ status: 1, createdAt: -1 });\n\n// Text index\nproductSchema.index({ name: 'text', description: 'text' }, { weights: { name: 10 } });\n\n// TTL - auto delete after 24h\nsessionSchema.index({ createdAt: 1 }, { expireAfterSeconds: 86400 });\n\n// Partial - index only active users\nuserSchema.index({ email: 1 }, { unique: true, partialFilterExpression: { isDeleted: false } });\n\n// Collation - case-insensitive unique\nuserSchema.index({ email: 1 }, { unique: true, collation: { locale: 'en', strength: 2 } });"}, {"type": "warn", "title": "WARNING", "text": "Creating index on prod locks collection pre-4.2. Use {background:true} or rolling build on Atlas."}], "relationships": [{"type": "code", "lang": "js", "code": "// Ref + populate\nconst orderSchema = new Schema({ productId: { type: ObjectId, ref: 'Product' } });\nawait Order.find().populate({ path: 'productId', select: 'name price', options: { lean: true } });\n\n// Virtual populate - no foreign key stored\nuserSchema.virtual('orders', { ref: 'Order', localField: '_id', foreignField: 'userId' });\nawait User.findOne().populate('orders');\n\n// Deep populate\nawait Order.find().populate({ path: 'productId', populate: { path: 'supplierId' } });\n\n// Autopopulate anti-pattern - kills perf\n// ❌ Don't: pre-find hook that always populates\n"}], "validation-middleware": [{"type": "code", "lang": "js", "code": "// Custom async validator - check uniqueness via aggregation for speed\nuserSchema.path('email').validate(async function(v) {\n  const count = await mongoose.model('User').countDocuments({ email: v, _id: { $ne: this._id } });\n  return count === 0;\n}, 'Email exists');\n\n// Middleware\norderSchema.pre('save', function(next) {\n  if (this.isModified('total') && this.total < 0) return next(new Error('negative total'));\n  next();\n});\n\norderSchema.pre('findOneAndUpdate', function() {\n  this.setOptions({ runValidators: true });\n});\n\norderSchema.post('save', function(doc) {\n  // emit to change stream handler or queue\n});"}], "transactions": [{"type": "code", "lang": "js", "code": "const session = await mongoose.startSession();\ntry {\n  await session.withTransaction(async () => {\n    const order = await Order.create([{ userId, total }], { session });\n    await User.updateOne({ _id: userId }, { $inc: { orderCount: 1 } }, { session });\n    await Inventory.updateOne({ productId }, { $inc: { stock: -1 } }, { session });\n  }, {\n    readConcern: { level: 'snapshot' },\n    writeConcern: { w: 'majority' },\n    maxTimeMS: 10000\n  });\n} finally { await session.endSession(); }\n\n// When NOT to use transaction:\n// - Single doc atomicity is already guaranteed\n// - High throughput ingestion - use bulkWrite instead"}]};
+var $PIPES = {"why-aggregation": [{"input": "{ status: 'paid', total: 100 }\n{ status: 'cancelled', total: 20 }\n{ status: 'paid', total: 50 }", "stage": "$match {status:'paid'}\n↓\n$group _id:null revenue:$sum", "output": "{ _id:null, revenue:150 }"}], "essential-1": [{"input": "{status:'paid', total:100, createdAt: 2024-01-01}\n{status:'paid', total:20, createdAt: 2024-01-01}", "stage": "$project {day, revenue, userId}\n→ cut to 3 fields", "output": "{day:2024-01-01, revenue:100}\n→ 70% smaller docs"}]};
+var $pipeBlocks = (p) => [{ type: "code", file: "INPUT DOCS", code: p.input }, { type: "code", file: "STAGE", code: p.stage }, { type: "code", file: "OUTPUT DOCS", code: p.output }];
+var $mongoBlocks = (m) => {
+  if ($INLINE[m.id]) return [{ type: "tip", title: "WHY IN PRODUCTION", text: m.why }].concat($INLINE[m.id]);
+  let b = [{ type: "tip", title: "WHY IN PRODUCTION", text: m.why }];
+  m.subtopics.forEach((c) => b.push({ type: "h3", id: c.id, eyebrow: "SUBTOPIC", text: c.title }));
+  if (m.isAgg && m.number === "09") b = b.concat($pipeBlocks($PIPES[m.id][0]));
+  m.pipelines.forEach((c, i) => {
+    b.push({ type: "h3", text: c.title });
+    b.push({ type: "code", lang: c.title.includes("dashboard") || c.title.includes("revenue") ? "aggregation" : "js", code: c.code });
+    if (c.whyFast) b.push({ type: "tip", title: "WHY FAST IN PROD", text: c.whyFast });
+    if (c.indexNeeded) b.push({ type: "tip", title: "INDEX NEEDED", text: c.indexNeeded });
+    if (c.pitfall) b.push({ type: "tip", title: "COMMON PITFALL", text: c.pitfall });
+    if (m.id === "essential-1" && i === 0) b = b.concat($pipeBlocks($PIPES[m.id][0]));
+  });
+  return b;
+};
+var $SECTIONS = $D.map((m) => ({
+  id: m.id, num: m.number, title: m.title, group: m.group,
+  meta: [m.number + " • " + m.group].concat(m.isAgg ? ["AGG"] : []).concat(["id: " + m.id]),
+  side: m.isAgg ? "AGG" : null,
+  toc: m.subtopics.map((c) => ({ id: c.id, label: c.title })),
+  raw: m, blocks: $mongoBlocks(m),
+}));
+var $CFG = {
+  brand: "MONGO::MASTER",
+  badge: "MONGOOSE + AGGREGATION",
+  copy: ["COPY", "COPIED"],
+  progress: true,
+  placeholder: "Search stages, $lookup, $facet, $group, indexes...",
+  placeholderMobile: "Search...",
+  headerRight: () => [$jx("span", { className: "text-[11px] text-zinc-500 hidden sm:block", children: "AGG FOCUS • 60%" }), $jx("span", { className: "text-[11px] text-zinc-500 hidden sm:block", children: "v7.0" })],
+  groups: [
+    { label: "BEGINNER", tag: "01-08", hideEmpty: true, test: (m) => m.group === "BEGINNER" },
+    { label: "INTERMEDIATE — AGG CORE", tag: "09-16", hideEmpty: true, test: (m) => m.group === "INTERMEDIATE" },
+    { label: "ADVANCED — PRODUCTION", tag: "17-23", hideEmpty: true, test: (m) => m.group === "ADVANCED" },
+  ],
+  sidebarBox: () => $jx($Box, { title: "PIPELINE MENTAL MODEL", children: $jxs("div", { className: "font-code text-[11px] text-zinc-500 leading-[1.5]", children: ["docs → $match → $project → $group → $sort → output", $jx("br", {}), "Each stage is pure. Index only at start."] }) }),
+  hero: {
+    badges: ["MONOCHROME EDITION", "DARK MODE DEFAULT • ZINC-950 #09090B"],
+    title: ["MongoDB + Mongoose", $jx("br", {}), "from ZERO to", $jx("br", {}), "PROD AGGREGATION"],
+    desc: "No ORM magic. Pure aggregation pipelines, index-aware patterns, and production checklists. 60% of this OS is $lookup mastery, $facet dashboards, window functions, and sharding-safe $merge.",
+    chips: ["23 SECTIONS", "~47 PIPELINES", "AGG HEAVY"],
+  },
+  afterMain: () => $jx("div", { className: "mt-16 flex flex-wrap gap-2", children: ["INDEXES → $MATCH EARLY", "$PROJECT EARLY", "NO $WHERE"].map((t) => $jx("span", { className: "text-[11px] px-2.5 py-1 rounded-full bg-zinc-900 border border-zinc-800 text-zinc-400", children: t }, t)) }),
+  footer: { left: "BUILT FOR AGGREGATION ENGINEERS", right: "MONGO::MASTER • Mongoose v7 + MongoDB 7 Aggregation Pipeline • zinc-950 #09090b • JetBrains Mono + Geist Mono" },
+  railBoxes: (a) => $jxs("div", { children: [
+    $jxs("div", { className: "mb-4 text-[11px] font-code text-zinc-500", children: [a.current.raw.number, " — ", a.current.raw.title] }),
+    $jx($Box, { title: "READING PROGRESS", mb: true, children: $jxs("div", { children: [
+      $jx("div", { className: "h-1 w-full rounded-full bg-zinc-900 overflow-hidden", children: $jx("div", { className: "h-full bg-white", style: { width: a.progress + "%" } }) }),
+      $jxs("div", { className: "mt-2 text-[11px] font-code text-zinc-500", children: [Math.round(a.progress), "% • ", a.sections.length, " sections"] }),
+      $jx("div", { className: "mt-2 space-y-1.5 text-[11px] font-code text-zinc-500", children:
+        [["AGG STAGES", "16"], ["PIPELINES", "~47"], ["ACTIVE", a.current.id]].map((r) => $jxs("div", { className: "flex justify-between", children: [$jx("span", { children: r[0] }), $jx("span", { className: "text-zinc-300", children: r[1] })] }, r[0])) }),
+    ] }) }),
+  ] }),
+  railEnd: () => $jxs("div", { className: "mt-2", children: [
+    $jx($Box, { title: "PROD RULES", mb: true, children: $jx("div", { className: "space-y-1.5 text-[11px] font-code text-zinc-500", children:
+      ["$match first, always", "$project to cut fat", "$sort needs index", "No $where ever", "$lookup after $match", "explain() before ship"].map((t) => $jx("div", { children: t }, t)) }) }),
+    $jx($Box, { title: "SHORTCUTS", children: $jx("div", { className: "space-y-1.5 text-[11px] font-code text-zinc-500", children:
+      [["/", "search"], ["esc", "clear"]].map((r) => $jxs("div", { className: "flex justify-between", children: [$jx("span", { className: "text-zinc-300", children: r[0] }), $jx("span", { children: r[1] })] }, r[0])) }) }),
+  ] }),
+};
+
       Qc.createRoot(document.getElementById("root")).render(
-        p(Hc.default.StrictMode, { children: p(ei, {}) }),
+        p(Hc.default.StrictMode, { children: p($App, {}) }),
       );
     </script>
     <script>

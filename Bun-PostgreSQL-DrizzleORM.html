@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>React Artifact</title>
     <style>
+      @import url("https://fonts.googleapis.com/css2?family=Geist+Mono:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap");
       *,
       :after,
       :before {
@@ -112,7 +113,9 @@
         --tw-contain-layout: ;
         --tw-contain-paint: ;
         --tw-contain-style: ;
-      } /*! tailwindcss v3.4.18 | MIT License | https://tailwindcss.com*/
+      }
+
+      /*! tailwindcss v3.4.18 | MIT License | https://tailwindcss.com*/
       *,
       :after,
       :before {
@@ -143,6 +146,7 @@
         -webkit-tap-highlight-color: transparent;
       }
       body {
+        margin: 0;
         line-height: inherit;
       }
       hr {
@@ -335,8 +339,8 @@
       [hidden]:where(:not([hidden="until-found"])) {
         display: none;
       }
-      .static {
-        position: static;
+      .visible {
+        visibility: visible;
       }
       .absolute {
         position: absolute;
@@ -353,27 +357,39 @@
       .right-2 {
         right: 0.5rem;
       }
-      .top-0 {
-        top: 0;
-      }
       .top-1\/2 {
         top: 50%;
       }
       .top-\[56px\] {
         top: 56px;
       }
-      .z-50 {
-        z-index: 50;
+      .z-40 {
+        z-index: 40;
       }
       .mx-auto {
         margin-left: auto;
         margin-right: auto;
+      }
+      .my-4 {
+        margin-top: 1rem;
+        margin-bottom: 1rem;
+      }
+      .my-5 {
+        margin-top: 1.25rem;
+        margin-bottom: 1.25rem;
+      }
+      .my-6 {
+        margin-top: 1.5rem;
+        margin-bottom: 1.5rem;
       }
       .mb-1 {
         margin-bottom: 0.25rem;
       }
       .mb-12 {
         margin-bottom: 3rem;
+      }
+      .mb-16 {
+        margin-bottom: 4rem;
       }
       .mb-2 {
         margin-bottom: 0.5rem;
@@ -387,11 +403,8 @@
       .mb-6 {
         margin-bottom: 1.5rem;
       }
-      .ml-auto {
-        margin-left: auto;
-      }
-      .mt-1 {
-        margin-top: 0.25rem;
+      .mt-0\.5 {
+        margin-top: 0.125rem;
       }
       .mt-16 {
         margin-top: 4rem;
@@ -408,20 +421,14 @@
       .mt-6 {
         margin-top: 1.5rem;
       }
-      .mt-8 {
-        margin-top: 2rem;
-      }
       .block {
         display: block;
-      }
-      .inline {
-        display: inline;
       }
       .flex {
         display: flex;
       }
-      .inline-flex {
-        display: inline-flex;
+      .table {
+        display: table;
       }
       .grid {
         display: grid;
@@ -429,29 +436,23 @@
       .hidden {
         display: none;
       }
-      .h-1 {
-        height: 0.25rem;
+      .h-3 {
+        height: 0.75rem;
       }
-      .h-1\.5 {
-        height: 0.375rem;
+      .h-5 {
+        height: 1.25rem;
       }
-      .h-12 {
-        height: 3rem;
-      }
-      .h-2 {
-        height: 0.5rem;
+      .h-6 {
+        height: 1.5rem;
       }
       .h-7 {
         height: 1.75rem;
       }
-      .h-8 {
-        height: 2rem;
+      .h-\[22px\] {
+        height: 22px;
       }
       .h-\[36px\] {
         height: 36px;
-      }
-      .h-\[40px\] {
-        height: 40px;
       }
       .h-\[56px\] {
         height: 56px;
@@ -459,53 +460,41 @@
       .h-\[calc\(100vh-56px\)\] {
         height: calc(100vh - 56px);
       }
-      .h-px {
-        height: 1px;
-      }
-      .max-h-\[60vh\] {
-        max-height: 60vh;
-      }
       .min-h-screen {
         min-height: 100vh;
       }
-      .w-1 {
-        width: 0.25rem;
-      }
-      .w-1\.5 {
-        width: 0.375rem;
-      }
-      .w-12 {
-        width: 3rem;
-      }
-      .w-2 {
-        width: 0.5rem;
+      .w-3 {
+        width: 0.75rem;
       }
       .w-6 {
         width: 1.5rem;
       }
-      .w-7 {
-        width: 1.75rem;
-      }
-      .w-8 {
-        width: 2rem;
-      }
       .w-\[240px\] {
         width: 240px;
       }
-      .w-\[300px\] {
-        width: 300px;
+      .w-\[280px\] {
+        width: 280px;
       }
       .w-full {
         width: 100%;
       }
+      .w-px {
+        width: 1px;
+      }
       .min-w-0 {
         min-width: 0;
       }
-      .max-w-\[520px\] {
-        max-width: 520px;
+      .max-w-3xl {
+        max-width: 48rem;
       }
-      .max-w-\[800px\] {
-        max-width: 800px;
+      .max-w-\[1680px\] {
+        max-width: 1680px;
+      }
+      .max-w-\[560px\] {
+        max-width: 560px;
+      }
+      .max-w-\[60ch\] {
+        max-width: 60ch;
       }
       .flex-1 {
         flex: 1 1 0%;
@@ -515,27 +504,19 @@
       }
       .-translate-y-1\/2 {
         --tw-translate-y: -50%;
+      }
+      .-translate-y-1\/2,
+      .transform {
         transform: translate(var(--tw-translate-x), var(--tw-translate-y))
           rotate(var(--tw-rotate)) skewX(var(--tw-skew-x))
           skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x))
           scaleY(var(--tw-scale-y));
       }
-      @keyframes pulse {
-        50% {
-          opacity: 0.5;
-        }
-      }
-      .animate-pulse {
-        animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+      .cursor-pointer {
+        cursor: pointer;
       }
       .scroll-mt-\[80px\] {
         scroll-margin-top: 80px;
-      }
-      .grid-cols-3 {
-        grid-template-columns: repeat(3, minmax(0, 1fr));
-      }
-      .flex-col {
-        flex-direction: column;
       }
       .flex-wrap {
         flex-wrap: wrap;
@@ -552,14 +533,14 @@
       .justify-between {
         justify-content: space-between;
       }
-      .gap-1 {
-        gap: 0.25rem;
-      }
       .gap-1\.5 {
         gap: 0.375rem;
       }
       .gap-2 {
         gap: 0.5rem;
+      }
+      .gap-2\.5 {
+        gap: 0.625rem;
       }
       .gap-3 {
         gap: 0.75rem;
@@ -582,16 +563,6 @@
         margin-top: calc(0.375rem * (1 - var(--tw-space-y-reverse)));
         margin-bottom: calc(0.375rem * var(--tw-space-y-reverse));
       }
-      .space-y-10 > :not([hidden]) ~ :not([hidden]) {
-        --tw-space-y-reverse: 0;
-        margin-top: calc(2.5rem * (1 - var(--tw-space-y-reverse)));
-        margin-bottom: calc(2.5rem * var(--tw-space-y-reverse));
-      }
-      .space-y-16 > :not([hidden]) ~ :not([hidden]) {
-        --tw-space-y-reverse: 0;
-        margin-top: calc(4rem * (1 - var(--tw-space-y-reverse)));
-        margin-bottom: calc(4rem * var(--tw-space-y-reverse));
-      }
       .space-y-2 > :not([hidden]) ~ :not([hidden]) {
         --tw-space-y-reverse: 0;
         margin-top: calc(0.5rem * (1 - var(--tw-space-y-reverse)));
@@ -602,25 +573,13 @@
         margin-top: calc(1.5rem * (1 - var(--tw-space-y-reverse)));
         margin-bottom: calc(1.5rem * var(--tw-space-y-reverse));
       }
-      .space-y-8 > :not([hidden]) ~ :not([hidden]) {
-        --tw-space-y-reverse: 0;
-        margin-top: calc(2rem * (1 - var(--tw-space-y-reverse)));
-        margin-bottom: calc(2rem * var(--tw-space-y-reverse));
+      .divide-y > :not([hidden]) ~ :not([hidden]) {
+        --tw-divide-y-reverse: 0;
+        border-top-width: calc(1px * (1 - var(--tw-divide-y-reverse)));
+        border-bottom-width: calc(1px * var(--tw-divide-y-reverse));
       }
-      .divide-x > :not([hidden]) ~ :not([hidden]) {
-        --tw-divide-x-reverse: 0;
-        border-right-width: calc(1px * var(--tw-divide-x-reverse));
-        border-left-width: calc(1px * (1 - var(--tw-divide-x-reverse)));
-      }
-      .divide-zinc-800 > :not([hidden]) ~ :not([hidden]) {
-        --tw-divide-opacity: 1;
-        border-color: rgb(39 39 42 / var(--tw-divide-opacity, 1));
-      }
-      .self-start {
-        align-self: flex-start;
-      }
-      .overflow-auto {
-        overflow: auto;
+      .divide-zinc-800\/60 > :not([hidden]) ~ :not([hidden]) {
+        border-color: rgba(39, 39, 42, 0.6);
       }
       .overflow-hidden {
         overflow: hidden;
@@ -642,14 +601,17 @@
       .rounded {
         border-radius: 0.25rem;
       }
+      .rounded-\[10px\] {
+        border-radius: 10px;
+      }
       .rounded-\[12px\] {
         border-radius: 12px;
       }
-      .rounded-\[4px\] {
-        border-radius: 4px;
+      .rounded-\[5px\] {
+        border-radius: 5px;
       }
-      .rounded-\[6px\] {
-        border-radius: 6px;
+      .rounded-\[7px\] {
+        border-radius: 7px;
       }
       .rounded-\[8px\] {
         border-radius: 8px;
@@ -657,9 +619,8 @@
       .rounded-full {
         border-radius: 9999px;
       }
-      .rounded-r-\[8px\] {
-        border-top-right-radius: 8px;
-        border-bottom-right-radius: 8px;
+      .rounded-md {
+        border-radius: 0.375rem;
       }
       .border {
         border-width: 1px;
@@ -679,11 +640,23 @@
       .border-t {
         border-top-width: 1px;
       }
-      .border-\[var\(--border\)\] {
-        border-color: var(--border);
+      .border-dashed {
+        border-style: dashed;
       }
-      .border-amber-900\/50 {
-        border-color: rgba(120, 53, 15, 0.5);
+      .border-emerald-900\/30 {
+        border-color: rgba(6, 78, 59, 0.3);
+      }
+      .border-emerald-900\/50 {
+        border-color: rgba(6, 78, 59, 0.5);
+      }
+      .border-red-900\/30 {
+        border-color: rgba(127, 29, 29, 0.3);
+      }
+      .border-red-900\/50 {
+        border-color: rgba(127, 29, 29, 0.5);
+      }
+      .border-transparent {
+        border-color: transparent;
       }
       .border-white {
         --tw-border-opacity: 1;
@@ -697,42 +670,50 @@
         --tw-border-opacity: 1;
         border-color: rgb(39 39 42 / var(--tw-border-opacity, 1));
       }
-      .bg-\[\#0a0a0b\] {
+      .bg-\[\#09090b\] {
         --tw-bg-opacity: 1;
-        background-color: rgb(10 10 11 / var(--tw-bg-opacity, 1));
+        background-color: rgb(9 9 11 / var(--tw-bg-opacity, 1));
       }
-      .bg-\[\#111113\] {
+      .bg-\[\#09090b\]\/90 {
+        background-color: rgba(9, 9, 11, 0.9);
+      }
+      .bg-\[\#101012\] {
         --tw-bg-opacity: 1;
-        background-color: rgb(17 17 19 / var(--tw-bg-opacity, 1));
+        background-color: rgb(16 16 18 / var(--tw-bg-opacity, 1));
       }
-      .bg-\[\#1a1a1d\] {
+      .bg-\[\#101815\] {
         --tw-bg-opacity: 1;
-        background-color: rgb(26 26 29 / var(--tw-bg-opacity, 1));
+        background-color: rgb(16 24 21 / var(--tw-bg-opacity, 1));
       }
-      .bg-\[var\(--bg\)\] {
-        background-color: var(--bg);
-      }
-      .bg-amber-500 {
+      .bg-\[\#121214\] {
         --tw-bg-opacity: 1;
-        background-color: rgb(245 158 11 / var(--tw-bg-opacity, 1));
+        background-color: rgb(18 18 20 / var(--tw-bg-opacity, 1));
       }
-      .bg-amber-950\/20 {
-        background-color: rgba(69, 26, 3, 0.2);
+      .bg-\[\#181012\] {
+        --tw-bg-opacity: 1;
+        background-color: rgb(24 16 18 / var(--tw-bg-opacity, 1));
       }
       .bg-black {
         --tw-bg-opacity: 1;
         background-color: rgb(0 0 0 / var(--tw-bg-opacity, 1));
       }
+      .bg-emerald-950\/30 {
+        background-color: rgba(2, 44, 34, 0.3);
+      }
+      .bg-red-950\/30 {
+        background-color: rgba(69, 10, 10, 0.3);
+      }
       .bg-white {
         --tw-bg-opacity: 1;
         background-color: rgb(255 255 255 / var(--tw-bg-opacity, 1));
       }
-      .bg-white\/20 {
-        background-color: hsla(0, 0%, 100%, 0.2);
-      }
       .bg-zinc-800 {
         --tw-bg-opacity: 1;
         background-color: rgb(39 39 42 / var(--tw-bg-opacity, 1));
+      }
+      .bg-zinc-900 {
+        --tw-bg-opacity: 1;
+        background-color: rgb(24 24 27 / var(--tw-bg-opacity, 1));
       }
       .p-3 {
         padding: 0.75rem;
@@ -740,12 +721,8 @@
       .p-4 {
         padding: 1rem;
       }
-      .p-6 {
-        padding: 1.5rem;
-      }
-      .px-1 {
-        padding-left: 0.25rem;
-        padding-right: 0.25rem;
+      .p-5 {
+        padding: 1.25rem;
       }
       .px-1\.5 {
         padding-left: 0.375rem;
@@ -767,6 +744,10 @@
         padding-left: 1rem;
         padding-right: 1rem;
       }
+      .px-5 {
+        padding-left: 1.25rem;
+        padding-right: 1.25rem;
+      }
       .py-0\.5 {
         padding-top: 0.125rem;
         padding-bottom: 0.125rem;
@@ -779,52 +760,75 @@
         padding-top: 0.375rem;
         padding-bottom: 0.375rem;
       }
+      .py-10 {
+        padding-top: 2.5rem;
+        padding-bottom: 2.5rem;
+      }
       .py-2 {
         padding-top: 0.5rem;
         padding-bottom: 0.5rem;
       }
-      .py-3 {
-        padding-top: 0.75rem;
+      .py-2\.5 {
+        padding-top: 0.625rem;
+        padding-bottom: 0.625rem;
+      }
+      .py-20 {
+        padding-top: 5rem;
+        padding-bottom: 5rem;
+      }
+      .pb-2 {
+        padding-bottom: 0.5rem;
+      }
+      .pb-3 {
         padding-bottom: 0.75rem;
       }
-      .py-8 {
-        padding-top: 2rem;
+      .pb-8 {
         padding-bottom: 2rem;
       }
       .pl-3 {
         padding-left: 0.75rem;
       }
-      .pl-4 {
-        padding-left: 1rem;
+      .pl-8 {
+        padding-left: 2rem;
       }
-      .pl-9 {
-        padding-left: 2.25rem;
+      .pr-3 {
+        padding-right: 0.75rem;
       }
-      .pr-12 {
-        padding-right: 3rem;
+      .pr-\[48px\] {
+        padding-right: 48px;
+      }
+      .pt-2 {
+        padding-top: 0.5rem;
+      }
+      .pt-4 {
+        padding-top: 1rem;
+      }
+      .pt-8 {
+        padding-top: 2rem;
+      }
+      .text-left {
+        text-align: left;
       }
       .text-center {
         text-align: center;
       }
-      .font-mono {
-        font-family:
-          ui-monospace,
-          SFMono-Regular,
-          Menlo,
-          Monaco,
-          Consolas,
-          Liberation Mono,
-          Courier New,
-          monospace;
-      }
       .text-\[10px\] {
         font-size: 10px;
+      }
+      .text-\[11\.5px\] {
+        font-size: 11.5px;
       }
       .text-\[11px\] {
         font-size: 11px;
       }
+      .text-\[12\.5px\] {
+        font-size: 12.5px;
+      }
       .text-\[12px\] {
         font-size: 12px;
+      }
+      .text-\[13\.5px\] {
+        font-size: 13.5px;
       }
       .text-\[13px\] {
         font-size: 13px;
@@ -832,20 +836,22 @@
       .text-\[14px\] {
         font-size: 14px;
       }
-      .text-\[15px\] {
-        font-size: 15px;
+      .text-\[22px\] {
+        font-size: 22px;
       }
-      .text-\[18px\] {
-        font-size: 18px;
-      }
-      .text-\[20px\] {
-        font-size: 20px;
-      }
-      .text-\[28px\] {
-        font-size: 28px;
+      .text-\[30px\] {
+        font-size: 30px;
       }
       .text-\[9px\] {
         font-size: 9px;
+      }
+      .text-sm {
+        font-size: 0.875rem;
+        line-height: 1.25rem;
+      }
+      .text-xs {
+        font-size: 0.75rem;
+        line-height: 1rem;
       }
       .font-bold {
         font-weight: 700;
@@ -853,17 +859,26 @@
       .font-medium {
         font-weight: 500;
       }
-      .font-semibold {
-        font-weight: 600;
-      }
       .uppercase {
         text-transform: uppercase;
       }
-      .leading-\[0\.9\] {
-        line-height: 0.9;
+      .lowercase {
+        text-transform: lowercase;
+      }
+      .leading-\[1\.05\] {
+        line-height: 1.05;
+      }
+      .leading-\[1\.15\] {
+        line-height: 1.15;
+      }
+      .leading-\[1\.4\] {
+        line-height: 1.4;
       }
       .leading-\[1\.5\] {
         line-height: 1.5;
+      }
+      .leading-\[1\.65\] {
+        line-height: 1.65;
       }
       .leading-\[1\.6\] {
         line-height: 1.6;
@@ -871,38 +886,53 @@
       .leading-\[1\.7\] {
         line-height: 1.7;
       }
-      .leading-none {
-        line-height: 1;
+      .leading-tight {
+        line-height: 1.25;
       }
-      .tracking-tight {
-        letter-spacing: -0.025em;
+      .tracking-\[-0\.02em\] {
+        letter-spacing: -0.02em;
       }
-      .tracking-tighter {
-        letter-spacing: -0.05em;
+      .tracking-\[-0\.03em\] {
+        letter-spacing: -0.03em;
+      }
+      .tracking-\[0\.14em\] {
+        letter-spacing: 0.14em;
+      }
+      .tracking-wide {
+        letter-spacing: 0.025em;
       }
       .tracking-widest {
         letter-spacing: 0.1em;
-      }
-      .text-\[var\(--fg\)\] {
-        color: var(--fg);
-      }
-      .text-amber-100\/80 {
-        color: hsla(48, 96%, 89%, 0.8);
-      }
-      .text-amber-500 {
-        --tw-text-opacity: 1;
-        color: rgb(245 158 11 / var(--tw-text-opacity, 1));
       }
       .text-black {
         --tw-text-opacity: 1;
         color: rgb(0 0 0 / var(--tw-text-opacity, 1));
       }
-      .text-black\/60 {
-        color: rgba(0, 0, 0, 0.6);
+      .text-emerald-200\/80 {
+        color: rgba(167, 243, 208, 0.8);
+      }
+      .text-emerald-300 {
+        --tw-text-opacity: 1;
+        color: rgb(110 231 183 / var(--tw-text-opacity, 1));
+      }
+      .text-emerald-400 {
+        --tw-text-opacity: 1;
+        color: rgb(52 211 153 / var(--tw-text-opacity, 1));
+      }
+      .text-red-200\/80 {
+        color: hsla(0, 96%, 89%, 0.8);
+      }
+      .text-red-300 {
+        --tw-text-opacity: 1;
+        color: rgb(252 165 165 / var(--tw-text-opacity, 1));
       }
       .text-white {
         --tw-text-opacity: 1;
         color: rgb(255 255 255 / var(--tw-text-opacity, 1));
+      }
+      .text-zinc-100 {
+        --tw-text-opacity: 1;
+        color: rgb(244 244 245 / var(--tw-text-opacity, 1));
       }
       .text-zinc-200 {
         --tw-text-opacity: 1;
@@ -924,13 +954,22 @@
         --tw-text-opacity: 1;
         color: rgb(82 82 91 / var(--tw-text-opacity, 1));
       }
-      .opacity-60 {
-        opacity: 0.6;
+      .text-zinc-700 {
+        --tw-text-opacity: 1;
+        color: rgb(63 63 70 / var(--tw-text-opacity, 1));
       }
-      .blur {
-        --tw-blur: blur(8px);
+      .ring-1 {
+        --tw-ring-offset-shadow: var(--tw-ring-inset) 0 0 0
+          var(--tw-ring-offset-width) var(--tw-ring-offset-color);
+        --tw-ring-shadow: var(--tw-ring-inset) 0 0 0
+          calc(1px + var(--tw-ring-offset-width)) var(--tw-ring-color);
+        box-shadow:
+          var(--tw-ring-offset-shadow), var(--tw-ring-shadow),
+          var(--tw-shadow, 0 0 #0000);
       }
-      .blur,
+      .ring-white\/20 {
+        --tw-ring-color: hsla(0, 0%, 100%, 0.2);
+      }
       .filter {
         filter: var(--tw-blur) var(--tw-brightness) var(--tw-contrast)
           var(--tw-grayscale) var(--tw-hue-rotate) var(--tw-invert)
@@ -956,27 +995,65 @@
         transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
         transition-duration: 0.15s;
       }
-      #root,
+      :root {
+        --bg: #09090b;
+        --bg-soft: #121214;
+        --bg-elev: #18181b;
+        --border: #27272a;
+        --border-strong: #3f3f46;
+        --text: #fafafa;
+        --text-muted: #a1a1aa;
+        --text-faint: #71717a;
+        --accent: #fafafa;
+        --code-bg: #101012;
+        --safe-area-inset-top: env(safe-area-inset-top, 0px);
+      }
+      @media (prefers-color-scheme: dark) {
+        :root {
+          --bg: #09090b;
+          --bg-soft: #121214;
+        }
+      }
+      * {
+        font-variant-ligatures: none;
+      }
+      html {
+        scroll-behavior: smooth;
+      }
       body,
       html {
-        min-height: 100%;
+        background: var(--bg);
       }
       body {
-        margin: 0;
+        color: var(--text);
         font-family:
-          ui-sans-serif,
-          system-ui,
-          -apple-system,
-          BlinkMacSystemFont,
-          Segoe UI,
-          sans-serif;
+          Geist Mono,
+          ui-monospace,
+          SFMono-Regular,
+          Menlo,
+          monospace;
+        -webkit-font-smoothing: antialiased;
+        text-rendering: optimizeLegibility;
       }
-      [role="button"]:not([aria-disabled="true"]),
-      button:not(:disabled),
-      label[for],
-      select:not(:disabled),
-      summary {
-        cursor: pointer;
+      .font-code,
+      code,
+      pre {
+        font-family:
+          JetBrains Mono,
+          ui-monospace,
+          SFMono-Regular,
+          monospace;
+      }
+      ::-webkit-scrollbar {
+        width: 6px;
+        height: 6px;
+      }
+      ::-webkit-scrollbar-thumb {
+        background: #27272a;
+        border-radius: 999px;
+      }
+      ::-webkit-scrollbar-track {
+        background: transparent;
       }
       .selection\:bg-white ::-moz-selection {
         --tw-bg-opacity: 1;
@@ -1018,69 +1095,75 @@
         --tw-text-opacity: 1;
         color: rgb(113 113 122 / var(--tw-text-opacity, 1));
       }
-      .hover\:border-white:hover {
+      .hover\:border-zinc-700:hover {
         --tw-border-opacity: 1;
-        border-color: rgb(255 255 255 / var(--tw-border-opacity, 1));
+        border-color: rgb(63 63 70 / var(--tw-border-opacity, 1));
       }
-      .hover\:bg-\[\#18181b\]:hover {
+      .hover\:border-zinc-800:hover {
+        --tw-border-opacity: 1;
+        border-color: rgb(39 39 42 / var(--tw-border-opacity, 1));
+      }
+      .hover\:bg-zinc-200:hover {
+        --tw-bg-opacity: 1;
+        background-color: rgb(228 228 231 / var(--tw-bg-opacity, 1));
+      }
+      .hover\:bg-zinc-900:hover {
         --tw-bg-opacity: 1;
         background-color: rgb(24 24 27 / var(--tw-bg-opacity, 1));
       }
-      .hover\:bg-white:hover {
-        --tw-bg-opacity: 1;
-        background-color: rgb(255 255 255 / var(--tw-bg-opacity, 1));
-      }
-      .hover\:text-black:hover {
+      .hover\:text-white:hover {
         --tw-text-opacity: 1;
-        color: rgb(0 0 0 / var(--tw-text-opacity, 1));
+        color: rgb(255 255 255 / var(--tw-text-opacity, 1));
       }
-      .hover\:text-zinc-100:hover {
+      .hover\:text-zinc-200:hover {
         --tw-text-opacity: 1;
-        color: rgb(244 244 245 / var(--tw-text-opacity, 1));
+        color: rgb(228 228 231 / var(--tw-text-opacity, 1));
       }
       .hover\:text-zinc-300:hover {
         --tw-text-opacity: 1;
         color: rgb(212 212 216 / var(--tw-text-opacity, 1));
       }
-      .focus\:border-zinc-600:focus {
-        --tw-border-opacity: 1;
-        border-color: rgb(82 82 91 / var(--tw-border-opacity, 1));
+      .hover\:text-zinc-400:hover {
+        --tw-text-opacity: 1;
+        color: rgb(161 161 170 / var(--tw-text-opacity, 1));
       }
-      .focus\:bg-\[\#141416\]:focus {
+      .focus\:border-zinc-700:focus {
+        --tw-border-opacity: 1;
+        border-color: rgb(63 63 70 / var(--tw-border-opacity, 1));
+      }
+      .focus\:bg-\[\#151517\]:focus {
         --tw-bg-opacity: 1;
-        background-color: rgb(20 20 22 / var(--tw-bg-opacity, 1));
+        background-color: rgb(21 21 23 / var(--tw-bg-opacity, 1));
       }
       .focus\:outline-none:focus {
         outline: 2px solid transparent;
         outline-offset: 2px;
       }
-      .group:hover .group-hover\:bg-white\/40 {
-        background-color: hsla(0, 0%, 100%, 0.4);
-      }
-      .group:hover .group-hover\:text-zinc-400 {
-        --tw-text-opacity: 1;
-        color: rgb(161 161 170 / var(--tw-text-opacity, 1));
-      }
-      @media (min-width: 768px) {
-        .md\:block {
+      @media (min-width: 640px) {
+        .sm\:block {
           display: block;
         }
+        .sm\:inline-flex {
+          display: inline-flex;
+        }
+      }
+      @media (min-width: 768px) {
         .md\:flex {
           display: flex;
+        }
+        .md\:grid-cols-2 {
+          grid-template-columns: repeat(2, minmax(0, 1fr));
         }
       }
       @media (min-width: 1024px) {
         .lg\:block {
           display: block;
         }
-        .lg\:inline {
-          display: inline;
+        .lg\:flex {
+          display: flex;
         }
         .lg\:hidden {
           display: none;
-        }
-        .lg\:p-8 {
-          padding: 2rem;
         }
         .lg\:px-6 {
           padding-left: 1.5rem;
@@ -1099,6 +1182,74 @@
           display: block;
         }
       }
+      @import "https://fonts.googleapis.com/css2?family=Geist+Mono:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap";
+      @tailwind base;
+      @tailwind components;
+      @tailwind utilities;
+      :root {
+        --bg: #09090b;
+        --bg-soft: #121214;
+        --bg-elev: #18181b;
+        --border: #27272a;
+        --border-strong: #3f3f46;
+        --text: #fafafa;
+        --text-muted: #a1a1aa;
+        --text-faint: #71717a;
+        --accent: #fafafa;
+        --code-bg: #101012;
+        --safe-area-inset-top: env(safe-area-inset-top, 0px);
+      }
+      @media (prefers-color-scheme: dark) {
+        :root {
+          --bg: #09090b;
+          --bg-soft: #121214;
+        }
+      }
+      * {
+        font-variant-ligatures: none;
+      }
+      html {
+        scroll-behavior: smooth;
+        background: var(--bg);
+      }
+      body {
+        background: var(--bg);
+        color: var(--text);
+        -webkit-font-smoothing: antialiased;
+        text-rendering: optimizeLegibility;
+        font-family:
+          Geist Mono,
+          ui-monospace,
+          SFMono-Regular,
+          Menlo,
+          monospace;
+      }
+      code,
+      pre,
+      .font-code {
+        font-family:
+          JetBrains Mono,
+          ui-monospace,
+          SFMono-Regular,
+          monospace;
+      }
+      ::-webkit-scrollbar {
+        width: 6px;
+        height: 6px;
+      }
+      ::-webkit-scrollbar-thumb {
+        background: #27272a;
+        border-radius: 999px;
+      }
+      ::-webkit-scrollbar-track {
+        background: 0 0;
+      }
+
+      /* shared additions (identical in every file) */
+      .whitespace-pre-line { white-space: pre-line; }
+      .h-1 { height: 0.25rem; }
+      .h-full { height: 100%; }
+      .ml-auto { margin-left: auto; }
     </style>
   </head>
   <body>
@@ -12176,899 +12327,457 @@ process.on('SIGTERM', async () => {
           ],
         },
       ];
-      function wm({ file: e, lang: t, code: n }) {
-        let [r, o] = he.useState(!1);
-        return N("div", {
-          className:
-            "group relative border border-[var(--border)] bg-[#0a0a0b] rounded-[8px] overflow-hidden mt-3",
+var $jx = v, $jxs = N, $R = Fc.default, $F = null;
+function $Tree({ tree: e, file: n }) {
+  return $jxs("div", {
+    className: "my-5 rounded-[10px] border border-zinc-800 bg-[#101012] overflow-hidden",
+    children: [
+      n &&
+        $jxs("div", {
+          className: "flex items-center justify-between px-4 py-2 border-b border-zinc-800 bg-[#121214]",
           children: [
-            N("div", {
-              className:
-                "flex items-center justify-between px-3 py-2 border-b border-[var(--border)] bg-[#111113]",
+            $jx("span", { className: "text-[11px] font-medium tracking-widest text-zinc-400 uppercase", children: n }),
+            $CFG.treeChip && $jx("span", { className: "text-[10px] px-1.5 py-0.5 rounded bg-zinc-800 text-zinc-400 border border-zinc-700", children: $CFG.treeChip }),
+          ],
+        }),
+      $jx("pre", { className: "p-4 text-[12.5px] leading-[1.7] text-zinc-300 overflow-x-auto font-code whitespace-pre", children: e }),
+    ],
+  });
+}
+function $Code({ lang: e, file: n, code: t }) {
+  let [r, l] = $R.useState(!1);
+  return $jxs("div", {
+    className: "my-5 rounded-[10px] border border-zinc-800 bg-[#101012] overflow-hidden group",
+    children: [
+      (n || e) &&
+        $jxs("div", {
+          className: "flex items-center justify-between px-4 py-2.5 border-b border-zinc-800 bg-[#121214]",
+          children: [
+            $jxs("div", {
+              className: "flex items-center gap-2.5",
               children: [
-                N("div", {
-                  className: "flex items-center gap-2",
-                  children: [
-                    v("div", {
-                      className:
-                        "w-2 h-2 rounded-full bg-white/20 group-hover:bg-white/40 transition-colors",
-                    }),
-                    v("span", {
-                      className:
-                        "text-[11px] font-mono tracking-widest text-zinc-400",
-                      children: e,
-                    }),
-                    v("span", {
-                      className:
-                        "text-[10px] px-1.5 py-0.5 rounded bg-white text-black font-mono font-bold uppercase",
-                      children: t,
-                    }),
-                  ],
-                }),
-                v("button", {
-                  onClick: async () => {
-                    (await navigator.clipboard.writeText(n),
-                      o(!0),
-                      setTimeout(() => o(!1), 1500));
-                  },
-                  className:
-                    "text-[11px] font-mono px-2 py-1 rounded border border-zinc-800 hover:border-white hover:bg-white hover:text-black transition-colors text-zinc-400 hover:text-black",
-                  children: r ? "COPIED" : "COPY",
-                }),
+                n && $jx("span", { className: "text-[11px] font-medium tracking-wide text-zinc-300 font-code", children: n }),
+                e && $jx("span", { className: "text-[10px] px-1.5 py-0.5 rounded bg-zinc-900 text-zinc-500 border border-zinc-800 uppercase font-medium tracking-widest", children: e }),
               ],
             }),
-            v("pre", {
-              className:
-                "p-4 overflow-x-auto text-[13px] leading-[1.6] font-mono-code scrollbar-thin",
-              children: v("code", {
-                className: "text-zinc-200 whitespace-pre",
-                children: n,
-              }),
-            }),
-          ],
-        });
-      }
-      function xm({ code: e }) {
-        return v("div", {
-          className:
-            "border border-zinc-800 bg-[#0a0a0b] rounded-[8px] p-4 font-mono-code text-[12px] leading-[1.7] text-zinc-300 overflow-x-auto",
-          children: v("pre", { children: e }),
-        });
-      }
-      function bi() {
-        let [e, t] = he.useState("01"),
-          [n, r] = he.useState(""),
-          [o, l] = he.useState(!1),
-          i = he.useRef(null),
-          s = he.useRef({}),
-          u = he.useMemo(() => {
-            if (!n) return cn;
-            let d = n.toLowerCase();
-            return cn.filter(
-              (m) =>
-                m.title.toLowerCase().includes(d) ||
-                m.id.includes(d) ||
-                m.subs.some(
-                  (h) =>
-                    h.title.toLowerCase().includes(d) ||
-                    h.file.toLowerCase().includes(d) ||
-                    h.code.toLowerCase().includes(d),
-                ),
-            );
-          }, [n]);
-        (he.useEffect(() => {
-          let d = (m) => {
-            if (m.key === "/" && !(m.target instanceof HTMLInputElement))
-              (m.preventDefault(), i.current?.focus());
-            if (m.key === "Escape") i.current?.blur();
-          };
-          return (
-            window.addEventListener("keydown", d),
-            () => window.removeEventListener("keydown", d)
-          );
-        }, []),
-          he.useEffect(() => {
-            let d = new IntersectionObserver(
-              (m) => {
-                m.forEach((h) => {
-                  if (h.isIntersecting) t(h.target.id);
-                });
+            $jxs("button", {
+              onClick: async () => {
+                await navigator.clipboard.writeText(t);
+                l(!0);
+                setTimeout(() => l(!1), 1500);
               },
-              { rootMargin: "-20% 0px -70% 0px" },
-            );
-            return (
-              Object.values(s.current).forEach((m) => {
-                if (m) d.observe(m);
-              }),
-              () => d.disconnect()
-            );
-          }, [u]));
-        let c = cn.find((d) => d.id === e);
-        return N("div", {
-          className:
-            "min-h-screen bg-[var(--bg)] text-[var(--fg)] selection:bg-white selection:text-black",
-          children: [
-            v("style", {
-              children: `
-        @import url('https://fonts.googleapis.com/css2?family=Geist+Mono:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap');
-        :root {
-          --bg: #09090b;
-          --fg: #fafafa;
-          --border: #27272a;
-          --muted: #a1a1aa;
-          --surface: #111113;
-          --amber: #f59e0b;
-        }
-        .font-mono-ui { font-family: "Geist Mono", ui-monospace, monospace; }
-        .font-mono-code { font-family: "JetBrains Mono", ui-monospace, monospace; }
-        ::-webkit-scrollbar { width: 6px; height: 6px; }
-        ::-webkit-scrollbar-thumb { background: #27272a; border-radius: 99px; }
-        ::-webkit-scrollbar-track { background: transparent; }
-      `,
-            }),
-            N("header", {
-              className:
-                "sticky top-0 z-50 border-b border-[var(--border)] bg-[var(--bg)]/90 backdrop-blur-xl",
-              style: { top: "var(--safe-area-inset-top)" },
+              className: "flex items-center gap-1.5 text-[11px] px-2.5 py-1 rounded-md bg-zinc-900 border border-zinc-800 text-zinc-400 hover:text-white hover:border-zinc-700 transition-colors",
               children: [
-                N("div", {
-                  className:
-                    "h-[56px] flex items-center justify-between px-4 lg:px-6 gap-4",
-                  children: [
-                    N("div", {
-                      className: "flex items-center gap-3 shrink-0",
-                      children: [
-                        N("div", {
-                          className: "flex items-center gap-2",
-                          children: [
-                            v("div", {
-                              className:
-                                "w-7 h-7 bg-white text-black flex items-center justify-center font-mono-ui font-bold text-[12px] rounded-[4px]",
-                              children: "B",
-                            }),
-                            v("span", {
-                              className:
-                                "font-mono-ui font-bold tracking-tighter text-[15px]",
-                              children: "BUN::BACKEND",
-                            }),
-                          ],
-                        }),
-                        N("div", {
-                          className: "hidden md:flex items-center gap-1.5",
-                          children: [
-                            v("span", {
-                              className:
-                                "px-1.5 py-0.5 text-[10px] font-mono-ui border border-zinc-700 rounded text-zinc-300",
-                              children: "NO FRAMEWORK",
-                            }),
-                            v("span", {
-                              className:
-                                "px-1.5 py-0.5 text-[10px] font-mono-ui bg-amber-500 text-black rounded font-bold",
-                              children: "ALL BUILT-INS",
-                            }),
-                            v("span", {
-                              className:
-                                "px-1.5 py-0.5 text-[10px] font-mono-ui border border-zinc-700 rounded text-zinc-300",
-                              children: "TS + DRIZZLE",
-                            }),
-                          ],
-                        }),
-                      ],
-                    }),
-                    v("div", {
-                      className: "flex-1 max-w-[520px] hidden md:block",
-                      children: N("div", {
-                        className: "relative group",
-                        children: [
-                          v("div", {
-                            className:
-                              "absolute left-3 top-1/2 -translate-y-1/2 text-zinc-500",
-                            children: N("svg", {
-                              width: "14",
-                              height: "14",
-                              viewBox: "0 0 24 24",
-                              fill: "none",
-                              stroke: "currentColor",
-                              strokeWidth: "2",
-                              children: [
-                                v("circle", { cx: "11", cy: "11", r: "8" }),
-                                v("path", { d: "m21 21-4.3-4.3" }),
-                              ],
-                            }),
-                          }),
-                          v("input", {
-                            ref: i,
-                            value: n,
-                            onChange: (d) => r(d.target.value),
-                            placeholder:
-                              "Search Bun.serve, file, password, spawn, sqlite, hash...",
-                            className:
-                              "w-full h-[36px] pl-9 pr-12 bg-[#111113] border border-zinc-800 rounded-[8px] font-mono-ui text-[13px] placeholder:text-zinc-500 focus:outline-none focus:border-zinc-600 focus:bg-[#141416] transition-colors",
-                          }),
-                          v("div", {
-                            className:
-                              "absolute right-2 top-1/2 -translate-y-1/2 flex items-center gap-1",
-                            children: v("kbd", {
-                              className:
-                                "px-1.5 py-0.5 bg-zinc-800 border border-zinc-700 rounded text-[10px] font-mono-ui text-zinc-400",
-                              children: "/",
-                            }),
-                          }),
-                        ],
-                      }),
-                    }),
-                    N("div", {
-                      className: "flex items-center gap-2 shrink-0",
-                      children: [
-                        v("span", {
-                          className:
-                            "hidden lg:inline font-mono-ui text-[11px] px-2 py-1 rounded bg-white text-black font-bold",
-                          children: "bun 1.1",
-                        }),
-                        v("span", {
-                          className:
-                            "hidden lg:inline font-mono-ui text-[11px] text-zinc-500",
-                          children: "FULL OS",
-                        }),
-                        v("button", {
-                          onClick: () => l(!o),
-                          className:
-                            "lg:hidden w-8 h-8 flex items-center justify-center border border-zinc-800 rounded",
-                          children: N("svg", {
-                            width: "14",
-                            height: "14",
-                            viewBox: "0 0 24 24",
-                            fill: "none",
-                            stroke: "currentColor",
-                            strokeWidth: "2",
-                            children: [
-                              v("line", {
-                                x1: "3",
-                                y1: "6",
-                                x2: "21",
-                                y2: "6",
-                              }),
-                              v("line", {
-                                x1: "3",
-                                y1: "12",
-                                x2: "21",
-                                y2: "12",
-                              }),
-                              v("line", {
-                                x1: "3",
-                                y1: "18",
-                                x2: "21",
-                                y2: "18",
-                              }),
-                            ],
-                          }),
-                        }),
-                      ],
-                    }),
-                  ],
-                }),
-                o &&
-                  N("div", {
-                    className:
-                      "lg:hidden border-t border-zinc-800 p-3 bg-[#0a0a0b]",
-                    children: [
-                      v("input", {
-                        value: n,
-                        onChange: (d) => r(d.target.value),
-                        placeholder: "Search...",
-                        className:
-                          "w-full h-[40px] px-3 bg-[#111113] border border-zinc-800 rounded-[8px] font-mono-ui text-[13px]",
-                      }),
-                      v("div", {
-                        className: "mt-3 max-h-[60vh] overflow-auto space-y-1",
-                        children: u.map((d) =>
-                          N(
-                            "a",
-                            {
-                              href: `#${d.id}`,
-                              onClick: () => l(!1),
-                              className: `flex items-center gap-2 px-3 py-2 rounded text-[13px] font-mono-ui ${e === d.id ? "bg-white text-black" : "text-zinc-400"}`,
-                              children: [
-                                v("span", {
-                                  className: "text-[11px] opacity-60",
-                                  children: d.num,
-                                }),
-                                d.title,
-                              ],
-                            },
-                            d.id,
-                          ),
-                        ),
-                      }),
-                    ],
-                  }),
-              ],
-            }),
-            N("div", {
-              className: "flex",
-              children: [
-                v("aside", {
-                  className:
-                    "hidden lg:block w-[300px] shrink-0 sticky self-start top-[56px] h-[calc(100vh-56px)] overflow-y-auto border-r border-[var(--border)] bg-[#0a0a0b]",
-                  children: N("div", {
-                    className: "p-4",
-                    children: [
-                      v("div", {
-                        className: "space-y-6",
-                        children: [
-                          {
-                            label: "BEGINNER",
-                            range: ["01", "07"],
-                            items: cn.filter((d) =>
-                              ["BEGINNER"].includes(d.level),
-                            ),
-                          },
-                          {
-                            label: "STRUCTURE CORE",
-                            pill: "STRUCT",
-                            items: cn.filter((d) => d.level === "STRUCTURE"),
-                          },
-                          {
-                            label: "BUN BUILT-INS",
-                            pill: "BUN",
-                            pillColor: "amber",
-                            items: cn.filter((d) => d.level === "BUN"),
-                          },
-                        ].map((d) =>
-                          N(
-                            "div",
-                            {
-                              children: [
-                                N("div", {
-                                  className:
-                                    "flex items-center gap-2 mb-3 px-2",
-                                  children: [
-                                    v("span", {
-                                      className:
-                                        "text-[11px] font-mono-ui font-bold tracking-widest text-zinc-500",
-                                      children: d.label,
-                                    }),
-                                    d.pill &&
-                                      v("span", {
-                                        className: `text-[9px] font-mono-ui px-1 py-0.5 rounded font-bold ${d.pillColor === "amber" ? "bg-amber-500 text-black" : "bg-white text-black"}`,
-                                        children: d.pill,
-                                      }),
-                                    v("div", {
-                                      className: "flex-1 h-px bg-zinc-800",
-                                    }),
-                                  ],
-                                }),
-                                v("div", {
-                                  className: "space-y-0.5",
-                                  children: d.items.map((m) => {
-                                    let h = e === m.id;
-                                    if (!u.some((x) => x.id === m.id) && n)
-                                      return null;
-                                    return N(
-                                      "a",
-                                      {
-                                        href: `#${m.id}`,
-                                        onClick: () => t(m.id),
-                                        className: `group flex items-center gap-3 px-2.5 py-2 rounded-[6px] font-mono-ui text-[13px] transition-all ${h ? "bg-white text-black font-medium" : "text-zinc-400 hover:text-zinc-100 hover:bg-[#18181b]"}`,
-                                        children: [
-                                          v("span", {
-                                            className: `text-[11px] font-mono-code w-6 ${h ? "text-black/60" : "text-zinc-600 group-hover:text-zinc-400"}`,
-                                            children: m.num,
-                                          }),
-                                          v("span", {
-                                            className: "truncate",
-                                            children: m.title,
-                                          }),
-                                          h &&
-                                            v("span", {
-                                              className:
-                                                "ml-auto w-1 h-1 rounded-full bg-black",
-                                            }),
-                                        ],
-                                      },
-                                      m.id,
-                                    );
-                                  }),
-                                }),
-                              ],
-                            },
-                            d.label,
-                          ),
-                        ),
-                      }),
-                      N("div", {
-                        className:
-                          "mt-8 p-3 rounded-[8px] border border-zinc-800 bg-[#111113]",
-                        children: [
-                          v("div", {
-                            className:
-                              "text-[11px] font-mono-ui font-bold text-zinc-300 mb-1",
-                            children: "PROD CHECKLIST",
-                          }),
-                          N("div", {
-                            className:
-                              "space-y-1.5 text-[11px] font-mono-ui text-zinc-500",
-                            children: [
-                              N("div", {
-                                className: "flex gap-2",
-                                children: [
-                                  v("span", {
-                                    className: "text-white",
-                                    children: "✓",
-                                  }),
-                                  " reusePort + SIGTERM",
-                                ],
-                              }),
-                              N("div", {
-                                className: "flex gap-2",
-                                children: [
-                                  v("span", {
-                                    className: "text-white",
-                                    children: "✓",
-                                  }),
-                                  " Bun.password not bcryptjs",
-                                ],
-                              }),
-                              N("div", {
-                                className: "flex gap-2",
-                                children: [
-                                  v("span", {
-                                    className: "text-white",
-                                    children: "✓",
-                                  }),
-                                  " Bun.file zero-copy",
-                                ],
-                              }),
-                              N("div", {
-                                className: "flex gap-2",
-                                children: [
-                                  v("span", {
-                                    className: "text-white",
-                                    children: "✓",
-                                  }),
-                                  " bun:sqlite WAL cache",
-                                ],
-                              }),
-                              N("div", {
-                                className: "flex gap-2",
-                                children: [
-                                  v("span", {
-                                    className: "text-white",
-                                    children: "✓",
-                                  }),
-                                  " CryptoHasher ETag",
-                                ],
-                              }),
-                            ],
-                          }),
-                        ],
-                      }),
-                    ],
-                  }),
-                }),
-                v("main", {
-                  className: "flex-1 min-w-0",
-                  children: N("div", {
-                    className: "max-w-[800px] mx-auto px-4 lg:px-8 py-8",
-                    children: [
-                      N("div", {
-                        className:
-                          "mb-12 border border-zinc-800 rounded-[12px] overflow-hidden bg-[#111113]",
-                        children: [
-                          N("div", {
-                            className: "p-6 lg:p-8",
-                            children: [
-                              N("div", {
-                                className:
-                                  "inline-flex items-center gap-2 px-2.5 py-1 rounded-full bg-white text-black text-[11px] font-mono-ui font-bold mb-4",
-                                children: [
-                                  v("span", {
-                                    className:
-                                      "w-1.5 h-1.5 rounded-full bg-black animate-pulse",
-                                  }),
-                                  " FULL PRODUCTION OS — SINGLE HTML",
-                                ],
-                              }),
-                              N("h1", {
-                                className:
-                                  "font-mono-ui font-bold text-[28px] lg:text-[36px] leading-[0.9] tracking-tighter",
-                                children: [
-                                  "BACKEND WITH",
-                                  v("br", {}),
-                                  v("span", {
-                                    className: "text-zinc-500",
-                                    children: "BUNJS",
-                                  }),
-                                  " WITHOUT",
-                                  v("br", {}),
-                                  "FRAMEWORK",
-                                ],
-                              }),
-                              N("p", {
-                                className:
-                                  "mt-4 text-[14px] leading-[1.6] text-zinc-400 font-mono-ui max-w-[520px]",
-                                children: [
-                                  "No Express. No Fastify. Just ",
-                                  v("span", {
-                                    className: "text-white",
-                                    children: "Bun.serve",
-                                  }),
-                                  ", Web API, ",
-                                  v("span", {
-                                    className: "text-white",
-                                    children: "Drizzle ORM",
-                                  }),
-                                  " and every Bun built-in used in production.",
-                                  v("br", {}),
-                                  "23 modules, 5ms cold start, 95k rps.",
-                                ],
-                              }),
-                              v("div", {
-                                className: "mt-6 flex flex-wrap gap-2",
-                                children: [
-                                  "Bun.serve",
-                                  "Bun.file",
-                                  "Bun.password",
-                                  "Bun.spawn",
-                                  "bun:sqlite",
-                                  "Bun.hash",
-                                  "WebSocket",
-                                  "Workers",
-                                ].map((d) =>
-                                  v(
-                                    "span",
-                                    {
-                                      className:
-                                        "px-2 py-1 rounded bg-[#1a1a1d] border border-zinc-800 text-[11px] font-mono-ui text-zinc-300",
-                                      children: d,
-                                    },
-                                    d,
-                                  ),
-                                ),
-                              }),
-                            ],
-                          }),
-                          N("div", {
-                            className:
-                              "grid grid-cols-3 divide-x divide-zinc-800 border-t border-zinc-800 bg-[#0a0a0b] text-center",
-                            children: [
-                              N("div", {
-                                className: "py-3",
-                                children: [
-                                  v("div", {
-                                    className:
-                                      "font-mono-ui font-bold text-[18px]",
-                                    children: "95k",
-                                  }),
-                                  v("div", {
-                                    className:
-                                      "text-[10px] text-zinc-500 font-mono-ui",
-                                    children: "RPS",
-                                  }),
-                                ],
-                              }),
-                              N("div", {
-                                className: "py-3",
-                                children: [
-                                  v("div", {
-                                    className:
-                                      "font-mono-ui font-bold text-[18px]",
-                                    children: "5ms",
-                                  }),
-                                  v("div", {
-                                    className:
-                                      "text-[10px] text-zinc-500 font-mono-ui",
-                                    children: "COLD START",
-                                  }),
-                                ],
-                              }),
-                              N("div", {
-                                className: "py-3",
-                                children: [
-                                  v("div", {
-                                    className:
-                                      "font-mono-ui font-bold text-[18px]",
-                                    children: "0",
-                                  }),
-                                  v("div", {
-                                    className:
-                                      "text-[10px] text-zinc-500 font-mono-ui",
-                                    children: "DEPS FOR CORE",
-                                  }),
-                                ],
-                              }),
-                            ],
-                          }),
-                        ],
-                      }),
-                      v("div", {
-                        className: "space-y-16",
-                        children: u.map((d) =>
-                          N(
-                            "section",
-                            {
-                              id: d.id,
-                              ref: (m) => {
-                                s.current[d.id] = m;
-                              },
-                              className: "scroll-mt-[80px]",
-                              children: [
-                                N("div", {
-                                  className: "flex items-start gap-4 mb-4",
-                                  children: [
-                                    N("div", {
-                                      className:
-                                        "shrink-0 w-12 h-12 rounded-[8px] bg-white text-black flex flex-col items-center justify-center font-mono-ui font-bold leading-none",
-                                      children: [
-                                        v("span", {
-                                          className: "text-[14px]",
-                                          children: d.num,
-                                        }),
-                                        v("span", {
-                                          className: "text-[9px] opacity-60",
-                                          children: d.level,
-                                        }),
-                                      ],
-                                    }),
-                                    N("div", {
-                                      className: "min-w-0",
-                                      children: [
-                                        v("h2", {
-                                          className:
-                                            "font-mono-ui font-bold text-[20px] tracking-tight leading-none",
-                                          children: d.title,
-                                        }),
-                                        N("div", {
-                                          className:
-                                            "mt-2 flex items-center gap-2",
-                                          children: [
-                                            v("span", {
-                                              className: `text-[10px] px-1.5 py-0.5 rounded font-bold font-mono-ui ${d.level === "BUN" ? "bg-amber-500 text-black" : d.level === "STRUCTURE" ? "bg-white text-black" : "bg-zinc-800 text-zinc-300"}`,
-                                              children: d.level,
-                                            }),
-                                            N("span", {
-                                              className:
-                                                "text-[11px] font-mono-ui text-zinc-500",
-                                              children: [
-                                                d.subs.length,
-                                                " code blocks",
-                                              ],
-                                            }),
-                                          ],
-                                        }),
-                                      ],
-                                    }),
-                                  ],
-                                }),
-                                N("div", {
-                                  className:
-                                    "border-l-2 border-white pl-4 py-3 bg-[#111113] rounded-r-[8px] mb-6",
-                                  children: [
-                                    v("div", {
-                                      className:
-                                        "text-[11px] font-mono-ui font-bold tracking-widest text-white mb-1",
-                                      children: "WHY IN PRODUCTION",
-                                    }),
-                                    v("p", {
-                                      className:
-                                        "text-[13px] leading-[1.6] text-zinc-300 font-mono-ui",
-                                      children: d.why,
-                                    }),
-                                  ],
-                                }),
-                                v("div", {
-                                  className: "space-y-10",
-                                  children: d.subs.map((m, h) =>
-                                    N(
-                                      "div",
-                                      {
-                                        children: [
-                                          v("h3", {
-                                            className:
-                                              "font-mono-ui font-semibold text-[14px] text-white",
-                                            children: m.title,
-                                          }),
-                                          v("p", {
-                                            className:
-                                              "mt-1 text-[13px] text-zinc-400 font-mono-ui leading-[1.5]",
-                                            children: m.desc,
-                                          }),
-                                          m.file === "tree"
-                                            ? v("div", {
-                                                className: "mt-3",
-                                                children: v(xm, {
-                                                  code: m.code,
-                                                }),
-                                              })
-                                            : v(wm, {
-                                                file: m.file,
-                                                lang: m.lang,
-                                                code: m.code,
-                                              }),
-                                        ],
-                                      },
-                                      h,
-                                    ),
-                                  ),
-                                }),
-                                v("div", {
-                                  className: "mt-8 h-px bg-zinc-800",
-                                }),
-                              ],
-                            },
-                            d.id,
-                          ),
-                        ),
-                      }),
-                      N("div", {
-                        className:
-                          "mt-16 p-6 rounded-[12px] border border-zinc-800 bg-[#111113] text-center",
-                        children: [
-                          v("div", {
-                            className: "font-mono-ui font-bold text-[14px]",
-                            children: "END OF OS — 23 MODULES",
-                          }),
-                          v("div", {
-                            className:
-                              "text-[12px] font-mono-ui text-zinc-500 mt-2",
-                            children:
-                              "Copy any block. Paste into src/. bun run src/index.ts — production.",
-                          }),
-                          N("div", {
-                            className: "mt-4 inline-flex gap-2",
-                            children: [
-                              v("span", {
-                                className:
-                                  "px-3 py-1.5 rounded bg-white text-black font-mono-ui text-[12px] font-bold",
-                                children: "bun run dev — 5ms",
-                              }),
-                              v("span", {
-                                className:
-                                  "px-3 py-1.5 rounded border border-zinc-700 text-zinc-400 font-mono-ui text-[12px]",
-                                children: "Download as single HTML",
-                              }),
-                            ],
-                          }),
-                        ],
-                      }),
-                    ],
-                  }),
-                }),
-                v("aside", {
-                  className:
-                    "hidden xl:block w-[240px] shrink-0 sticky self-start top-[56px] h-[calc(100vh-56px)] overflow-y-auto border-l border-[var(--border)] bg-[#0a0a0b]",
-                  children: N("div", {
-                    className: "p-4 space-y-8",
-                    children: [
-                      N("div", {
-                        children: [
-                          v("div", {
-                            className:
-                              "text-[11px] font-mono-ui font-bold tracking-widest text-zinc-500 mb-3",
-                            children: "ON THIS PAGE",
-                          }),
-                          N("div", {
-                            className: "space-y-1",
-                            children: [
-                              u
-                                .slice(0, 12)
-                                .map((d) =>
-                                  N(
-                                    "a",
-                                    {
-                                      href: `#${d.id}`,
-                                      className: `block text-[12px] font-mono-ui truncate py-1 pl-3 border-l ${e === d.id ? "border-white text-white" : "border-zinc-800 text-zinc-500 hover:text-zinc-300"}`,
-                                      children: [d.num, " ", d.title],
-                                    },
-                                    d.id,
-                                  ),
-                                ),
-                              u.length > 12 &&
-                                N("div", {
-                                  className:
-                                    "text-[11px] font-mono-ui text-zinc-600 pl-3",
-                                  children: ["+", u.length - 12, " more"],
-                                }),
-                            ],
-                          }),
-                        ],
-                      }),
-                      c &&
-                        N("div", {
-                          className:
-                            "rounded-[8px] border border-amber-900/50 bg-amber-950/20 p-3",
-                          children: [
-                            N("div", {
-                              className: "flex items-center gap-2 mb-2",
-                              children: [
-                                v("div", {
-                                  className:
-                                    "w-1.5 h-1.5 rounded-full bg-amber-500",
-                                }),
-                                v("span", {
-                                  className:
-                                    "text-[11px] font-mono-ui font-bold tracking-widest text-amber-500",
-                                  children: "PROD TIP",
-                                }),
-                              ],
-                            }),
-                            v("p", {
-                              className:
-                                "text-[12px] leading-[1.5] font-mono-ui text-amber-100/80",
-                              children: c.prodTip,
-                            }),
-                          ],
-                        }),
-                      N("div", {
-                        className:
-                          "rounded-[8px] border border-zinc-800 bg-[#111113] p-3",
-                        children: [
-                          v("div", {
-                            className:
-                              "text-[11px] font-mono-ui font-bold text-zinc-300 mb-2",
-                            children: "BUN BUILT-INS COVERAGE",
-                          }),
-                          v("div", {
-                            className: "space-y-2",
-                            children: [
-                              { k: "Bun.serve", v: "16,23" },
-                              { k: "Bun.file/write", v: "17,23" },
-                              { k: "Bun.password", v: "18,11" },
-                              { k: "Bun.spawn/$", v: "19" },
-                              { k: "bun:sqlite", v: "20,23" },
-                              { k: "CryptoHasher", v: "21,23" },
-                              { k: "sleep/which/semver", v: "22" },
-                              { k: "TCP/Workers", v: "22" },
-                            ].map((d) =>
-                              N(
-                                "div",
-                                {
-                                  className:
-                                    "flex justify-between text-[11px] font-mono-ui",
-                                  children: [
-                                    v("span", {
-                                      className: "text-zinc-500",
-                                      children: d.k,
-                                    }),
-                                    v("span", {
-                                      className: "text-zinc-300",
-                                      children: d.v,
-                                    }),
-                                  ],
-                                },
-                                d.k,
-                              ),
-                            ),
-                          }),
-                        ],
-                      }),
-                      N("div", {
-                        className:
-                          "text-[11px] font-mono-ui text-zinc-600 leading-[1.5]",
-                        children: [
-                          "Dark mode default.",
-                          v("br", {}),
-                          "JetBrains Mono for code,",
-                          v("br", {}),
-                          "Geist Mono for UI.",
-                          v("br", {}),
-                          v("br", {}),
-                          v("span", {
-                            className: "text-zinc-400",
-                            children: "Press / to search",
-                          }),
-                        ],
-                      }),
-                    ],
-                  }),
-                }),
+                $jx("span", { className: "w-3 h-3 flex items-center justify-center", children: r ? "✓" : "⎙" }),
+                r ? ($CFG.copy ? $CFG.copy[1] : "Copied") : ($CFG.copy ? $CFG.copy[0] : "Copy"),
               ],
             }),
           ],
-        });
-      }
+        }),
+      $jx("pre", { className: "p-4 text-[12.5px] leading-[1.65] text-zinc-200 overflow-x-auto font-code", children: $jx("code", { children: t }) }),
+    ],
+  });
+}
+function $Note({ kind: k, title: t, children: c }) {
+  let box = "border-zinc-800 bg-[#121214]", dot = "bg-white text-black", head = "text-zinc-200", body = "text-zinc-400";
+  return $jxs("div", {
+    className: `my-6 rounded-[10px] border ${box} p-4 flex gap-3`,
+    children: [
+      $jx("div", { className: `shrink-0 w-6 h-6 rounded-full ${dot} flex items-center justify-center text-[11px] font-bold`, children: "!" }),
+      $jxs("div", {
+        children: [
+          t && $jx("div", { className: `text-[11px] font-bold tracking-widest ${head} mb-1`, children: t }),
+          $jx("div", { className: `text-[12.5px] leading-[1.6] ${body}`, children: c }),
+        ],
+      }),
+    ],
+  });
+}
+function $Block({ b: m }) {
+  if (m.type === "para") return $jx("p", { className: "text-[13.5px] leading-[1.7] text-zinc-300" + (m.pre ? " whitespace-pre-line" : ""), children: m.text });
+  if (m.type === "h3")
+    return m.eyebrow
+      ? $jxs("div", { id: m.id, className: "scroll-mt-[80px] mt-6 mb-3", children: [$jx("div", { className: "mb-1 text-[10px] tracking-widest text-zinc-500", children: m.eyebrow }), $jx("div", { className: "text-[11px] font-bold tracking-widest text-zinc-200", children: m.text })] })
+      : $jx("div", { id: m.id, className: "scroll-mt-[80px] mt-6 mb-3 text-[11px] font-bold tracking-widest text-zinc-200", children: m.text });
+  if (m.type === "chips")
+    return $jx("div", {
+      className: "my-4 flex flex-wrap gap-2",
+      children: m.items.map((R, c) => $jx("span", { className: "text-[11px] px-2.5 py-1 rounded-full bg-zinc-900 border border-zinc-800 text-zinc-400", children: R }, c)),
+    });
+  if (m.type === "list")
+    return $jx("ul", {
+      className: "my-4 space-y-1.5",
+      children: m.items.map((R, c) =>
+        $jxs("li", {
+          className: "flex gap-2.5 text-[13px] leading-[1.6] text-zinc-400",
+          children: [$jx("span", { className: "text-zinc-600 mt-0.5", children: "—" }), $jx("span", { children: R })],
+        }, c)),
+    });
+  if (m.type === "table")
+    return $jx("div", {
+      className: "my-5 overflow-hidden rounded-[10px] border border-zinc-800",
+      children: $jxs("table", {
+        className: "w-full text-[12.5px]",
+        children: [
+          $jx("thead", {
+            className: "bg-[#121214] border-b border-zinc-800",
+            children: $jx("tr", {
+              children: m.headers.map((R, i) => $jx("th", { className: "text-left px-4 py-2.5 font-medium text-zinc-400 tracking-wide uppercase text-[11px]", children: R }, i)),
+            }),
+          }),
+          $jx("tbody", {
+            className: "divide-y divide-zinc-800/60",
+            children: m.rows.map((R, c) =>
+              $jx("tr", {
+                className: "bg-[#101012]",
+                children: R.map((a, d) => $jx("td", { className: "px-4 py-2.5 text-zinc-300 font-code", children: a }, d)),
+              }, c)),
+          }),
+        ],
+      }),
+    });
+  if (m.type === "fileTree") return $jx($Tree, { tree: m.tree, file: m.file });
+  if (m.type === "code") return $jx($Code, { lang: m.lang, file: m.file, code: m.code });
+  if (m.type === "tip") return $jx($Note, { kind: "tip", title: m.title || $CFG.tipDefault, children: m.text });
+  if (m.type === "warn") return $jx($Note, { kind: "warn", title: m.title, children: m.text });
+  if (m.type === "perf") return $jx($Note, { kind: "perf", title: m.title, children: m.text });
+  if (m.type === "badgood")
+    return $jxs("div", {
+      className: "my-6 grid md:grid-cols-2 gap-3",
+      children: [
+        $jxs("div", {
+          className: "rounded-[10px] border border-red-900/50 bg-[#181012] overflow-hidden",
+          children: [
+            $jx("div", { className: "px-3 py-2 border-b border-red-900/30 bg-red-950/30 text-[11px] font-bold tracking-widest text-red-300", children: m.bad.file }),
+            $jx("pre", { className: "p-3 text-[11.5px] leading-[1.6] text-red-200/80 font-code overflow-x-auto", children: m.bad.code }),
+          ],
+        }),
+        $jxs("div", {
+          className: "rounded-[10px] border border-emerald-900/50 bg-[#101815] overflow-hidden",
+          children: [
+            $jx("div", { className: "px-3 py-2 border-b border-emerald-900/30 bg-emerald-950/30 text-[11px] font-bold tracking-widest text-emerald-300", children: m.good.file }),
+            $jx("pre", { className: "p-3 text-[11.5px] leading-[1.6] text-emerald-200/80 font-code overflow-x-auto", children: m.good.code }),
+          ],
+        }),
+      ],
+    });
+  return null;
+}
+function $Box({ title: t, children: c, mb: mb }) {
+  return $jxs("div", {
+    className: "rounded-[10px] border border-zinc-800 bg-[#121214] p-3" + (mb ? " mb-4" : ""),
+    children: [$jx("div", { className: "text-[11px] font-bold tracking-widest text-zinc-300 mb-2", children: t }), c],
+  });
+}
+function $blockText(b) {
+  let o = [];
+  for (let k in b) { let v = b[k]; if (typeof v === "string") o.push(v); else if (Array.isArray(v)) v.forEach((x) => (typeof x === "string" ? o.push(x) : Array.isArray(x) && x.forEach((y) => typeof y === "string" && o.push(y)))); else if (v && typeof v === "object") o.push($blockText(v)); }
+  return o.join(" ");
+}
+function $App() {
+  let C = $CFG, S0 = $SECTIONS;
+  let [e, n] = $R.useState(""),
+    [t, r] = $R.useState(S0[0].id),
+    [l, o] = $R.useState(C.action ? C.action.label : ""),
+    [u, i] = $R.useState(""),
+    [pr, setPr] = $R.useState(0),
+    s = $R.useRef(null),
+    f = $R.useRef(null),
+    h = $R.useMemo(() => {
+      if (!e.trim()) return S0;
+      let p = e.toLowerCase();
+      return S0.filter((m) => m.title.toLowerCase().includes(p) || (m.summary || "").toLowerCase().includes(p) || (m.meta || []).some((q) => String(q).toLowerCase().includes(p)) || m.blocks.some((b) => $blockText(b).toLowerCase().includes(p)));
+    }, [e]);
+  ($R.useEffect(() => {
+    let p = (m) => {
+      if (m.key === "/" && document.activeElement?.tagName !== "INPUT") (m.preventDefault(), s.current?.focus());
+    };
+    window.addEventListener("keydown", p);
+    return () => window.removeEventListener("keydown", p);
+  }, []),
+    $R.useEffect(() => {
+      if (!C.progress) return;
+      let q = () => { let c = document.documentElement, p = (c.scrollTop / (c.scrollHeight - c.clientHeight)) * 100; setPr(isNaN(p) ? 0 : p); };
+      window.addEventListener("scroll", q, { passive: !0 });
+      return () => window.removeEventListener("scroll", q);
+    }, []),
+    $R.useEffect(() => {
+      let p = new IntersectionObserver(
+        (m) => { m.forEach((S) => { if (S.isIntersecting) r(S.target.id); }); },
+        { rootMargin: "-20% 0px -70% 0px", threshold: 0 },
+      );
+      S0.forEach((m) => { let S = document.getElementById(m.id); if (S) p.observe(S); });
+      return () => p.disconnect();
+    }, []));
+  let y = (p) => {
+      r(p);
+      let m = document.getElementById(p);
+      if (m) (m.scrollIntoView({ behavior: "smooth", block: "start" }), m.classList.add("ring-1", "ring-white/20"), setTimeout(() => m.classList.remove("ring-1", "ring-white/20"), 800));
+      try { history.replaceState(null, "", `#${p}`); } catch {}
+    },
+    v = S0.find((p) => p.id === t) || S0[0],
+    groups = C.groups || [],
+    api = { progress: pr, query: e, setQuery: n, active: t, go: y, action: l, setAction: o, toast: u, setToast: i, current: v, sections: S0, visible: h };
+  return $jxs("div", {
+    className: "min-h-screen bg-[#09090b] text-zinc-100 selection:bg-white selection:text-black",
+    style: { paddingTop: "var(--safe-area-inset-top)" },
+    children: [
+      $jxs("header", {
+        className: "sticky z-40 border-b border-zinc-800 bg-[#09090b]/90 backdrop-blur-xl",
+        style: { top: "var(--safe-area-inset-top)" },
+        children: [
+          $jxs("div", {
+            className: "flex h-[56px] items-center justify-between px-4 lg:px-6 gap-4",
+            children: [
+              $jxs("div", {
+                className: "flex items-center gap-4 shrink-0",
+                children: [
+                  $jxs("div", {
+                    className: "flex items-center gap-2",
+                    children: [
+                      $jx("span", { className: "font-bold tracking-[-0.02em] text-[14px]", children: C.brand }),
+                      C.badge && $jx("span", { className: "hidden sm:inline-flex items-center gap-1.5 text-[10px] px-2 py-0.5 rounded-full bg-white text-black font-bold tracking-widest", children: C.badge }),
+                    ],
+                  }),
+                  C.tags && $jx("div", {
+                    className: "hidden md:flex items-center gap-2",
+                    children: (typeof C.tags === "function" ? C.tags(api) : C.tags).map((p) => $jx("span", { className: "text-[10px] px-2 py-1 rounded bg-zinc-900 border border-zinc-800 text-zinc-300 tracking-widest font-medium", children: p }, p)),
+                  }),
+                ],
+              }),
+              $jx("div", {
+                className: "flex-1 max-w-[560px] hidden lg:flex items-center",
+                children: $jxs("div", {
+                  className: "relative w-full",
+                  children: [
+                    $jx("span", { className: "absolute left-3 top-1/2 -translate-y-1/2 text-zinc-500 text-[12px]", children: "⌕" }),
+                    $jx("input", {
+                      ref: s, value: e, onChange: (p) => n(p.target.value), placeholder: C.placeholder,
+                      className: "w-full h-[36px] pl-8 pr-[48px] rounded-[8px] bg-[#121214] border border-zinc-800 text-[13px] placeholder:text-zinc-500 focus:outline-none focus:border-zinc-700 focus:bg-[#151517] transition-colors",
+                    }),
+                    e && C.clearLabel
+                      ? $jx("button", { onClick: () => n(""), className: "absolute right-2 top-1/2 -translate-y-1/2 h-[22px] px-1.5 rounded-[5px] bg-zinc-800 border border-zinc-700 text-[11px] text-zinc-400 flex items-center", children: C.clearLabel })
+                      : $jx("kbd", { className: "absolute right-2 top-1/2 -translate-y-1/2 h-[22px] px-1.5 rounded-[5px] bg-zinc-800 border border-zinc-700 text-[11px] text-zinc-400 flex items-center", children: "/" }),
+                  ],
+                }),
+              }),
+              C.headerRight && $jxs("div", { className: "flex items-center gap-3 shrink-0", children: C.headerRight(api) }),
+            ],
+          }),
+          u && $jx("div", { className: "px-4 lg:px-6 pb-2 text-[11px] text-emerald-400 font-code", children: u }),
+          C.headerExtra && $jx("div", { className: "px-4 lg:px-6 pb-2 flex flex-wrap gap-2", children: C.headerExtra(api) }),
+          (e && C.status) ? $jx("div", { className: "px-4 lg:px-6 pb-2 text-[11px] text-zinc-500 font-code", children: C.status(api) }) : null,
+          $jx("div", {
+            className: "lg:hidden px-4 pb-3",
+            children: $jxs("div", {
+              className: "relative",
+              children: [
+                $jx("span", { className: "absolute left-3 top-1/2 -translate-y-1/2 text-zinc-500 text-[12px]", children: "⌕" }),
+                $jx("input", {
+                  value: e, onChange: (p) => n(p.target.value), placeholder: C.placeholderMobile || C.placeholder,
+                  className: "w-full h-[36px] pl-8 pr-3 rounded-[8px] bg-[#121214] border border-zinc-800 text-[13px] placeholder:text-zinc-500 focus:outline-none focus:border-zinc-700",
+                }),
+              ],
+            }),
+          }),
+        ],
+      }),
+      $jxs("div", {
+        className: "flex max-w-[1680px] mx-auto",
+        children: [
+          $jx("aside", {
+            className: "hidden lg:block w-[280px] shrink-0 sticky top-[56px] h-[calc(100vh-56px)] overflow-y-auto border-r border-zinc-800 bg-[#09090b]",
+            children: $jxs("div", {
+              className: "p-4 space-y-6",
+              children: [
+                C.sidebarHead && C.sidebarHead(api),
+                groups.map((p) => { let list = h.filter((m) => p.test(m)); if (p.hideEmpty && list.length === 0) return null; return (
+                  $jxs("div", {
+                    children: [
+                      $jxs("div", {
+                        className: "flex items-center justify-between mb-3 px-2",
+                        children: [
+                          $jx("span", { className: "text-[11px] font-bold tracking-[0.14em] text-zinc-500", children: p.label }),
+                          (() => { let tg = typeof p.tag === "function" ? p.tag(list) : p.tag; if (tg == null) return null; if (!Array.isArray(tg)) return $jx("span", { className: "text-[9px] px-1.5 py-0.5 rounded bg-zinc-900 border border-zinc-800 text-zinc-500 tracking-widest", children: tg }); let arr = tg; return $jx("div", { className: "flex items-center gap-1.5", children: arr.map((x, xi) => $jx("span", { className: "text-[9px] px-1.5 py-0.5 rounded bg-zinc-900 border border-zinc-800 text-zinc-500 tracking-widest", children: x }, xi)) }); })(),
+                        ],
+                      }),
+                      $jx("div", {
+                        className: "space-y-0.5",
+                        children: [list.map((m) => {
+                          let S = t === m.id;
+                          return $jxs("button", {
+                            onClick: () => y(m.id),
+                            className: `w-full text-left flex items-center gap-3 px-2.5 py-2 rounded-[7px] text-[13px] transition-all border ${S ? "bg-white text-black border-white font-medium" : "border-transparent text-zinc-400 hover:text-zinc-200 hover:bg-zinc-900 hover:border-zinc-800"}`,
+                            children: [
+                              $jx("span", { className: `text-[11px] font-code tracking-wide ${S ? "text-zinc-700" : "text-zinc-600"}`, children: m.num }),
+                              $jx("span", { className: "truncate leading-tight", children: m.title }),
+                              m.side != null && $jx("span", { className: "ml-auto text-[10px] font-code text-zinc-600", children: m.side }),
+                            ],
+                          }, m.id);
+                        }), list.length === 0 && p.empty && $jx("div", { className: "px-2.5 py-2 text-[12px] text-zinc-600", children: p.empty })],
+                      }),
+                    ],
+                  }, p.label)); }),
+                C.sidebarBox && $jx("div", { className: "pt-4 border-t border-zinc-800", children: C.sidebarBox(api) }),
+              ],
+            }),
+          }),
+          $jx("main", {
+            ref: f,
+            className: "flex-1 min-w-0",
+            children: $jxs("div", {
+              className: "max-w-3xl mx-auto px-5 lg:px-8 py-10",
+              children: [
+                C.hero && $jxs("div", {
+                  className: "mb-12 pb-8 border-b border-zinc-800",
+                  children: [
+                    C.hero.badges && $jxs("div", {
+                      className: "flex items-center gap-2 mb-4",
+                      children: [
+                        C.hero.badges[0] && $jx("span", { className: "text-[10px] px-2 py-1 rounded-full bg-white text-black font-bold tracking-widest", children: C.hero.badges[0] }),
+                        C.hero.badges.slice(1).map((q, qi) => $jx("span", { className: "text-[10px] px-2 py-1 rounded-full border border-zinc-800 text-zinc-500 tracking-widest", children: q }, qi)),
+                      ],
+                    }),
+                    $jx("h1", { className: "text-[30px] lg:text-[36px] font-bold tracking-[-0.03em] leading-[1.05]", children: C.hero.title }),
+                    C.hero.desc && $jx("p", { className: "mt-4 text-[14px] leading-[1.6] text-zinc-400 max-w-[60ch]", children: C.hero.desc }),
+                    C.hero.stats && $jx("div", {
+                      className: "mt-6 flex flex-wrap gap-3",
+                      children: C.hero.stats.map((q, qi) => $jx($Box, { title: q[0], children: $jx("div", { className: "text-[12px] leading-[1.5] text-zinc-400", children: q[1] }) }, qi)),
+                    }),
+                    C.hero.chips && $jx("div", {
+                      className: "mt-6 flex flex-wrap gap-2",
+                      children: C.hero.chips.map((p) => $jx("span", { className: "text-[11px] px-2.5 py-1 rounded-full bg-zinc-900 border border-zinc-800 text-zinc-400", children: p }, p)),
+                    }),
+                  ],
+                }),
+                h.length === 0 && $jxs("div", {
+                  className: "py-20 text-center border border-dashed border-zinc-800 rounded-[12px]",
+                  children: [
+                    $jxs("div", { className: "text-zinc-500 text-sm", children: C.emptyText ? C.emptyText(e) : ["No results for “", e, "”"] }),
+                    $jx("button", { onClick: () => n(""), className: "mt-3 text-xs px-3 py-1.5 rounded bg-white text-black font-bold", children: C.clearText || "Clear" }),
+                  ],
+                }),
+                h.map((p) =>
+                  $jxs("section", {
+                    id: p.id,
+                    className: "scroll-mt-[80px] mb-16",
+                    children: [
+                      $jxs("div", {
+                        className: "flex items-start gap-4 mb-6",
+                        children: [
+                          $jx("span", { className: "shrink-0 h-7 px-2.5 rounded-[7px] bg-zinc-900 border border-zinc-800 text-[11px] font-bold tracking-widest flex items-center text-zinc-400", children: p.num }),
+                          $jxs("div", {
+                            className: "min-w-0",
+                            children: [
+                              p.meta && p.meta.length > 0 && $jx("div", {
+                                className: "mb-2 flex flex-wrap items-center gap-2",
+                                children: p.meta.map((q, qi) => $jx("span", { className: "text-[10px] px-2 py-1 rounded-full border border-zinc-800 text-zinc-500 tracking-widest", children: q }, qi)),
+                              }),
+                              $jx("h2", { className: "text-[22px] font-bold tracking-[-0.02em] leading-[1.15]", children: p.title }),
+                              p.summary && $jx("p", { className: "mt-2 text-[13.5px] leading-[1.6] text-zinc-400", children: p.summary }),
+                            ],
+                          }),
+                        ],
+                      }),
+                      $jx("div", { className: "space-y-1", children: p.blocks.map((m, S) => $jx($Block, { b: m }, S)) }),
+                    ],
+                  }, p.id)),
+                C.afterMain && C.afterMain(api),
+                C.footer && $jxs("div", {
+                  className: "mt-16 pt-8 border-t border-zinc-800 flex items-center justify-between",
+                  children: [
+                    $jx("span", { className: "text-[11px] tracking-widest text-zinc-500", children: C.footer.left }),
+                    C.footer.right && $jx("span", { className: "text-[11px] text-zinc-600 font-code", children: C.footer.right }),
+                  ],
+                }),
+              ],
+            }),
+          }),
+          $jx("aside", {
+            className: "hidden xl:block w-[240px] shrink-0 sticky top-[56px] h-[calc(100vh-56px)] overflow-y-auto border-l border-zinc-800 bg-[#09090b]",
+            children: $jxs("div", {
+              className: "p-5",
+              children: [
+                $jx("div", { className: "text-[11px] font-bold tracking-[0.14em] text-zinc-500 mb-4", children: C.tocLabel || "ON THIS PAGE" }),
+                $jx("div", {
+                  className: "space-y-1 mb-6",
+                  children: (C.toc ? C.toc(api) : v.toc).map((p, pi) =>
+                    $jx("div", {
+                      onClick: p.id ? () => { let el = document.getElementById(p.id); if (el) el.scrollIntoView({ behavior: "smooth", block: "start" }); } : undefined,
+                      className: "text-[12px] leading-[1.4] text-zinc-500 hover:text-zinc-300 cursor-pointer py-1 border-l-2 border-transparent hover:border-zinc-700 pl-3 transition-colors",
+                      children: p.label || p,
+                    }, pi)),
+                }),
+                C.railBoxes && C.railBoxes(api),
+                C.jump && $jxs("div", {
+                  className: "space-y-2",
+                  children: [
+                    $jx("div", { className: "text-[11px] font-bold tracking-widest text-zinc-500", children: C.jump.label }),
+                    S0.slice(0, C.jump.count || 8).map((p) =>
+                      $jx("button", {
+                        onClick: () => y(p.id),
+                        className: `block w-full text-left text-[11px] font-code py-1 ${t === p.id ? "text-white" : "text-zinc-600 hover:text-zinc-400"}`,
+                        children: C.jump.text(p),
+                      }, p.id)),
+                    C.jump.more && $jx("div", { className: "pt-2 text-[10px] text-zinc-600", children: C.jump.more(S0.length - (C.jump.count || 8)) }),
+                  ],
+                }),
+                C.railEnd && C.railEnd(api),
+              ],
+            }),
+          }),
+        ],
+      }),
+    ],
+  });
+}
+
+var $D = cn;
+var $SECTIONS = $D.map((d) => ({
+  id: d.id, num: d.num, title: d.title, group: d.level,
+  meta: [d.level, d.subs.length + " code blocks"],
+  toc: [], raw: d,
+  blocks: [{ type: "tip", title: "WHY IN PRODUCTION", text: d.why }].concat(...d.subs.map((m) =>
+    [{ type: "h3", text: m.title }, { type: "para", text: m.desc }, m.file === "tree" ? { type: "fileTree", tree: m.code } : { type: "code", file: m.file, lang: m.lang, code: m.code }])),
+}));
+var $CFG = {
+  brand: ["B", " ", "BUN::BACKEND"],
+  tags: ["NO FRAMEWORK", "ALL BUILT-INS", "TS + DRIZZLE"],
+  copy: ["COPY", "COPIED"],
+  placeholder: "Search Bun.serve, file, password, spawn, sqlite, hash...",
+  placeholderMobile: "Search...",
+  headerRight: () => [$jx("span", { className: "text-[11px] text-zinc-500 hidden sm:block", children: "bun 1.1" }), $jx("span", { className: "text-[11px] text-zinc-500 hidden sm:block", children: "FULL OS" })],
+  groups: [
+    { label: "BEGINNER", tag: null, test: (m) => m.group === "BEGINNER" },
+    { label: "STRUCTURE CORE", tag: "STRUCT", test: (m) => m.group === "STRUCTURE" },
+    { label: "BUN BUILT-INS", tag: "BUN", test: (m) => m.group === "BUN" },
+  ],
+  sidebarBox: () => $jx($Box, { title: "PROD CHECKLIST", children: $jx("div", { className: "space-y-1.5 text-[11px] font-code text-zinc-500", children:
+    [" reusePort + SIGTERM", " Bun.password not bcryptjs", " Bun.file zero-copy", " bun:sqlite WAL cache", " CryptoHasher ETag"].map((t) =>
+      $jxs("div", { className: "flex gap-2.5", children: [$jx("span", { className: "text-zinc-300", children: "✓" }), t] }, t)) }) }),
+  hero: {
+    badges: ["FULL PRODUCTION OS — SINGLE HTML"],
+    title: ["BACKEND WITH", $jx("br", {}), "BUNJS", " WITHOUT", $jx("br", {}), "FRAMEWORK"],
+    desc: ["No Express. No Fastify. Just ", $jx("span", { className: "text-zinc-200 font-code", children: "Bun.serve" }), ", Web API, ", $jx("span", { className: "text-zinc-200 font-code", children: "Drizzle ORM" }), " and every Bun built-in used in production.", $jx("br", {}), "23 modules, 5ms cold start, 95k rps."],
+    stats: [["RPS", "95k"], ["COLD START", "5ms"], ["DEPS FOR CORE", "0"]],
+    chips: ["Bun.serve", "Bun.file", "Bun.password", "Bun.spawn", "bun:sqlite", "Bun.hash", "WebSocket", "Workers"],
+  },
+  afterMain: () => $jx("div", { className: "mt-16", children: $jx($Box, { title: "END OF OS — 23 MODULES", children: $jxs("div", { children: [
+    $jx("div", { className: "text-[12.5px] leading-[1.6] text-zinc-400", children: "Copy any block. Paste into src/. bun run src/index.ts — production." }),
+    $jxs("div", { className: "mt-2 flex flex-wrap gap-2", children: [$jx("span", { className: "text-[11px] px-2.5 py-1 rounded-full bg-zinc-900 border border-zinc-800 text-zinc-400", children: "bun run dev — 5ms" }), $jx("span", { className: "text-[11px] px-2.5 py-1 rounded-full bg-zinc-900 border border-zinc-800 text-zinc-400", children: "Download as single HTML" })] }),
+  ] }) }) }),
+  toc: (a) => a.visible.slice(0, 12).map((d) => ({ id: d.id, label: [d.num, " ", d.title] })).concat(a.visible.length > 12 ? [{ label: ["+", a.visible.length - 12, " more"] }] : []),
+  railBoxes: (a) => $jxs("div", { children: [
+    $jx($Box, { title: "PROD TIP", mb: true, children: $jx("p", { className: "text-[12.5px] leading-[1.6] text-zinc-400", children: a.current.raw.prodTip }) }),
+    $jx($Box, { title: "BUN BUILT-INS COVERAGE", mb: true, children: $jx("div", { className: "space-y-1.5 text-[11px] font-code text-zinc-500", children:
+      [["Bun.serve", "16,23"], ["Bun.file/write", "17,23"], ["Bun.password", "18,11"], ["Bun.spawn/$", "19"], ["bun:sqlite", "20,23"], ["CryptoHasher", "21,23"], ["sleep/which/semver", "22"], ["TCP/Workers", "22"]].map((r) =>
+        $jxs("div", { className: "flex justify-between", children: [$jx("span", { children: r[0] }), $jx("span", { className: "text-zinc-300", children: r[1] })] }, r[0])) }) }),
+  ] }),
+  railEnd: () => $jxs("div", { className: "text-[11px] leading-[1.5] text-zinc-500 font-code", children: ["Dark mode default.", $jx("br", {}), "JetBrains Mono for code,", $jx("br", {}), "Geist Mono for UI.", $jx("br", {}), $jx("br", {}), $jx("span", { className: "text-zinc-300", children: "Press / to search" })] }),
+};
+
       qc.createRoot(document.getElementById("root")).render(
-        v(Fc.default.StrictMode, { children: v(bi, {}) }),
+        v(Fc.default.StrictMode, { children: v($App, {}) }),
       );
     </script>
     <script>

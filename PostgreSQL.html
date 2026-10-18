@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>React Artifact</title>
     <style>
+      @import url("https://fonts.googleapis.com/css2?family=Geist+Mono:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap");
       *,
       :after,
       :before {
@@ -112,7 +113,9 @@
         --tw-contain-layout: ;
         --tw-contain-paint: ;
         --tw-contain-style: ;
-      } /*! tailwindcss v3.4.18 | MIT License | https://tailwindcss.com*/
+      }
+
+      /*! tailwindcss v3.4.18 | MIT License | https://tailwindcss.com*/
       *,
       :after,
       :before {
@@ -143,6 +146,7 @@
         -webkit-tap-highlight-color: transparent;
       }
       body {
+        margin: 0;
         line-height: inherit;
       }
       hr {
@@ -338,9 +342,6 @@
       .visible {
         visibility: visible;
       }
-      .fixed {
-        position: fixed;
-      }
       .absolute {
         position: absolute;
       }
@@ -350,55 +351,45 @@
       .sticky {
         position: sticky;
       }
-      .inset-0 {
-        inset: 0;
-      }
-      .left-0 {
-        left: 0;
-      }
       .left-3 {
         left: 0.75rem;
       }
-      .right-1\.5 {
-        right: 0.375rem;
-      }
-      .top-0 {
-        top: 0;
+      .right-2 {
+        right: 0.5rem;
       }
       .top-1\/2 {
         top: 50%;
       }
-      .top-14 {
-        top: 3.5rem;
-      }
-      .z-30 {
-        z-index: 30;
+      .top-\[56px\] {
+        top: 56px;
       }
       .z-40 {
         z-index: 40;
-      }
-      .z-50 {
-        z-index: 50;
-      }
-      .z-\[60\] {
-        z-index: 60;
       }
       .mx-auto {
         margin-left: auto;
         margin-right: auto;
       }
+      .my-4 {
+        margin-top: 1rem;
+        margin-bottom: 1rem;
+      }
       .my-5 {
         margin-top: 1.25rem;
         margin-bottom: 1.25rem;
       }
-      .-ml-2 {
-        margin-left: -0.5rem;
+      .my-6 {
+        margin-top: 1.5rem;
+        margin-bottom: 1.5rem;
       }
       .mb-1 {
         margin-bottom: 0.25rem;
       }
-      .mb-10 {
-        margin-bottom: 2.5rem;
+      .mb-12 {
+        margin-bottom: 3rem;
+      }
+      .mb-16 {
+        margin-bottom: 4rem;
       }
       .mb-2 {
         margin-bottom: 0.5rem;
@@ -412,20 +403,8 @@
       .mb-6 {
         margin-bottom: 1.5rem;
       }
-      .ml-2 {
-        margin-left: 0.5rem;
-      }
-      .ml-auto {
-        margin-left: auto;
-      }
       .mt-0\.5 {
         margin-top: 0.125rem;
-      }
-      .mt-1 {
-        margin-top: 0.25rem;
-      }
-      .mt-10 {
-        margin-top: 2.5rem;
       }
       .mt-16 {
         margin-top: 4rem;
@@ -439,26 +418,14 @@
       .mt-4 {
         margin-top: 1rem;
       }
-      .mt-5 {
-        margin-top: 1.25rem;
-      }
       .mt-6 {
         margin-top: 1.5rem;
-      }
-      .mt-8 {
-        margin-top: 2rem;
       }
       .block {
         display: block;
       }
-      .inline {
-        display: inline;
-      }
       .flex {
         display: flex;
-      }
-      .inline-flex {
-        display: inline-flex;
       }
       .table {
         display: table;
@@ -469,23 +436,8 @@
       .hidden {
         display: none;
       }
-      .h-1 {
-        height: 0.25rem;
-      }
-      .h-1\.5 {
-        height: 0.375rem;
-      }
-      .h-14 {
-        height: 3.5rem;
-      }
-      .h-2 {
-        height: 0.5rem;
-      }
-      .h-2\.5 {
-        height: 0.625rem;
-      }
-      .h-4 {
-        height: 1rem;
+      .h-3 {
+        height: 0.75rem;
       }
       .h-5 {
         height: 1.25rem;
@@ -493,38 +445,26 @@
       .h-6 {
         height: 1.5rem;
       }
-      .h-8 {
-        height: 2rem;
+      .h-7 {
+        height: 1.75rem;
       }
-      .h-\[2px\] {
-        height: 2px;
+      .h-\[22px\] {
+        height: 22px;
       }
-      .h-\[calc\(100vh-3\.5rem\)\] {
-        height: calc(100vh - 3.5rem);
+      .h-\[36px\] {
+        height: 36px;
       }
-      .h-full {
-        height: 100%;
+      .h-\[56px\] {
+        height: 56px;
       }
-      .h-px {
-        height: 1px;
+      .h-\[calc\(100vh-56px\)\] {
+        height: calc(100vh - 56px);
       }
       .min-h-screen {
         min-height: 100vh;
       }
-      .w-0\.5 {
-        width: 0.125rem;
-      }
-      .w-1 {
-        width: 0.25rem;
-      }
-      .w-1\.5 {
-        width: 0.375rem;
-      }
-      .w-2 {
-        width: 0.5rem;
-      }
-      .w-2\.5 {
-        width: 0.625rem;
+      .w-3 {
+        width: 0.75rem;
       }
       .w-6 {
         width: 1.5rem;
@@ -532,8 +472,8 @@
       .w-\[240px\] {
         width: 240px;
       }
-      .w-\[300px\] {
-        width: 300px;
+      .w-\[280px\] {
+        width: 280px;
       }
       .w-full {
         width: 100%;
@@ -544,11 +484,11 @@
       .min-w-0 {
         min-width: 0;
       }
-      .min-w-5 {
-        min-width: 1.25rem;
-      }
       .max-w-3xl {
         max-width: 48rem;
+      }
+      .max-w-\[1680px\] {
+        max-width: 1680px;
       }
       .max-w-\[560px\] {
         max-width: 560px;
@@ -556,62 +496,30 @@
       .max-w-\[60ch\] {
         max-width: 60ch;
       }
-      .max-w-full {
-        max-width: 100%;
-      }
       .flex-1 {
         flex: 1 1 0%;
       }
       .shrink-0 {
         flex-shrink: 0;
       }
-      .-translate-x-full {
-        --tw-translate-x: -100%;
-      }
-      .-translate-x-full,
-      .-translate-y-1\/2 {
-        transform: translate(var(--tw-translate-x), var(--tw-translate-y))
-          rotate(var(--tw-rotate)) skewX(var(--tw-skew-x))
-          skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x))
-          scaleY(var(--tw-scale-y));
-      }
       .-translate-y-1\/2 {
         --tw-translate-y: -50%;
       }
-      .translate-x-0 {
-        --tw-translate-x: 0px;
+      .-translate-y-1\/2,
+      .transform {
         transform: translate(var(--tw-translate-x), var(--tw-translate-y))
           rotate(var(--tw-rotate)) skewX(var(--tw-skew-x))
           skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x))
           scaleY(var(--tw-scale-y));
       }
-      @keyframes pulse {
-        50% {
-          opacity: 0.5;
-        }
+      .cursor-pointer {
+        cursor: pointer;
       }
-      .animate-pulse {
-        animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
-      }
-      .select-none {
-        -webkit-user-select: none;
-        -moz-user-select: none;
-        user-select: none;
-      }
-      .scroll-mt-20 {
-        scroll-margin-top: 5rem;
-      }
-      .grid-cols-2 {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-      }
-      .flex-col {
-        flex-direction: column;
+      .scroll-mt-\[80px\] {
+        scroll-margin-top: 80px;
       }
       .flex-wrap {
         flex-wrap: wrap;
-      }
-      .place-items-center {
-        place-items: center;
       }
       .items-start {
         align-items: flex-start;
@@ -637,15 +545,41 @@
       .gap-3 {
         gap: 0.75rem;
       }
+      .gap-4 {
+        gap: 1rem;
+      }
+      .space-y-0\.5 > :not([hidden]) ~ :not([hidden]) {
+        --tw-space-y-reverse: 0;
+        margin-top: calc(0.125rem * (1 - var(--tw-space-y-reverse)));
+        margin-bottom: calc(0.125rem * var(--tw-space-y-reverse));
+      }
       .space-y-1 > :not([hidden]) ~ :not([hidden]) {
         --tw-space-y-reverse: 0;
         margin-top: calc(0.25rem * (1 - var(--tw-space-y-reverse)));
         margin-bottom: calc(0.25rem * var(--tw-space-y-reverse));
       }
-      .space-y-3 > :not([hidden]) ~ :not([hidden]) {
+      .space-y-1\.5 > :not([hidden]) ~ :not([hidden]) {
         --tw-space-y-reverse: 0;
-        margin-top: calc(0.75rem * (1 - var(--tw-space-y-reverse)));
-        margin-bottom: calc(0.75rem * var(--tw-space-y-reverse));
+        margin-top: calc(0.375rem * (1 - var(--tw-space-y-reverse)));
+        margin-bottom: calc(0.375rem * var(--tw-space-y-reverse));
+      }
+      .space-y-2 > :not([hidden]) ~ :not([hidden]) {
+        --tw-space-y-reverse: 0;
+        margin-top: calc(0.5rem * (1 - var(--tw-space-y-reverse)));
+        margin-bottom: calc(0.5rem * var(--tw-space-y-reverse));
+      }
+      .space-y-6 > :not([hidden]) ~ :not([hidden]) {
+        --tw-space-y-reverse: 0;
+        margin-top: calc(1.5rem * (1 - var(--tw-space-y-reverse)));
+        margin-bottom: calc(1.5rem * var(--tw-space-y-reverse));
+      }
+      .divide-y > :not([hidden]) ~ :not([hidden]) {
+        --tw-divide-y-reverse: 0;
+        border-top-width: calc(1px * (1 - var(--tw-divide-y-reverse)));
+        border-bottom-width: calc(1px * var(--tw-divide-y-reverse));
+      }
+      .divide-zinc-800\/60 > :not([hidden]) ~ :not([hidden]) {
+        border-color: rgba(39, 39, 42, 0.6);
       }
       .overflow-hidden {
         overflow: hidden;
@@ -667,14 +601,23 @@
       .rounded {
         border-radius: 0.25rem;
       }
+      .rounded-\[10px\] {
+        border-radius: 10px;
+      }
+      .rounded-\[12px\] {
+        border-radius: 12px;
+      }
+      .rounded-\[5px\] {
+        border-radius: 5px;
+      }
+      .rounded-\[7px\] {
+        border-radius: 7px;
+      }
       .rounded-\[8px\] {
         border-radius: 8px;
       }
       .rounded-full {
         border-radius: 9999px;
-      }
-      .rounded-lg {
-        border-radius: 0.5rem;
       }
       .rounded-md {
         border-radius: 0.375rem;
@@ -688,11 +631,29 @@
       .border-l {
         border-left-width: 1px;
       }
+      .border-l-2 {
+        border-left-width: 2px;
+      }
       .border-r {
         border-right-width: 1px;
       }
       .border-t {
         border-top-width: 1px;
+      }
+      .border-dashed {
+        border-style: dashed;
+      }
+      .border-emerald-900\/30 {
+        border-color: rgba(6, 78, 59, 0.3);
+      }
+      .border-emerald-900\/50 {
+        border-color: rgba(6, 78, 59, 0.5);
+      }
+      .border-red-900\/30 {
+        border-color: rgba(127, 29, 29, 0.3);
+      }
+      .border-red-900\/50 {
+        border-color: rgba(127, 29, 29, 0.5);
       }
       .border-transparent {
         border-color: transparent;
@@ -700,10 +661,6 @@
       .border-white {
         --tw-border-opacity: 1;
         border-color: rgb(255 255 255 / var(--tw-border-opacity, 1));
-      }
-      .border-zinc-600 {
-        --tw-border-opacity: 1;
-        border-color: rgb(82 82 91 / var(--tw-border-opacity, 1));
       }
       .border-zinc-700 {
         --tw-border-opacity: 1;
@@ -713,53 +670,42 @@
         --tw-border-opacity: 1;
         border-color: rgb(39 39 42 / var(--tw-border-opacity, 1));
       }
-      .border-zinc-800\/60 {
-        border-color: rgba(39, 39, 42, 0.6);
-      }
-      .border-zinc-800\/80 {
-        border-color: rgba(39, 39, 42, 0.8);
-      }
       .bg-\[\#09090b\] {
         --tw-bg-opacity: 1;
         background-color: rgb(9 9 11 / var(--tw-bg-opacity, 1));
       }
-      .bg-\[\#0f0f10\] {
-        --tw-bg-opacity: 1;
-        background-color: rgb(15 15 16 / var(--tw-bg-opacity, 1));
+      .bg-\[\#09090b\]\/90 {
+        background-color: rgba(9, 9, 11, 0.9);
       }
-      .bg-\[\#111113\] {
+      .bg-\[\#101012\] {
         --tw-bg-opacity: 1;
-        background-color: rgb(17 17 19 / var(--tw-bg-opacity, 1));
+        background-color: rgb(16 16 18 / var(--tw-bg-opacity, 1));
       }
-      .bg-\[\#141414\] {
+      .bg-\[\#101815\] {
         --tw-bg-opacity: 1;
-        background-color: rgb(20 20 20 / var(--tw-bg-opacity, 1));
+        background-color: rgb(16 24 21 / var(--tw-bg-opacity, 1));
       }
-      .bg-\[\#18181b\] {
+      .bg-\[\#121214\] {
         --tw-bg-opacity: 1;
-        background-color: rgb(24 24 27 / var(--tw-bg-opacity, 1));
+        background-color: rgb(18 18 20 / var(--tw-bg-opacity, 1));
+      }
+      .bg-\[\#181012\] {
+        --tw-bg-opacity: 1;
+        background-color: rgb(24 16 18 / var(--tw-bg-opacity, 1));
       }
       .bg-black {
         --tw-bg-opacity: 1;
         background-color: rgb(0 0 0 / var(--tw-bg-opacity, 1));
       }
-      .bg-black\/60 {
-        background-color: rgba(0, 0, 0, 0.6);
+      .bg-emerald-950\/30 {
+        background-color: rgba(2, 44, 34, 0.3);
       }
-      .bg-black\/80 {
-        background-color: rgba(0, 0, 0, 0.8);
+      .bg-red-950\/30 {
+        background-color: rgba(69, 10, 10, 0.3);
       }
       .bg-white {
         --tw-bg-opacity: 1;
         background-color: rgb(255 255 255 / var(--tw-bg-opacity, 1));
-      }
-      .bg-zinc-600 {
-        --tw-bg-opacity: 1;
-        background-color: rgb(82 82 91 / var(--tw-bg-opacity, 1));
-      }
-      .bg-zinc-700 {
-        --tw-bg-opacity: 1;
-        background-color: rgb(63 63 70 / var(--tw-bg-opacity, 1));
       }
       .bg-zinc-800 {
         --tw-bg-opacity: 1;
@@ -769,48 +715,14 @@
         --tw-bg-opacity: 1;
         background-color: rgb(24 24 27 / var(--tw-bg-opacity, 1));
       }
-      .bg-zinc-900\/30 {
-        background-color: rgba(24, 24, 27, 0.3);
-      }
-      .bg-zinc-900\/40 {
-        background-color: rgba(24, 24, 27, 0.4);
-      }
-      .bg-zinc-900\/60 {
-        background-color: rgba(24, 24, 27, 0.6);
-      }
-      .bg-zinc-900\/70 {
-        background-color: rgba(24, 24, 27, 0.7);
-      }
-      .bg-zinc-900\/80 {
-        background-color: rgba(24, 24, 27, 0.8);
-      }
-      .bg-gradient-to-b {
-        background-image: linear-gradient(to bottom, var(--tw-gradient-stops));
-      }
-      .from-zinc-900\/40 {
-        --tw-gradient-from: rgba(24, 24, 27, 0.4)
-          var(--tw-gradient-from-position);
-        --tw-gradient-to: rgba(24, 24, 27, 0) var(--tw-gradient-to-position);
-        --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to);
-      }
-      .to-transparent {
-        --tw-gradient-to: transparent var(--tw-gradient-to-position);
-      }
-      .p-2 {
-        padding: 0.5rem;
-      }
       .p-3 {
         padding: 0.75rem;
       }
       .p-4 {
         padding: 1rem;
       }
-      .p-6 {
-        padding: 1.5rem;
-      }
-      .px-1 {
-        padding-left: 0.25rem;
-        padding-right: 0.25rem;
+      .p-5 {
+        padding: 1.25rem;
       }
       .px-1\.5 {
         padding-left: 0.375rem;
@@ -827,10 +739,6 @@
       .px-3 {
         padding-left: 0.75rem;
         padding-right: 0.75rem;
-      }
-      .px-3\.5 {
-        padding-left: 0.875rem;
-        padding-right: 0.875rem;
       }
       .px-4 {
         padding-left: 1rem;
@@ -864,27 +772,36 @@
         padding-top: 0.625rem;
         padding-bottom: 0.625rem;
       }
-      .py-3 {
-        padding-top: 0.75rem;
-        padding-bottom: 0.75rem;
-      }
-      .pb-12 {
-        padding-bottom: 3rem;
-      }
-      .pb-20 {
+      .py-20 {
+        padding-top: 5rem;
         padding-bottom: 5rem;
       }
-      .pl-9 {
-        padding-left: 2.25rem;
+      .pb-2 {
+        padding-bottom: 0.5rem;
       }
-      .pr-10 {
-        padding-right: 2.5rem;
+      .pb-3 {
+        padding-bottom: 0.75rem;
       }
-      .pt-10 {
-        padding-top: 2.5rem;
+      .pb-8 {
+        padding-bottom: 2rem;
+      }
+      .pl-3 {
+        padding-left: 0.75rem;
+      }
+      .pl-8 {
+        padding-left: 2rem;
+      }
+      .pr-3 {
+        padding-right: 0.75rem;
+      }
+      .pr-\[48px\] {
+        padding-right: 48px;
       }
       .pt-2 {
         padding-top: 0.5rem;
+      }
+      .pt-4 {
+        padding-top: 1rem;
       }
       .pt-8 {
         padding-top: 2rem;
@@ -892,22 +809,14 @@
       .text-left {
         text-align: left;
       }
-      .text-right {
-        text-align: right;
-      }
-      .font-mono {
-        font-family:
-          ui-monospace,
-          SFMono-Regular,
-          Menlo,
-          Monaco,
-          Consolas,
-          Liberation Mono,
-          Courier New,
-          monospace;
+      .text-center {
+        text-align: center;
       }
       .text-\[10px\] {
         font-size: 10px;
+      }
+      .text-\[11\.5px\] {
+        font-size: 11.5px;
       }
       .text-\[11px\] {
         font-size: 11px;
@@ -924,20 +833,25 @@
       .text-\[13px\] {
         font-size: 13px;
       }
-      .text-\[16px\] {
-        font-size: 16px;
+      .text-\[14px\] {
+        font-size: 14px;
       }
-      .text-\[18px\] {
-        font-size: 18px;
+      .text-\[22px\] {
+        font-size: 22px;
       }
-      .text-\[26px\] {
-        font-size: 26px;
-      }
-      .text-\[28px\] {
-        font-size: 28px;
+      .text-\[30px\] {
+        font-size: 30px;
       }
       .text-\[9px\] {
         font-size: 9px;
+      }
+      .text-sm {
+        font-size: 0.875rem;
+        line-height: 1.25rem;
+      }
+      .text-xs {
+        font-size: 0.75rem;
+        line-height: 1rem;
       }
       .font-bold {
         font-weight: 700;
@@ -945,38 +859,47 @@
       .font-medium {
         font-weight: 500;
       }
-      .font-semibold {
-        font-weight: 600;
-      }
       .uppercase {
         text-transform: uppercase;
       }
-      .leading-4 {
-        line-height: 1rem;
-      }
-      .leading-5 {
-        line-height: 1.25rem;
-      }
-      .leading-6 {
-        line-height: 1.5rem;
-      }
-      .leading-\[0\.95\] {
-        line-height: 0.95;
+      .lowercase {
+        text-transform: lowercase;
       }
       .leading-\[1\.05\] {
         line-height: 1.05;
       }
+      .leading-\[1\.15\] {
+        line-height: 1.15;
+      }
+      .leading-\[1\.4\] {
+        line-height: 1.4;
+      }
+      .leading-\[1\.5\] {
+        line-height: 1.5;
+      }
+      .leading-\[1\.65\] {
+        line-height: 1.65;
+      }
+      .leading-\[1\.6\] {
+        line-height: 1.6;
+      }
+      .leading-\[1\.7\] {
+        line-height: 1.7;
+      }
+      .leading-tight {
+        line-height: 1.25;
+      }
+      .tracking-\[-0\.02em\] {
+        letter-spacing: -0.02em;
+      }
+      .tracking-\[-0\.03em\] {
+        letter-spacing: -0.03em;
+      }
       .tracking-\[0\.14em\] {
         letter-spacing: 0.14em;
       }
-      .tracking-\[0\.18em\] {
-        letter-spacing: 0.18em;
-      }
-      .tracking-\[0\.2em\] {
-        letter-spacing: 0.2em;
-      }
-      .tracking-tight {
-        letter-spacing: -0.025em;
+      .tracking-wide {
+        letter-spacing: 0.025em;
       }
       .tracking-widest {
         letter-spacing: 0.1em;
@@ -984,6 +907,24 @@
       .text-black {
         --tw-text-opacity: 1;
         color: rgb(0 0 0 / var(--tw-text-opacity, 1));
+      }
+      .text-emerald-200\/80 {
+        color: rgba(167, 243, 208, 0.8);
+      }
+      .text-emerald-300 {
+        --tw-text-opacity: 1;
+        color: rgb(110 231 183 / var(--tw-text-opacity, 1));
+      }
+      .text-emerald-400 {
+        --tw-text-opacity: 1;
+        color: rgb(52 211 153 / var(--tw-text-opacity, 1));
+      }
+      .text-red-200\/80 {
+        color: hsla(0, 96%, 89%, 0.8);
+      }
+      .text-red-300 {
+        --tw-text-opacity: 1;
+        color: rgb(252 165 165 / var(--tw-text-opacity, 1));
       }
       .text-white {
         --tw-text-opacity: 1;
@@ -1026,70 +967,93 @@
           var(--tw-ring-offset-shadow), var(--tw-ring-shadow),
           var(--tw-shadow, 0 0 #0000);
       }
-      .ring-zinc-700 {
-        --tw-ring-opacity: 1;
-        --tw-ring-color: rgb(63 63 70/var(--tw-ring-opacity, 1));
+      .ring-white\/20 {
+        --tw-ring-color: hsla(0, 0%, 100%, 0.2);
       }
       .filter {
         filter: var(--tw-blur) var(--tw-brightness) var(--tw-contrast)
           var(--tw-grayscale) var(--tw-hue-rotate) var(--tw-invert)
           var(--tw-saturate) var(--tw-sepia) var(--tw-drop-shadow);
       }
-      .backdrop-blur-sm {
-        --tw-backdrop-blur: blur(4px);
-      }
-      .backdrop-blur-sm,
       .backdrop-blur-xl {
+        --tw-backdrop-blur: blur(24px);
         backdrop-filter: var(--tw-backdrop-blur) var(--tw-backdrop-brightness)
           var(--tw-backdrop-contrast) var(--tw-backdrop-grayscale)
           var(--tw-backdrop-hue-rotate) var(--tw-backdrop-invert)
           var(--tw-backdrop-opacity) var(--tw-backdrop-saturate)
           var(--tw-backdrop-sepia);
       }
-      .backdrop-blur-xl {
-        --tw-backdrop-blur: blur(24px);
-      }
-      .transition {
-        transition-property:
-          color, background-color, border-color, text-decoration-color, fill,
-          stroke, opacity, box-shadow, transform, filter, backdrop-filter;
-        transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
-        transition-duration: 0.15s;
-      }
       .transition-all {
         transition-property: all;
         transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
         transition-duration: 0.15s;
       }
-      .transition-transform {
-        transition-property: transform;
+      .transition-colors {
+        transition-property:
+          color, background-color, border-color, text-decoration-color, fill,
+          stroke;
         transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
         transition-duration: 0.15s;
       }
-      .duration-200 {
-        transition-duration: 0.2s;
+      :root {
+        --bg: #09090b;
+        --bg-soft: #121214;
+        --bg-elev: #18181b;
+        --border: #27272a;
+        --border-strong: #3f3f46;
+        --text: #fafafa;
+        --text-muted: #a1a1aa;
+        --text-faint: #71717a;
+        --accent: #fafafa;
+        --code-bg: #101012;
+        --safe-area-inset-top: env(safe-area-inset-top, 0px);
       }
-      #root,
+      @media (prefers-color-scheme: dark) {
+        :root {
+          --bg: #09090b;
+          --bg-soft: #121214;
+        }
+      }
+      * {
+        font-variant-ligatures: none;
+      }
+      html {
+        scroll-behavior: smooth;
+      }
       body,
       html {
-        min-height: 100%;
+        background: var(--bg);
       }
       body {
-        margin: 0;
+        color: var(--text);
         font-family:
-          ui-sans-serif,
-          system-ui,
-          -apple-system,
-          BlinkMacSystemFont,
-          Segoe UI,
-          sans-serif;
+          Geist Mono,
+          ui-monospace,
+          SFMono-Regular,
+          Menlo,
+          monospace;
+        -webkit-font-smoothing: antialiased;
+        text-rendering: optimizeLegibility;
       }
-      [role="button"]:not([aria-disabled="true"]),
-      button:not(:disabled),
-      label[for],
-      select:not(:disabled),
-      summary {
-        cursor: pointer;
+      .font-code,
+      code,
+      pre {
+        font-family:
+          JetBrains Mono,
+          ui-monospace,
+          SFMono-Regular,
+          monospace;
+      }
+      ::-webkit-scrollbar {
+        width: 6px;
+        height: 6px;
+      }
+      ::-webkit-scrollbar-thumb {
+        background: #27272a;
+        border-radius: 999px;
+      }
+      ::-webkit-scrollbar-track {
+        background: transparent;
       }
       .selection\:bg-white ::-moz-selection {
         --tw-bg-opacity: 1;
@@ -1123,86 +1087,77 @@
         --tw-text-opacity: 1;
         color: rgb(0 0 0 / var(--tw-text-opacity, 1));
       }
-      .placeholder\:text-zinc-600::-moz-placeholder {
+      .placeholder\:text-zinc-500::-moz-placeholder {
         --tw-text-opacity: 1;
-        color: rgb(82 82 91 / var(--tw-text-opacity, 1));
+        color: rgb(113 113 122 / var(--tw-text-opacity, 1));
       }
-      .placeholder\:text-zinc-600::placeholder {
+      .placeholder\:text-zinc-500::placeholder {
         --tw-text-opacity: 1;
-        color: rgb(82 82 91 / var(--tw-text-opacity, 1));
+        color: rgb(113 113 122 / var(--tw-text-opacity, 1));
       }
-      .first\:border-0:first-child {
-        border-width: 0;
+      .hover\:border-zinc-700:hover {
+        --tw-border-opacity: 1;
+        border-color: rgb(63 63 70 / var(--tw-border-opacity, 1));
       }
       .hover\:border-zinc-800:hover {
         --tw-border-opacity: 1;
         border-color: rgb(39 39 42 / var(--tw-border-opacity, 1));
       }
-      .hover\:bg-zinc-800:hover {
+      .hover\:bg-zinc-200:hover {
         --tw-bg-opacity: 1;
-        background-color: rgb(39 39 42 / var(--tw-bg-opacity, 1));
+        background-color: rgb(228 228 231 / var(--tw-bg-opacity, 1));
       }
       .hover\:bg-zinc-900:hover {
         --tw-bg-opacity: 1;
         background-color: rgb(24 24 27 / var(--tw-bg-opacity, 1));
       }
-      .hover\:text-zinc-100:hover {
+      .hover\:text-white:hover {
         --tw-text-opacity: 1;
-        color: rgb(244 244 245 / var(--tw-text-opacity, 1));
+        color: rgb(255 255 255 / var(--tw-text-opacity, 1));
       }
       .hover\:text-zinc-200:hover {
         --tw-text-opacity: 1;
         color: rgb(228 228 231 / var(--tw-text-opacity, 1));
       }
-      .focus\:border-zinc-600:focus {
-        --tw-border-opacity: 1;
-        border-color: rgb(82 82 91 / var(--tw-border-opacity, 1));
+      .hover\:text-zinc-300:hover {
+        --tw-text-opacity: 1;
+        color: rgb(212 212 216 / var(--tw-text-opacity, 1));
       }
-      .focus\:bg-zinc-900:focus {
+      .hover\:text-zinc-400:hover {
+        --tw-text-opacity: 1;
+        color: rgb(161 161 170 / var(--tw-text-opacity, 1));
+      }
+      .focus\:border-zinc-700:focus {
+        --tw-border-opacity: 1;
+        border-color: rgb(63 63 70 / var(--tw-border-opacity, 1));
+      }
+      .focus\:bg-\[\#151517\]:focus {
         --tw-bg-opacity: 1;
-        background-color: rgb(24 24 27 / var(--tw-bg-opacity, 1));
+        background-color: rgb(21 21 23 / var(--tw-bg-opacity, 1));
       }
       .focus\:outline-none:focus {
         outline: 2px solid transparent;
         outline-offset: 2px;
       }
-      .group:hover .group-hover\:text-zinc-300 {
-        --tw-text-opacity: 1;
-        color: rgb(212 212 216 / var(--tw-text-opacity, 1));
-      }
       @media (min-width: 640px) {
-        .sm\:inline {
-          display: inline;
+        .sm\:block {
+          display: block;
         }
         .sm\:inline-flex {
           display: inline-flex;
         }
-        .sm\:grid-cols-4 {
-          grid-template-columns: repeat(4, minmax(0, 1fr));
+      }
+      @media (min-width: 768px) {
+        .md\:flex {
+          display: flex;
         }
-        .sm\:flex-row {
-          flex-direction: row;
-        }
-        .sm\:items-center {
-          align-items: center;
-        }
-        .sm\:px-6 {
-          padding-left: 1.5rem;
-          padding-right: 1.5rem;
-        }
-        .sm\:text-\[11px\] {
-          font-size: 11px;
-        }
-        .sm\:text-\[12\.5px\] {
-          font-size: 12.5px;
-        }
-        .sm\:text-\[34px\] {
-          font-size: 34px;
+        .md\:grid-cols-2 {
+          grid-template-columns: repeat(2, minmax(0, 1fr));
         }
       }
       @media (min-width: 1024px) {
-        .lg\:sticky {
-          position: sticky;
+        .lg\:block {
+          display: block;
         }
         .lg\:flex {
           display: flex;
@@ -1210,19 +1165,16 @@
         .lg\:hidden {
           display: none;
         }
-        .lg\:w-\[280px\] {
-          width: 280px;
+        .lg\:px-6 {
+          padding-left: 1.5rem;
+          padding-right: 1.5rem;
         }
-        .lg\:translate-x-0 {
-          --tw-translate-x: 0px;
-          transform: translate(var(--tw-translate-x), var(--tw-translate-y))
-            rotate(var(--tw-rotate)) skewX(var(--tw-skew-x))
-            skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x))
-            scaleY(var(--tw-scale-y));
+        .lg\:px-8 {
+          padding-left: 2rem;
+          padding-right: 2rem;
         }
-        .lg\:px-4 {
-          padding-left: 1rem;
-          padding-right: 1rem;
+        .lg\:text-\[36px\] {
+          font-size: 36px;
         }
       }
       @media (min-width: 1280px) {
@@ -1230,6 +1182,74 @@
           display: block;
         }
       }
+      @import "https://fonts.googleapis.com/css2?family=Geist+Mono:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap";
+      @tailwind base;
+      @tailwind components;
+      @tailwind utilities;
+      :root {
+        --bg: #09090b;
+        --bg-soft: #121214;
+        --bg-elev: #18181b;
+        --border: #27272a;
+        --border-strong: #3f3f46;
+        --text: #fafafa;
+        --text-muted: #a1a1aa;
+        --text-faint: #71717a;
+        --accent: #fafafa;
+        --code-bg: #101012;
+        --safe-area-inset-top: env(safe-area-inset-top, 0px);
+      }
+      @media (prefers-color-scheme: dark) {
+        :root {
+          --bg: #09090b;
+          --bg-soft: #121214;
+        }
+      }
+      * {
+        font-variant-ligatures: none;
+      }
+      html {
+        scroll-behavior: smooth;
+        background: var(--bg);
+      }
+      body {
+        background: var(--bg);
+        color: var(--text);
+        -webkit-font-smoothing: antialiased;
+        text-rendering: optimizeLegibility;
+        font-family:
+          Geist Mono,
+          ui-monospace,
+          SFMono-Regular,
+          Menlo,
+          monospace;
+      }
+      code,
+      pre,
+      .font-code {
+        font-family:
+          JetBrains Mono,
+          ui-monospace,
+          SFMono-Regular,
+          monospace;
+      }
+      ::-webkit-scrollbar {
+        width: 6px;
+        height: 6px;
+      }
+      ::-webkit-scrollbar-thumb {
+        background: #27272a;
+        border-radius: 999px;
+      }
+      ::-webkit-scrollbar-track {
+        background: 0 0;
+      }
+
+      /* shared additions (identical in every file) */
+      .whitespace-pre-line { white-space: pre-line; }
+      .h-1 { height: 0.25rem; }
+      .h-full { height: 100%; }
+      .ml-auto { margin-left: auto; }
     </style>
   </head>
   <body>
@@ -13123,898 +13143,461 @@ FROM pg_replication_slots;`,
             ],
           },
         ];
-      function B0(e) {
-        let n =
-            /\b(SELECT|FROM|WHERE|INSERT|UPDATE|DELETE|CREATE|ALTER|DROP|TABLE|INDEX|CONCURRENTLY|USING|GIN|BTREE|BRIN|EXCLUDE|WITH|RECURSIVE|AS|JOIN|INNER|LEFT|RIGHT|FULL|CROSS|LATERAL|ON|CONFLICT|DO|NOTHING|RETURNING|ORDER|BY|GROUP|HAVING|LIMIT|OFFSET|UNION|ALL|CASE|WHEN|THEN|ELSE|END|AND|OR|NOT|NULL|TRUE|FALSE|PRIMARY|KEY|FOREIGN|REFERENCES|CHECK|DEFAULT|UNIQUE|INTO|VALUES|SET|BEGIN|COMMIT|ROLLBACK|EXPLAIN|ANALYZE|VERBOSE|BUFFERS|FOR|SHARE|UPDATE|SKIP|LOCKED|NOWAIT|MATERIALIZED|VIEW|FUNCTION|PROCEDURE|LANGUAGE|SECURITY|DEFINER|INVOKER|EXTENSION|IF|EXISTS|CASCADE|RESTRICT|BETWEEN|ILIKE|LIKE|IS|DISTINCT|FILTER|OVER|PARTITION|ROWS|RANGE|CURRENT|ROW|UNBOUNDED|PRECEDING|FOLLOWING)\b/g,
-          t = /('[^']*')/g,
-          r = /(--[^\n]*)/g;
-        return e
-          .replace(/&/g, "&amp;")
-          .replace(/</g, "&lt;")
-          .replace(/>/g, "&gt;")
-          .replace(r, '<span class="text-zinc-500">$1</span>')
-          .replace(t, '<span class="text-zinc-300">$1</span>')
-          .replace(n, '<span class="text-white font-medium">$1</span>');
-      }
-      function $0({ code: e, caption: n, lang: t = "sql" }) {
-        let [r, l] = Z.useState(!1),
-          u = e.trim().split(`
-`);
-        return E("div", {
-          className:
-            "group rounded-[8px] border border-zinc-800 bg-[#111113] overflow-hidden my-5 max-w-full",
+var $jx = h, $jxs = E, $R = uc.default, $F = null;
+function $Tree({ tree: e, file: n }) {
+  return $jxs("div", {
+    className: "my-5 rounded-[10px] border border-zinc-800 bg-[#101012] overflow-hidden",
+    children: [
+      n &&
+        $jxs("div", {
+          className: "flex items-center justify-between px-4 py-2 border-b border-zinc-800 bg-[#121214]",
           children: [
-            E("div", {
-              className:
-                "flex items-center justify-between px-3.5 py-2.5 border-b border-zinc-800 bg-[#18181b]",
-              children: [
-                E("div", {
-                  className: "flex items-center gap-3",
-                  children: [
-                    E("div", {
-                      className: "flex gap-1.5",
-                      children: [
-                        h("span", {
-                          className: "h-2.5 w-2.5 rounded-full bg-zinc-700",
-                        }),
-                        h("span", {
-                          className: "h-2.5 w-2.5 rounded-full bg-zinc-700",
-                        }),
-                        h("span", {
-                          className: "h-2.5 w-2.5 rounded-full bg-zinc-700",
-                        }),
-                      ],
-                    }),
-                    E("span", {
-                      className:
-                        "text-[10px] tracking-widest font-mono text-zinc-500 uppercase flex items-center gap-1.5",
-                      children: [h(wr, { size: 12 }), t],
-                    }),
-                    n &&
-                      h("span", {
-                        className:
-                          "text-[11px] text-zinc-400 font-mono ml-2 hidden sm:inline",
-                        children: n,
-                      }),
-                  ],
-                }),
-                E("button", {
-                  onClick: () => {
-                    (navigator.clipboard.writeText(e),
-                      l(!0),
-                      setTimeout(() => l(!1), 1500));
-                  },
-                  className:
-                    "inline-flex items-center gap-1.5 rounded px-2 py-1 text-[11px] font-mono border border-zinc-800 bg-zinc-900 hover:bg-zinc-800 text-zinc-400 hover:text-zinc-100 transition",
-                  children: [
-                    r ? h(mr, { size: 12 }) : h(vr, { size: 12 }),
-                    " ",
-                    r ? "COPIED" : "COPY",
-                  ],
-                }),
-              ],
-            }),
-            E("div", {
-              className: "flex max-w-full overflow-x-auto scrollbar-thin",
-              children: [
-                h("div", {
-                  className:
-                    "select-none bg-[#0f0f10] px-3 py-3 text-right border-r border-zinc-800/60 sticky left-0",
-                  children: u.map((o, i) =>
-                    h(
-                      "div",
-                      {
-                        className:
-                          "text-[10px] sm:text-[11px] leading-6 font-mono text-zinc-600",
-                        children: i + 1,
-                      },
-                      i,
-                    ),
-                  ),
-                }),
-                h("pre", {
-                  className:
-                    "px-4 py-3 text-[11px] sm:text-[12.5px] leading-6 font-mono min-w-0 flex-1",
-                  children: h("code", {
-                    className: "text-zinc-300 whitespace-pre block",
-                    dangerouslySetInnerHTML: { __html: B0(e) },
-                  }),
-                }),
-              ],
-            }),
+            $jx("span", { className: "text-[11px] font-medium tracking-widest text-zinc-400 uppercase", children: n }),
+            $CFG.treeChip && $jx("span", { className: "text-[10px] px-1.5 py-0.5 rounded bg-zinc-800 text-zinc-400 border border-zinc-700", children: $CFG.treeChip }),
           ],
-        });
-      }
-      function H0({ note: e }) {
-        let n = {
-            tip: "border-zinc-700 bg-zinc-900/60",
-            warn: "border-zinc-600 bg-zinc-900/80",
-            perf: "border-zinc-700 bg-[#141414]",
-          },
-          t = {
-            tip: h(vt, { size: 14, className: "text-zinc-300" }),
-            warn: h(gn, { size: 14, className: "text-zinc-200" }),
-            perf: h(mt, { size: 14, className: "text-zinc-300" }),
-          };
-        return E("div", {
-          className: `my-5 rounded-md border ${n[e.type]} px-4 py-3 flex gap-3`,
+        }),
+      $jx("pre", { className: "p-4 text-[12.5px] leading-[1.7] text-zinc-300 overflow-x-auto font-code whitespace-pre", children: e }),
+    ],
+  });
+}
+function $Code({ lang: e, file: n, code: t }) {
+  let [r, l] = $R.useState(!1);
+  return $jxs("div", {
+    className: "my-5 rounded-[10px] border border-zinc-800 bg-[#101012] overflow-hidden group",
+    children: [
+      (n || e) &&
+        $jxs("div", {
+          className: "flex items-center justify-between px-4 py-2.5 border-b border-zinc-800 bg-[#121214]",
           children: [
-            h("div", { className: "mt-0.5", children: t[e.type] }),
-            E("div", {
-              className: "space-y-1",
+            $jxs("div", {
+              className: "flex items-center gap-2.5",
               children: [
-                h("div", {
-                  className:
-                    "text-[11px] tracking-widest font-mono font-semibold text-zinc-200 uppercase",
-                  children: e.title,
-                }),
-                h("div", {
-                  className: "text-[13px] leading-6 text-zinc-400 font-mono",
-                  children: e.content,
-                }),
+                n && $jx("span", { className: "text-[11px] font-medium tracking-wide text-zinc-300 font-code", children: n }),
+                e && $jx("span", { className: "text-[10px] px-1.5 py-0.5 rounded bg-zinc-900 text-zinc-500 border border-zinc-800 uppercase font-medium tracking-widest", children: e }),
               ],
             }),
-          ],
-        });
-      }
-      function vi() {
-        let [e, n] = Z.useState(""),
-          [t, r] = Z.useState(In[0].slug),
-          [l, u] = Z.useState(In[0].subtopics[0]?.id || ""),
-          [o, i] = Z.useState(!1),
-          [a, c] = Z.useState(0),
-          m = Z.useRef(null),
-          v = Z.useRef(null);
-        Z.useEffect(() => {
-          let S = (f) => {
-            if (
-              f.key === "/" &&
-              !(f.target instanceof HTMLInputElement) &&
-              !(f.target instanceof HTMLTextAreaElement)
-            )
-              (f.preventDefault(), m.current?.focus());
-          };
-          return (
-            window.addEventListener("keydown", S),
-            () => window.removeEventListener("keydown", S)
-          );
-        }, []);
-        let p = Z.useMemo(() => {
-          if (!e.trim()) return In;
-          let S = e.toLowerCase();
-          return In.filter(
-            (f) =>
-              f.title.toLowerCase().includes(S) ||
-              f.intro.toLowerCase().includes(S) ||
-              f.why.toLowerCase().includes(S) ||
-              f.subtopics.some((s) => s.title.toLowerCase().includes(S)) ||
-              f.sections.some((s) => s.title.toLowerCase().includes(S)),
-          );
-        }, [e]);
-        (Z.useEffect(() => {
-          let S = new IntersectionObserver(
-            (f) => {
-              f.forEach((s) => {
-                if (s.isIntersecting) {
-                  let d = s.target.id.replace("topic-", "");
-                  (r(d),
-                    s.target.querySelectorAll("[data-sub]").forEach((P) => {
-                      let N = P.getBoundingClientRect();
-                      if (N.top < window.innerHeight * 0.5 && N.bottom > 0)
-                        u(P.id);
-                    }));
-                }
-              });
-            },
-            { rootMargin: "-20% 0px -70% 0px", threshold: 0.1 },
-          );
-          return (
-            In.forEach((f) => {
-              let s = document.getElementById(`topic-${f.slug}`);
-              if (s) S.observe(s);
-            }),
-            () => S.disconnect()
-          );
-        }, []),
-          Z.useEffect(() => {
-            let S = new IntersectionObserver(
-              (f) => {
-                f.forEach((s) => {
-                  if (s.isIntersecting) u(s.target.id);
-                });
+            $jxs("button", {
+              onClick: async () => {
+                await navigator.clipboard.writeText(t);
+                l(!0);
+                setTimeout(() => l(!1), 1500);
               },
-              { rootMargin: "-10% 0px -80% 0px", threshold: 0 },
-            );
-            return (
-              document
-                .querySelectorAll("[data-sub]")
-                .forEach((f) => S.observe(f)),
-              () => S.disconnect()
-            );
-          }, [p]),
-          Z.useEffect(() => {
-            let S = () => {
-              let f = document.documentElement,
-                s = (f.scrollTop / (f.scrollHeight - f.clientHeight)) * 100;
-              c(s);
-            };
-            return (
-              window.addEventListener("scroll", S),
-              () => window.removeEventListener("scroll", S)
-            );
-          }, []));
-        let w = Z.useMemo(() => {
-            return {
-              BEGINNER: p.filter((S) => S.level === "BEGINNER"),
-              INTERMEDIATE: p.filter((S) => S.level === "INTERMEDIATE"),
-              ADVANCED: p.filter((S) => S.level === "ADVANCED"),
-            };
-          }, [p]),
-          k = In.find((S) => S.slug === t) || In[0],
-          _ = (S) => {
-            (document
-              .getElementById(S)
-              ?.scrollIntoView({ behavior: "smooth", block: "start" }),
-              i(!1));
-          };
-        return E("div", {
-          className:
-            "min-h-screen bg-[#09090b] text-zinc-100 selection:bg-white selection:text-black",
-          children: [
-            h("style", {
-              children: `@import url('${V0}'); *{font-family:'Geist Mono', monospace} code, pre, .code{font-family:'JetBrains Mono', monospace}`,
-            }),
-            h("div", {
-              className:
-                "fixed top-0 left-0 h-[2px] bg-white z-[60] transition-all",
-              style: { width: `${a}%` },
-            }),
-            E("nav", {
-              className:
-                "sticky top-0 z-50 h-14 border-b border-zinc-800 bg-black/80 backdrop-blur-xl flex items-center px-3 lg:px-4 gap-3",
-              style: { paddingTop: "var(--safe-area-inset-top)" },
+              className: "flex items-center gap-1.5 text-[11px] px-2.5 py-1 rounded-md bg-zinc-900 border border-zinc-800 text-zinc-400 hover:text-white hover:border-zinc-700 transition-colors",
               children: [
-                E("div", {
-                  className: "flex items-center gap-3 min-w-0",
-                  children: [
-                    h("button", {
-                      onClick: () => i((S) => !S),
-                      className:
-                        "lg:hidden p-2 -ml-2 rounded border border-zinc-800 bg-zinc-900",
-                      children: o ? h(kr, { size: 16 }) : h(yr, { size: 16 }),
-                    }),
-                    E("div", {
-                      className: "flex items-center gap-2.5",
-                      children: [
-                        h("div", {
-                          className:
-                            "h-6 w-6 bg-white text-black grid place-items-center font-bold text-[11px] tracking-widest",
-                          children: "PG",
-                        }),
-                        h("span", {
-                          className:
-                            "font-semibold tracking-[0.14em] text-[13px]",
-                          children: "POSTGRES::MASTER",
-                        }),
-                        h("span", {
-                          className:
-                            "hidden sm:inline-flex items-center gap-1.5 border border-zinc-800 bg-zinc-900 px-2 py-0.5 rounded text-[9px] tracking-widest text-zinc-400",
-                          children: "PROD READY",
-                        }),
-                      ],
-                    }),
-                  ],
-                }),
-                h("div", {
-                  className:
-                    "flex-1 flex justify-center max-w-[560px] mx-auto w-full",
-                  children: E("div", {
-                    className: "relative w-full",
-                    children: [
-                      h(gr, {
-                        size: 14,
-                        className:
-                          "absolute left-3 top-1/2 -translate-y-1/2 text-zinc-500",
-                      }),
-                      h("input", {
-                        ref: m,
-                        value: e,
-                        onChange: (S) => n(S.target.value),
-                        placeholder:
-                          "Search topics, indexing, vacuum, partitioning...",
-                        className:
-                          "w-full h-8 rounded-md border border-zinc-800 bg-zinc-900/70 pl-9 pr-10 text-[12.5px] placeholder:text-zinc-600 focus:outline-none focus:border-zinc-600 focus:bg-zinc-900 transition",
-                      }),
-                      h("kbd", {
-                        className:
-                          "absolute right-1.5 top-1/2 -translate-y-1/2 h-5 min-w-5 grid place-items-center rounded border border-zinc-800 bg-zinc-900 px-1.5 text-[10px] text-zinc-500",
-                        children: "/",
-                      }),
-                    ],
-                  }),
-                }),
-                E("div", {
-                  className: "hidden lg:flex items-center gap-3 shrink-0",
-                  children: [
-                    E("div", {
-                      className:
-                        "flex items-center gap-2 text-[11px] font-mono text-zinc-500",
-                      children: [
-                        h("span", {
-                          className:
-                            "h-2 w-2 rounded-full bg-white animate-pulse",
-                        }),
-                        E("span", { children: [k.level, " ", k.num, "/23"] }),
-                      ],
-                    }),
-                    h("div", { className: "h-4 w-px bg-zinc-800" }),
-                    h("span", {
-                      className:
-                        "text-[11px] font-mono tracking-widest border border-zinc-800 px-2 py-1 rounded bg-zinc-900",
-                      children: "v16.0",
-                    }),
-                  ],
-                }),
-              ],
-            }),
-            E("div", {
-              className: "flex",
-              children: [
-                h("aside", {
-                  className: `fixed lg:sticky top-14 z-40 h-[calc(100vh-3.5rem)] w-[300px] lg:w-[280px] border-r border-zinc-800 bg-[#09090b] overflow-y-auto scrollbar-thin transition-transform duration-200 ${o ? "translate-x-0" : "-translate-x-full lg:translate-x-0"}`,
-                  children: E("div", {
-                    className: "p-4",
-                    children: [
-                      E("div", {
-                        className:
-                          "mb-4 text-[10px] tracking-[0.2em] text-zinc-500 font-mono",
-                        children: ["CURRICULUM • ", p.length, " TOPICS"],
-                      }),
-                      ["BEGINNER", "INTERMEDIATE", "ADVANCED"].map(
-                        (S) =>
-                          w[S].length > 0 &&
-                          E(
-                            "div",
-                            {
-                              className: "mb-6",
-                              children: [
-                                E("div", {
-                                  className:
-                                    "sticky top-0 bg-[#09090b] py-2 mb-1 flex items-center justify-between",
-                                  children: [
-                                    h("span", {
-                                      className:
-                                        "text-[10px] tracking-[0.18em] font-semibold text-zinc-400",
-                                      children: S,
-                                    }),
-                                    h("span", {
-                                      className:
-                                        "text-[10px] font-mono text-zinc-600",
-                                      children: w[S].length,
-                                    }),
-                                  ],
-                                }),
-                                h("div", {
-                                  className: "space-y-1",
-                                  children: w[S].map((f) => {
-                                    let s = t === f.slug,
-                                      d =
-                                        e &&
-                                        f.title
-                                          .toLowerCase()
-                                          .includes(e.toLowerCase());
-                                    return E(
-                                      "button",
-                                      {
-                                        onClick: () => _(`topic-${f.slug}`),
-                                        className: `w-full text-left group flex items-start gap-2.5 rounded-md px-2.5 py-2.5 border transition ${s ? "bg-white text-black border-white" : "border-transparent hover:border-zinc-800 hover:bg-zinc-900 text-zinc-400 hover:text-zinc-100"} ${d ? "ring-1 ring-zinc-700" : ""}`,
-                                        children: [
-                                          h("span", {
-                                            className: `mt-0.5 font-mono text-[11px] tracking-widest px-1 rounded ${s ? "bg-black text-white" : "bg-zinc-900 text-zinc-500 group-hover:text-zinc-300"}`,
-                                            children: f.num,
-                                          }),
-                                          E("span", {
-                                            className: "flex-1 min-w-0",
-                                            children: [
-                                              h("div", {
-                                                className:
-                                                  "text-[12.5px] leading-4 font-medium truncate",
-                                                children: f.title,
-                                              }),
-                                              E("div", {
-                                                className:
-                                                  "flex items-center gap-1.5 mt-1",
-                                                children: [
-                                                  h("span", {
-                                                    className: `h-1.5 w-1.5 rounded-full ${s ? "bg-black" : "bg-zinc-600"}`,
-                                                  }),
-                                                  E("span", {
-                                                    className: `text-[10px] font-mono ${s ? "text-zinc-700" : "text-zinc-600"}`,
-                                                    children: [
-                                                      f.subtopics.length,
-                                                      " lessons • ",
-                                                      f.level,
-                                                    ],
-                                                  }),
-                                                ],
-                                              }),
-                                            ],
-                                          }),
-                                          h(hr, {
-                                            size: 12,
-                                            className: `mt-1 shrink-0 ${s ? "text-zinc-600" : "text-zinc-700"}`,
-                                          }),
-                                        ],
-                                      },
-                                      f.slug,
-                                    );
-                                  }),
-                                }),
-                              ],
-                            },
-                            S,
-                          ),
-                      ),
-                      E("div", {
-                        className:
-                          "mt-8 rounded-md border border-zinc-800 bg-zinc-900/40 p-3",
-                        children: [
-                          h("div", {
-                            className:
-                              "text-[11px] font-mono tracking-widest text-zinc-400",
-                            children: "PRO TIP",
-                          }),
-                          E("div", {
-                            className:
-                              "mt-1 text-[12px] leading-5 text-zinc-500 font-mono",
-                            children: [
-                              "Press ",
-                              h("kbd", {
-                                className:
-                                  "border border-zinc-700 bg-zinc-800 px-1 rounded text-[10px]",
-                                children: "/",
-                              }),
-                              " to search, ",
-                              h("kbd", {
-                                className:
-                                  "border border-zinc-700 bg-zinc-800 px-1 rounded text-[10px]",
-                                children: "Esc",
-                              }),
-                              " to clear. Active section syncs via IntersectionObserver.",
-                            ],
-                          }),
-                        ],
-                      }),
-                    ],
-                  }),
-                }),
-                o &&
-                  h("div", {
-                    onClick: () => i(!1),
-                    className:
-                      "fixed inset-0 z-30 bg-black/60 backdrop-blur-sm lg:hidden top-14",
-                  }),
-                h("main", {
-                  ref: v,
-                  className: "flex-1 min-w-0",
-                  children: E("div", {
-                    className: "mx-auto max-w-3xl px-5 sm:px-6 py-10",
-                    children: [
-                      E("div", {
-                        className:
-                          "mb-10 border border-zinc-800 rounded-lg bg-gradient-to-b from-zinc-900/40 to-transparent p-6",
-                        children: [
-                          E("div", {
-                            className:
-                              "flex items-center gap-2 text-[10px] tracking-[0.2em] font-mono text-zinc-500",
-                            children: [
-                              h("span", { className: "h-px w-6 bg-zinc-700" }),
-                              " ZERO TO PRODUCTION • MONOCHROME EDITION",
-                            ],
-                          }),
-                          E("h1", {
-                            className:
-                              "mt-4 text-[28px] sm:text-[34px] leading-[0.95] tracking-tight font-semibold",
-                            children: [
-                              "PostgreSQL from Zero",
-                              h("br", {}),
-                              "to ",
-                              h("span", {
-                                className: "text-zinc-400",
-                                children: "Prod-Advanced.",
-                              }),
-                            ],
-                          }),
-                          h("p", {
-                            className:
-                              "mt-4 text-[13px] leading-6 text-zinc-400 font-mono max-w-[60ch]",
-                            children:
-                              "Strict monochrome curriculum. No ORMs hiding SQL. Every query is production-grade, with indexing, RLS, pooling, and failure modes. Built for DBAs who ship.",
-                          }),
-                          E("div", {
-                            className: "mt-5 flex flex-wrap gap-2",
-                            children: [
-                              E("span", {
-                                className:
-                                  "inline-flex items-center gap-1.5 border border-zinc-800 bg-zinc-900 px-2.5 py-1 rounded-full text-[11px] font-mono text-zinc-400",
-                                children: [h(Sr, { size: 12 }), " RLS & Roles"],
-                              }),
-                              E("span", {
-                                className:
-                                  "inline-flex items-center gap-1.5 border border-zinc-800 bg-zinc-900 px-2.5 py-1 rounded-full text-[11px] font-mono text-zinc-400",
-                                children: [
-                                  h(vt, { size: 12 }),
-                                  " EXPLAIN • BRIN • GIN",
-                                ],
-                              }),
-                              E("span", {
-                                className:
-                                  "inline-flex items-center gap-1.5 border border-zinc-800 bg-zinc-900 px-2.5 py-1 rounded-full text-[11px] font-mono text-zinc-400",
-                                children: [
-                                  h(pr, { size: 12 }),
-                                  " PgBouncer • Patroni • PITR",
-                                ],
-                              }),
-                            ],
-                          }),
-                        ],
-                      }),
-                      p.map((S) =>
-                        E(
-                          "section",
-                          {
-                            id: `topic-${S.slug}`,
-                            className:
-                              "scroll-mt-20 border-t border-zinc-800/80 pt-10 pb-12 first:border-0",
-                            children: [
-                              E("div", {
-                                className: "flex items-center gap-2 mb-3",
-                                children: [
-                                  E("span", {
-                                    className:
-                                      "text-[10px] tracking-[0.2em] font-mono px-2 py-1 rounded border border-zinc-800 bg-zinc-900 text-zinc-400",
-                                    children: [S.level, " • ", S.num],
-                                  }),
-                                  E("span", {
-                                    className:
-                                      "text-[10px] font-mono text-zinc-600",
-                                    children: [
-                                      S.subtopics.length,
-                                      " subtopics",
-                                    ],
-                                  }),
-                                  E("span", {
-                                    className:
-                                      "ml-auto text-[10px] font-mono text-zinc-600 hidden sm:inline",
-                                    children: ["ID: ", S.slug],
-                                  }),
-                                ],
-                              }),
-                              h("h1", {
-                                className:
-                                  "text-[26px] leading-[1.05] font-semibold tracking-tight",
-                                children: S.title,
-                              }),
-                              h("p", {
-                                className:
-                                  "mt-3 text-[13.5px] leading-6 text-zinc-400 font-mono",
-                                children: S.intro,
-                              }),
-                              E("div", {
-                                className:
-                                  "mt-5 rounded-md border border-zinc-700 bg-zinc-900/60 p-4",
-                                children: [
-                                  E("div", {
-                                    className:
-                                      "text-[11px] tracking-widest font-mono text-zinc-300 uppercase flex items-center gap-2",
-                                    children: [
-                                      h(mt, { size: 12 }),
-                                      " Why in production",
-                                    ],
-                                  }),
-                                  h("div", {
-                                    className:
-                                      "mt-2 text-[12.5px] leading-6 text-zinc-400 font-mono",
-                                    children: S.why,
-                                  }),
-                                ],
-                              }),
-                              S.sections.map((f) =>
-                                E(
-                                  "div",
-                                  {
-                                    id: f.id,
-                                    "data-sub": !0,
-                                    className: "mt-10 scroll-mt-20",
-                                    children: [
-                                      E("h2", {
-                                        className:
-                                          "text-[16px] font-semibold tracking-tight flex items-center gap-2",
-                                        children: [
-                                          h("span", {
-                                            className: "h-4 w-0.5 bg-white",
-                                          }),
-                                          " ",
-                                          f.title,
-                                        ],
-                                      }),
-                                      h("div", {
-                                        className: "mt-3 space-y-3",
-                                        children: f.paragraphs.map((s, d) =>
-                                          h(
-                                            "p",
-                                            {
-                                              className:
-                                                "text-[13px] leading-6 text-zinc-400 font-mono",
-                                              children: s,
-                                            },
-                                            d,
-                                          ),
-                                        ),
-                                      }),
-                                      f.codes?.map((s, d) =>
-                                        h(
-                                          $0,
-                                          {
-                                            code: s.code,
-                                            caption: s.caption,
-                                            lang: s.lang,
-                                          },
-                                          d,
-                                        ),
-                                      ),
-                                      f.note && h(H0, { note: f.note }),
-                                    ],
-                                  },
-                                  f.id,
-                                ),
-                              ),
-                            ],
-                          },
-                          S.slug,
-                        ),
-                      ),
-                      E("footer", {
-                        className: "mt-16 border-t border-zinc-800 pt-8 pb-20",
-                        children: [
-                          E("div", {
-                            className:
-                              "flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3",
-                            children: [
-                              h("div", {
-                                className:
-                                  "text-[11px] font-mono tracking-widest text-zinc-500",
-                                children:
-                                  "Built for production DBAs • Monochrome • PG 16 • No telemetry • No ORM",
-                              }),
-                              E("div", {
-                                className:
-                                  "text-[11px] font-mono text-zinc-600",
-                                children: [
-                                  "© ",
-                                  new Date().getFullYear(),
-                                  " POSTGRES::MASTER — prod ready",
-                                ],
-                              }),
-                            ],
-                          }),
-                          E("div", {
-                            className:
-                              "mt-6 grid grid-cols-2 sm:grid-cols-4 gap-3 text-[11px] font-mono",
-                            children: [
-                              E("div", {
-                                className:
-                                  "border border-zinc-800 rounded p-3 bg-zinc-900/30",
-                                children: [
-                                  h("div", {
-                                    className: "text-zinc-500",
-                                    children: "Topics",
-                                  }),
-                                  h("div", {
-                                    className:
-                                      "text-[18px] font-semibold text-white mt-1",
-                                    children: "23",
-                                  }),
-                                ],
-                              }),
-                              E("div", {
-                                className:
-                                  "border border-zinc-800 rounded p-3 bg-zinc-900/30",
-                                children: [
-                                  h("div", {
-                                    className: "text-zinc-500",
-                                    children: "Code blocks",
-                                  }),
-                                  h("div", {
-                                    className:
-                                      "text-[18px] font-semibold text-white mt-1",
-                                    children: "70+",
-                                  }),
-                                ],
-                              }),
-                              E("div", {
-                                className:
-                                  "border border-zinc-800 rounded p-3 bg-zinc-900/30",
-                                children: [
-                                  h("div", {
-                                    className: "text-zinc-500",
-                                    children: "Patterns",
-                                  }),
-                                  h("div", {
-                                    className:
-                                      "text-[18px] font-semibold text-white mt-1",
-                                    children: "PITR • RLS • SKIP LOCKED",
-                                  }),
-                                ],
-                              }),
-                              E("div", {
-                                className:
-                                  "border border-zinc-800 rounded p-3 bg-zinc-900/30",
-                                children: [
-                                  h("div", {
-                                    className: "text-zinc-500",
-                                    children: "Mode",
-                                  }),
-                                  h("div", {
-                                    className:
-                                      "text-[18px] font-semibold text-white mt-1",
-                                    children: "Dark • Zinc-950",
-                                  }),
-                                ],
-                              }),
-                            ],
-                          }),
-                        ],
-                      }),
-                    ],
-                  }),
-                }),
-                E("aside", {
-                  className:
-                    "hidden xl:block w-[240px] shrink-0 sticky top-14 h-[calc(100vh-3.5rem)] border-l border-zinc-800 overflow-y-auto p-4",
-                  children: [
-                    E("div", {
-                      className: "mb-6",
-                      children: [
-                        h("div", {
-                          className:
-                            "text-[10px] tracking-[0.2em] font-mono text-zinc-500 mb-2",
-                          children: "READING PROGRESS",
-                        }),
-                        h("div", {
-                          className:
-                            "h-1.5 rounded-full bg-zinc-900 border border-zinc-800 overflow-hidden",
-                          children: h("div", {
-                            className: "h-full bg-white transition-all",
-                            style: { width: `${a}%` },
-                          }),
-                        }),
-                        E("div", {
-                          className: "mt-2 text-[11px] font-mono text-zinc-600",
-                          children: [Math.round(a), "% • ", k.num, "/23"],
-                        }),
-                      ],
-                    }),
-                    E("div", {
-                      className: "mb-6",
-                      children: [
-                        h("div", {
-                          className:
-                            "text-[10px] tracking-[0.2em] font-mono text-zinc-500 mb-3",
-                          children: "ON THIS PAGE",
-                        }),
-                        h("div", {
-                          className: "text-[12px] font-semibold mb-2",
-                          children: k.title,
-                        }),
-                        h("div", {
-                          className: "space-y-1",
-                          children: k.subtopics.map((S) =>
-                            h(
-                              "button",
-                              {
-                                onClick: () => _(S.id),
-                                className: `w-full text-left text-[12px] leading-5 font-mono px-2 py-1.5 rounded border transition ${l === S.id ? "bg-white text-black border-white" : "border-transparent text-zinc-500 hover:text-zinc-200 hover:bg-zinc-900"}`,
-                                children: E("span", {
-                                  className: "flex items-center gap-2",
-                                  children: [
-                                    h("span", {
-                                      className: `h-1 w-1 rounded-full ${l === S.id ? "bg-black" : "bg-zinc-600"}`,
-                                    }),
-                                    S.title,
-                                  ],
-                                }),
-                              },
-                              S.id,
-                            ),
-                          ),
-                        }),
-                      ],
-                    }),
-                    E("div", {
-                      className:
-                        "rounded-md border border-zinc-800 bg-zinc-900/40 p-3",
-                      children: [
-                        h("div", {
-                          className:
-                            "text-[11px] font-mono tracking-widest text-zinc-400",
-                          children: "STACK",
-                        }),
-                        E("div", {
-                          className:
-                            "mt-2 space-y-1 text-[11px] font-mono text-zinc-500",
-                          children: [
-                            E("div", {
-                              className: "flex justify-between",
-                              children: [
-                                h("span", { children: "Postgres" }),
-                                h("span", {
-                                  className: "text-zinc-300",
-                                  children: "16.0",
-                                }),
-                              ],
-                            }),
-                            E("div", {
-                              className: "flex justify-between",
-                              children: [
-                                h("span", { children: "PgBouncer" }),
-                                h("span", {
-                                  className: "text-zinc-300",
-                                  children: "1.22",
-                                }),
-                              ],
-                            }),
-                            E("div", {
-                              className: "flex justify-between",
-                              children: [
-                                h("span", { children: "Patroni" }),
-                                h("span", {
-                                  className: "text-zinc-300",
-                                  children: "3.x",
-                                }),
-                              ],
-                            }),
-                            E("div", {
-                              className: "flex justify-between",
-                              children: [
-                                h("span", { children: "wal-g" }),
-                                h("span", {
-                                  className: "text-zinc-300",
-                                  children: "2.x",
-                                }),
-                              ],
-                            }),
-                            h("div", { className: "mt-2 h-px bg-zinc-800" }),
-                            h("div", {
-                              className: "pt-2 text-zinc-400",
-                              children:
-                                "All SQL tested on zinc-950 background. Copy-paste ready for psql.",
-                            }),
-                          ],
-                        }),
-                      ],
-                    }),
-                    E("div", {
-                      className:
-                        "mt-4 text-[10px] font-mono text-zinc-600 leading-5",
-                      children: [
-                        "Tip: Use ",
-                        h("span", {
-                          className: "text-zinc-400",
-                          children: "EXPLAIN (ANALYZE, BUFFERS)",
-                        }),
-                        " on every query above 50ms. Log via auto_explain.",
-                      ],
-                    }),
-                  ],
-                }),
+                $jx("span", { className: "w-3 h-3 flex items-center justify-center", children: r ? "✓" : "⎙" }),
+                r ? ($CFG.copy ? $CFG.copy[1] : "Copied") : ($CFG.copy ? $CFG.copy[0] : "Copy"),
               ],
             }),
           ],
-        });
-      }
+        }),
+      $jx("pre", { className: "p-4 text-[12.5px] leading-[1.65] text-zinc-200 overflow-x-auto font-code", children: $jx("code", { children: t }) }),
+    ],
+  });
+}
+function $Note({ kind: k, title: t, children: c }) {
+  let box = "border-zinc-800 bg-[#121214]", dot = "bg-white text-black", head = "text-zinc-200", body = "text-zinc-400";
+  return $jxs("div", {
+    className: `my-6 rounded-[10px] border ${box} p-4 flex gap-3`,
+    children: [
+      $jx("div", { className: `shrink-0 w-6 h-6 rounded-full ${dot} flex items-center justify-center text-[11px] font-bold`, children: "!" }),
+      $jxs("div", {
+        children: [
+          t && $jx("div", { className: `text-[11px] font-bold tracking-widest ${head} mb-1`, children: t }),
+          $jx("div", { className: `text-[12.5px] leading-[1.6] ${body}`, children: c }),
+        ],
+      }),
+    ],
+  });
+}
+function $Block({ b: m }) {
+  if (m.type === "para") return $jx("p", { className: "text-[13.5px] leading-[1.7] text-zinc-300" + (m.pre ? " whitespace-pre-line" : ""), children: m.text });
+  if (m.type === "h3")
+    return m.eyebrow
+      ? $jxs("div", { id: m.id, className: "scroll-mt-[80px] mt-6 mb-3", children: [$jx("div", { className: "mb-1 text-[10px] tracking-widest text-zinc-500", children: m.eyebrow }), $jx("div", { className: "text-[11px] font-bold tracking-widest text-zinc-200", children: m.text })] })
+      : $jx("div", { id: m.id, className: "scroll-mt-[80px] mt-6 mb-3 text-[11px] font-bold tracking-widest text-zinc-200", children: m.text });
+  if (m.type === "chips")
+    return $jx("div", {
+      className: "my-4 flex flex-wrap gap-2",
+      children: m.items.map((R, c) => $jx("span", { className: "text-[11px] px-2.5 py-1 rounded-full bg-zinc-900 border border-zinc-800 text-zinc-400", children: R }, c)),
+    });
+  if (m.type === "list")
+    return $jx("ul", {
+      className: "my-4 space-y-1.5",
+      children: m.items.map((R, c) =>
+        $jxs("li", {
+          className: "flex gap-2.5 text-[13px] leading-[1.6] text-zinc-400",
+          children: [$jx("span", { className: "text-zinc-600 mt-0.5", children: "—" }), $jx("span", { children: R })],
+        }, c)),
+    });
+  if (m.type === "table")
+    return $jx("div", {
+      className: "my-5 overflow-hidden rounded-[10px] border border-zinc-800",
+      children: $jxs("table", {
+        className: "w-full text-[12.5px]",
+        children: [
+          $jx("thead", {
+            className: "bg-[#121214] border-b border-zinc-800",
+            children: $jx("tr", {
+              children: m.headers.map((R, i) => $jx("th", { className: "text-left px-4 py-2.5 font-medium text-zinc-400 tracking-wide uppercase text-[11px]", children: R }, i)),
+            }),
+          }),
+          $jx("tbody", {
+            className: "divide-y divide-zinc-800/60",
+            children: m.rows.map((R, c) =>
+              $jx("tr", {
+                className: "bg-[#101012]",
+                children: R.map((a, d) => $jx("td", { className: "px-4 py-2.5 text-zinc-300 font-code", children: a }, d)),
+              }, c)),
+          }),
+        ],
+      }),
+    });
+  if (m.type === "fileTree") return $jx($Tree, { tree: m.tree, file: m.file });
+  if (m.type === "code") return $jx($Code, { lang: m.lang, file: m.file, code: m.code });
+  if (m.type === "tip") return $jx($Note, { kind: "tip", title: m.title || $CFG.tipDefault, children: m.text });
+  if (m.type === "warn") return $jx($Note, { kind: "warn", title: m.title, children: m.text });
+  if (m.type === "perf") return $jx($Note, { kind: "perf", title: m.title, children: m.text });
+  if (m.type === "badgood")
+    return $jxs("div", {
+      className: "my-6 grid md:grid-cols-2 gap-3",
+      children: [
+        $jxs("div", {
+          className: "rounded-[10px] border border-red-900/50 bg-[#181012] overflow-hidden",
+          children: [
+            $jx("div", { className: "px-3 py-2 border-b border-red-900/30 bg-red-950/30 text-[11px] font-bold tracking-widest text-red-300", children: m.bad.file }),
+            $jx("pre", { className: "p-3 text-[11.5px] leading-[1.6] text-red-200/80 font-code overflow-x-auto", children: m.bad.code }),
+          ],
+        }),
+        $jxs("div", {
+          className: "rounded-[10px] border border-emerald-900/50 bg-[#101815] overflow-hidden",
+          children: [
+            $jx("div", { className: "px-3 py-2 border-b border-emerald-900/30 bg-emerald-950/30 text-[11px] font-bold tracking-widest text-emerald-300", children: m.good.file }),
+            $jx("pre", { className: "p-3 text-[11.5px] leading-[1.6] text-emerald-200/80 font-code overflow-x-auto", children: m.good.code }),
+          ],
+        }),
+      ],
+    });
+  return null;
+}
+function $Box({ title: t, children: c, mb: mb }) {
+  return $jxs("div", {
+    className: "rounded-[10px] border border-zinc-800 bg-[#121214] p-3" + (mb ? " mb-4" : ""),
+    children: [$jx("div", { className: "text-[11px] font-bold tracking-widest text-zinc-300 mb-2", children: t }), c],
+  });
+}
+function $blockText(b) {
+  let o = [];
+  for (let k in b) { let v = b[k]; if (typeof v === "string") o.push(v); else if (Array.isArray(v)) v.forEach((x) => (typeof x === "string" ? o.push(x) : Array.isArray(x) && x.forEach((y) => typeof y === "string" && o.push(y)))); else if (v && typeof v === "object") o.push($blockText(v)); }
+  return o.join(" ");
+}
+function $App() {
+  let C = $CFG, S0 = $SECTIONS;
+  let [e, n] = $R.useState(""),
+    [t, r] = $R.useState(S0[0].id),
+    [l, o] = $R.useState(C.action ? C.action.label : ""),
+    [u, i] = $R.useState(""),
+    [pr, setPr] = $R.useState(0),
+    s = $R.useRef(null),
+    f = $R.useRef(null),
+    h = $R.useMemo(() => {
+      if (!e.trim()) return S0;
+      let p = e.toLowerCase();
+      return S0.filter((m) => m.title.toLowerCase().includes(p) || (m.summary || "").toLowerCase().includes(p) || (m.meta || []).some((q) => String(q).toLowerCase().includes(p)) || m.blocks.some((b) => $blockText(b).toLowerCase().includes(p)));
+    }, [e]);
+  ($R.useEffect(() => {
+    let p = (m) => {
+      if (m.key === "/" && document.activeElement?.tagName !== "INPUT") (m.preventDefault(), s.current?.focus());
+    };
+    window.addEventListener("keydown", p);
+    return () => window.removeEventListener("keydown", p);
+  }, []),
+    $R.useEffect(() => {
+      if (!C.progress) return;
+      let q = () => { let c = document.documentElement, p = (c.scrollTop / (c.scrollHeight - c.clientHeight)) * 100; setPr(isNaN(p) ? 0 : p); };
+      window.addEventListener("scroll", q, { passive: !0 });
+      return () => window.removeEventListener("scroll", q);
+    }, []),
+    $R.useEffect(() => {
+      let p = new IntersectionObserver(
+        (m) => { m.forEach((S) => { if (S.isIntersecting) r(S.target.id); }); },
+        { rootMargin: "-20% 0px -70% 0px", threshold: 0 },
+      );
+      S0.forEach((m) => { let S = document.getElementById(m.id); if (S) p.observe(S); });
+      return () => p.disconnect();
+    }, []));
+  let y = (p) => {
+      r(p);
+      let m = document.getElementById(p);
+      if (m) (m.scrollIntoView({ behavior: "smooth", block: "start" }), m.classList.add("ring-1", "ring-white/20"), setTimeout(() => m.classList.remove("ring-1", "ring-white/20"), 800));
+      try { history.replaceState(null, "", `#${p}`); } catch {}
+    },
+    v = S0.find((p) => p.id === t) || S0[0],
+    groups = C.groups || [],
+    api = { progress: pr, query: e, setQuery: n, active: t, go: y, action: l, setAction: o, toast: u, setToast: i, current: v, sections: S0, visible: h };
+  return $jxs("div", {
+    className: "min-h-screen bg-[#09090b] text-zinc-100 selection:bg-white selection:text-black",
+    style: { paddingTop: "var(--safe-area-inset-top)" },
+    children: [
+      $jxs("header", {
+        className: "sticky z-40 border-b border-zinc-800 bg-[#09090b]/90 backdrop-blur-xl",
+        style: { top: "var(--safe-area-inset-top)" },
+        children: [
+          $jxs("div", {
+            className: "flex h-[56px] items-center justify-between px-4 lg:px-6 gap-4",
+            children: [
+              $jxs("div", {
+                className: "flex items-center gap-4 shrink-0",
+                children: [
+                  $jxs("div", {
+                    className: "flex items-center gap-2",
+                    children: [
+                      $jx("span", { className: "font-bold tracking-[-0.02em] text-[14px]", children: C.brand }),
+                      C.badge && $jx("span", { className: "hidden sm:inline-flex items-center gap-1.5 text-[10px] px-2 py-0.5 rounded-full bg-white text-black font-bold tracking-widest", children: C.badge }),
+                    ],
+                  }),
+                  C.tags && $jx("div", {
+                    className: "hidden md:flex items-center gap-2",
+                    children: (typeof C.tags === "function" ? C.tags(api) : C.tags).map((p) => $jx("span", { className: "text-[10px] px-2 py-1 rounded bg-zinc-900 border border-zinc-800 text-zinc-300 tracking-widest font-medium", children: p }, p)),
+                  }),
+                ],
+              }),
+              $jx("div", {
+                className: "flex-1 max-w-[560px] hidden lg:flex items-center",
+                children: $jxs("div", {
+                  className: "relative w-full",
+                  children: [
+                    $jx("span", { className: "absolute left-3 top-1/2 -translate-y-1/2 text-zinc-500 text-[12px]", children: "⌕" }),
+                    $jx("input", {
+                      ref: s, value: e, onChange: (p) => n(p.target.value), placeholder: C.placeholder,
+                      className: "w-full h-[36px] pl-8 pr-[48px] rounded-[8px] bg-[#121214] border border-zinc-800 text-[13px] placeholder:text-zinc-500 focus:outline-none focus:border-zinc-700 focus:bg-[#151517] transition-colors",
+                    }),
+                    e && C.clearLabel
+                      ? $jx("button", { onClick: () => n(""), className: "absolute right-2 top-1/2 -translate-y-1/2 h-[22px] px-1.5 rounded-[5px] bg-zinc-800 border border-zinc-700 text-[11px] text-zinc-400 flex items-center", children: C.clearLabel })
+                      : $jx("kbd", { className: "absolute right-2 top-1/2 -translate-y-1/2 h-[22px] px-1.5 rounded-[5px] bg-zinc-800 border border-zinc-700 text-[11px] text-zinc-400 flex items-center", children: "/" }),
+                  ],
+                }),
+              }),
+              C.headerRight && $jxs("div", { className: "flex items-center gap-3 shrink-0", children: C.headerRight(api) }),
+            ],
+          }),
+          u && $jx("div", { className: "px-4 lg:px-6 pb-2 text-[11px] text-emerald-400 font-code", children: u }),
+          C.headerExtra && $jx("div", { className: "px-4 lg:px-6 pb-2 flex flex-wrap gap-2", children: C.headerExtra(api) }),
+          (e && C.status) ? $jx("div", { className: "px-4 lg:px-6 pb-2 text-[11px] text-zinc-500 font-code", children: C.status(api) }) : null,
+          $jx("div", {
+            className: "lg:hidden px-4 pb-3",
+            children: $jxs("div", {
+              className: "relative",
+              children: [
+                $jx("span", { className: "absolute left-3 top-1/2 -translate-y-1/2 text-zinc-500 text-[12px]", children: "⌕" }),
+                $jx("input", {
+                  value: e, onChange: (p) => n(p.target.value), placeholder: C.placeholderMobile || C.placeholder,
+                  className: "w-full h-[36px] pl-8 pr-3 rounded-[8px] bg-[#121214] border border-zinc-800 text-[13px] placeholder:text-zinc-500 focus:outline-none focus:border-zinc-700",
+                }),
+              ],
+            }),
+          }),
+        ],
+      }),
+      $jxs("div", {
+        className: "flex max-w-[1680px] mx-auto",
+        children: [
+          $jx("aside", {
+            className: "hidden lg:block w-[280px] shrink-0 sticky top-[56px] h-[calc(100vh-56px)] overflow-y-auto border-r border-zinc-800 bg-[#09090b]",
+            children: $jxs("div", {
+              className: "p-4 space-y-6",
+              children: [
+                C.sidebarHead && C.sidebarHead(api),
+                groups.map((p) => { let list = h.filter((m) => p.test(m)); if (p.hideEmpty && list.length === 0) return null; return (
+                  $jxs("div", {
+                    children: [
+                      $jxs("div", {
+                        className: "flex items-center justify-between mb-3 px-2",
+                        children: [
+                          $jx("span", { className: "text-[11px] font-bold tracking-[0.14em] text-zinc-500", children: p.label }),
+                          (() => { let tg = typeof p.tag === "function" ? p.tag(list) : p.tag; if (tg == null) return null; if (!Array.isArray(tg)) return $jx("span", { className: "text-[9px] px-1.5 py-0.5 rounded bg-zinc-900 border border-zinc-800 text-zinc-500 tracking-widest", children: tg }); let arr = tg; return $jx("div", { className: "flex items-center gap-1.5", children: arr.map((x, xi) => $jx("span", { className: "text-[9px] px-1.5 py-0.5 rounded bg-zinc-900 border border-zinc-800 text-zinc-500 tracking-widest", children: x }, xi)) }); })(),
+                        ],
+                      }),
+                      $jx("div", {
+                        className: "space-y-0.5",
+                        children: [list.map((m) => {
+                          let S = t === m.id;
+                          return $jxs("button", {
+                            onClick: () => y(m.id),
+                            className: `w-full text-left flex items-center gap-3 px-2.5 py-2 rounded-[7px] text-[13px] transition-all border ${S ? "bg-white text-black border-white font-medium" : "border-transparent text-zinc-400 hover:text-zinc-200 hover:bg-zinc-900 hover:border-zinc-800"}`,
+                            children: [
+                              $jx("span", { className: `text-[11px] font-code tracking-wide ${S ? "text-zinc-700" : "text-zinc-600"}`, children: m.num }),
+                              $jx("span", { className: "truncate leading-tight", children: m.title }),
+                              m.side != null && $jx("span", { className: "ml-auto text-[10px] font-code text-zinc-600", children: m.side }),
+                            ],
+                          }, m.id);
+                        }), list.length === 0 && p.empty && $jx("div", { className: "px-2.5 py-2 text-[12px] text-zinc-600", children: p.empty })],
+                      }),
+                    ],
+                  }, p.label)); }),
+                C.sidebarBox && $jx("div", { className: "pt-4 border-t border-zinc-800", children: C.sidebarBox(api) }),
+              ],
+            }),
+          }),
+          $jx("main", {
+            ref: f,
+            className: "flex-1 min-w-0",
+            children: $jxs("div", {
+              className: "max-w-3xl mx-auto px-5 lg:px-8 py-10",
+              children: [
+                C.hero && $jxs("div", {
+                  className: "mb-12 pb-8 border-b border-zinc-800",
+                  children: [
+                    C.hero.badges && $jxs("div", {
+                      className: "flex items-center gap-2 mb-4",
+                      children: [
+                        C.hero.badges[0] && $jx("span", { className: "text-[10px] px-2 py-1 rounded-full bg-white text-black font-bold tracking-widest", children: C.hero.badges[0] }),
+                        C.hero.badges.slice(1).map((q, qi) => $jx("span", { className: "text-[10px] px-2 py-1 rounded-full border border-zinc-800 text-zinc-500 tracking-widest", children: q }, qi)),
+                      ],
+                    }),
+                    $jx("h1", { className: "text-[30px] lg:text-[36px] font-bold tracking-[-0.03em] leading-[1.05]", children: C.hero.title }),
+                    C.hero.desc && $jx("p", { className: "mt-4 text-[14px] leading-[1.6] text-zinc-400 max-w-[60ch]", children: C.hero.desc }),
+                    C.hero.stats && $jx("div", {
+                      className: "mt-6 flex flex-wrap gap-3",
+                      children: C.hero.stats.map((q, qi) => $jx($Box, { title: q[0], children: $jx("div", { className: "text-[12px] leading-[1.5] text-zinc-400", children: q[1] }) }, qi)),
+                    }),
+                    C.hero.chips && $jx("div", {
+                      className: "mt-6 flex flex-wrap gap-2",
+                      children: C.hero.chips.map((p) => $jx("span", { className: "text-[11px] px-2.5 py-1 rounded-full bg-zinc-900 border border-zinc-800 text-zinc-400", children: p }, p)),
+                    }),
+                  ],
+                }),
+                h.length === 0 && $jxs("div", {
+                  className: "py-20 text-center border border-dashed border-zinc-800 rounded-[12px]",
+                  children: [
+                    $jxs("div", { className: "text-zinc-500 text-sm", children: C.emptyText ? C.emptyText(e) : ["No results for “", e, "”"] }),
+                    $jx("button", { onClick: () => n(""), className: "mt-3 text-xs px-3 py-1.5 rounded bg-white text-black font-bold", children: C.clearText || "Clear" }),
+                  ],
+                }),
+                h.map((p) =>
+                  $jxs("section", {
+                    id: p.id,
+                    className: "scroll-mt-[80px] mb-16",
+                    children: [
+                      $jxs("div", {
+                        className: "flex items-start gap-4 mb-6",
+                        children: [
+                          $jx("span", { className: "shrink-0 h-7 px-2.5 rounded-[7px] bg-zinc-900 border border-zinc-800 text-[11px] font-bold tracking-widest flex items-center text-zinc-400", children: p.num }),
+                          $jxs("div", {
+                            className: "min-w-0",
+                            children: [
+                              p.meta && p.meta.length > 0 && $jx("div", {
+                                className: "mb-2 flex flex-wrap items-center gap-2",
+                                children: p.meta.map((q, qi) => $jx("span", { className: "text-[10px] px-2 py-1 rounded-full border border-zinc-800 text-zinc-500 tracking-widest", children: q }, qi)),
+                              }),
+                              $jx("h2", { className: "text-[22px] font-bold tracking-[-0.02em] leading-[1.15]", children: p.title }),
+                              p.summary && $jx("p", { className: "mt-2 text-[13.5px] leading-[1.6] text-zinc-400", children: p.summary }),
+                            ],
+                          }),
+                        ],
+                      }),
+                      $jx("div", { className: "space-y-1", children: p.blocks.map((m, S) => $jx($Block, { b: m }, S)) }),
+                    ],
+                  }, p.id)),
+                C.afterMain && C.afterMain(api),
+                C.footer && $jxs("div", {
+                  className: "mt-16 pt-8 border-t border-zinc-800 flex items-center justify-between",
+                  children: [
+                    $jx("span", { className: "text-[11px] tracking-widest text-zinc-500", children: C.footer.left }),
+                    C.footer.right && $jx("span", { className: "text-[11px] text-zinc-600 font-code", children: C.footer.right }),
+                  ],
+                }),
+              ],
+            }),
+          }),
+          $jx("aside", {
+            className: "hidden xl:block w-[240px] shrink-0 sticky top-[56px] h-[calc(100vh-56px)] overflow-y-auto border-l border-zinc-800 bg-[#09090b]",
+            children: $jxs("div", {
+              className: "p-5",
+              children: [
+                $jx("div", { className: "text-[11px] font-bold tracking-[0.14em] text-zinc-500 mb-4", children: C.tocLabel || "ON THIS PAGE" }),
+                $jx("div", {
+                  className: "space-y-1 mb-6",
+                  children: (C.toc ? C.toc(api) : v.toc).map((p, pi) =>
+                    $jx("div", {
+                      onClick: p.id ? () => { let el = document.getElementById(p.id); if (el) el.scrollIntoView({ behavior: "smooth", block: "start" }); } : undefined,
+                      className: "text-[12px] leading-[1.4] text-zinc-500 hover:text-zinc-300 cursor-pointer py-1 border-l-2 border-transparent hover:border-zinc-700 pl-3 transition-colors",
+                      children: p.label || p,
+                    }, pi)),
+                }),
+                C.railBoxes && C.railBoxes(api),
+                C.jump && $jxs("div", {
+                  className: "space-y-2",
+                  children: [
+                    $jx("div", { className: "text-[11px] font-bold tracking-widest text-zinc-500", children: C.jump.label }),
+                    S0.slice(0, C.jump.count || 8).map((p) =>
+                      $jx("button", {
+                        onClick: () => y(p.id),
+                        className: `block w-full text-left text-[11px] font-code py-1 ${t === p.id ? "text-white" : "text-zinc-600 hover:text-zinc-400"}`,
+                        children: C.jump.text(p),
+                      }, p.id)),
+                    C.jump.more && $jx("div", { className: "pt-2 text-[10px] text-zinc-600", children: C.jump.more(S0.length - (C.jump.count || 8)) }),
+                  ],
+                }),
+                C.railEnd && C.railEnd(api),
+              ],
+            }),
+          }),
+        ],
+      }),
+    ],
+  });
+}
+
+var $D = In;
+var $SECTIONS = $D.map((S) => ({
+  id: "topic-" + S.slug, num: S.num, title: S.title, summary: S.intro, group: S.level,
+  meta: [S.level + " • " + S.num, S.subtopics.length + " subtopics", "ID: " + S.slug],
+  side: S.subtopics.length + " lessons • " + S.level,
+  toc: S.subtopics.map((x) => ({ id: x.id, label: x.title })), raw: S,
+  blocks: [{ type: "tip", title: "Why in production", text: S.why }].concat(...S.sections.map((f) =>
+    [{ type: "h3", id: f.id, text: f.title }]
+      .concat(f.paragraphs.map((p) => ({ type: "para", text: p })))
+      .concat((f.codes || []).map((c) => ({ type: "code", lang: c.lang || "sql", file: c.caption, code: c.code })))
+      .concat(f.note ? [{ type: f.note.type, title: f.note.title, text: f.note.content }] : []))),
+}));
+var $kbd = (t) => $jx("kbd", { className: "px-1 rounded bg-zinc-800 border border-zinc-700 text-zinc-300", children: t });
+var $CFG = {
+  brand: ["PG", " ", "POSTGRES::MASTER"],
+  badge: "PROD READY",
+  copy: ["COPY", "COPIED"],
+  progress: true,
+  placeholder: "Search topics, indexing, vacuum, partitioning...",
+  headerRight: (a) => [$jxs("span", { className: "text-[11px] text-zinc-500 hidden sm:block", children: [a.current.raw.level, " ", a.current.raw.num, "/23"] }), $jx("div", { className: "h-5 w-px bg-zinc-800 hidden sm:block" }), $jx("span", { className: "text-[11px] text-zinc-500 hidden sm:block", children: "v16.0" })],
+  sidebarHead: (a) => $jx("div", { className: "mb-3 px-2 text-[11px] font-bold tracking-[0.14em] text-zinc-500", children: ["CURRICULUM • ", a.visible.length, " TOPICS"] }),
+  groups: ["BEGINNER", "INTERMEDIATE", "ADVANCED"].map((L) => ({ label: L, tag: (list) => String(list.length), hideEmpty: true, test: (m) => m.group === L })),
+  sidebarBox: () => $jx($Box, { title: "PRO TIP", children: $jxs("div", { className: "text-[12.5px] leading-[1.6] text-zinc-400", children: ["Press ", $kbd("/"), " to search, ", $kbd("Esc"), " to clear. Active section syncs via IntersectionObserver."] }) }),
+  hero: {
+    badges: ["ZERO TO PRODUCTION • MONOCHROME EDITION"],
+    title: ["PostgreSQL from Zero", $jx("br", {}), "to ", "Prod-Advanced."],
+    desc: "Strict monochrome curriculum. No ORMs hiding SQL. Every query is production-grade, with indexing, RLS, pooling, and failure modes. Built for DBAs who ship.",
+    chips: ["RLS & Roles", "EXPLAIN • BRIN • GIN", "PgBouncer • Patroni • PITR"],
+  },
+  afterMain: () => $jx("div", { className: "mt-16 flex flex-wrap gap-3", children: [["Topics", "23"], ["Code blocks", "70+"], ["Patterns", "PITR • RLS • SKIP LOCKED"], ["Mode", "Dark • Zinc-950"]].map((r) =>
+    $jx($Box, { title: r[0], children: $jx("div", { className: "text-[12px] leading-[1.5] text-zinc-400", children: r[1] }) }, r[0])) }),
+  footer: { left: "Built for production DBAs • Monochrome • PG 16 • No telemetry • No ORM", right: ["© ", new Date().getFullYear(), " POSTGRES::MASTER — prod ready"] },
+  railBoxes: (a) => $jxs("div", { children: [
+    $jx($Box, { title: "READING PROGRESS", mb: true, children: $jxs("div", { children: [
+      $jx("div", { className: "h-1 w-full rounded-full bg-zinc-900 overflow-hidden", children: $jx("div", { className: "h-full bg-white", style: { width: a.progress + "%" } }) }),
+      $jxs("div", { className: "mt-2 text-[11px] font-code text-zinc-500", children: [Math.round(a.progress), "% • ", a.current.raw.num, "/23"] }),
+    ] }) }),
+    $jx("div", { className: "mb-4 text-[11px] font-code text-zinc-500", children: a.current.raw.title }),
+  ] }),
+  railEnd: () => $jxs("div", { className: "mt-6", children: [
+    $jx($Box, { title: "STACK", mb: true, children: $jxs("div", { children: [
+      $jx("div", { className: "space-y-1.5 text-[11px] font-code text-zinc-500", children: [["Postgres", "16.0"], ["PgBouncer", "1.22"], ["Patroni", "3.x"], ["wal-g", "2.x"]].map((r) => $jxs("div", { className: "flex justify-between", children: [$jx("span", { children: r[0] }), $jx("span", { className: "text-zinc-300", children: r[1] })] }, r[0])) }),
+      $jx("div", { className: "mt-2 text-[11px] leading-[1.5] text-zinc-500", children: "All SQL tested on zinc-950 background. Copy-paste ready for psql." }),
+    ] }) }),
+    $jxs("div", { className: "text-[10px] leading-[1.5] text-zinc-600", children: ["Tip: Use ", $jx("span", { className: "text-zinc-400", children: "EXPLAIN (ANALYZE, BUFFERS)" }), " on every query above 50ms. Log via auto_explain."] }),
+  ] }),
+};
+
       oc.createRoot(document.getElementById("root")).render(
-        h(uc.default.StrictMode, { children: h(vi, {}) }),
+        h(uc.default.StrictMode, { children: h($App, {}) }),
       );
     </script>
     <script>
