@@ -2,100 +2,167 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <base href="/learning-things/" />
-    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+    <meta name="color-scheme" content="dark" />
     <title>Learn Things</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Geist+Mono:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap"
       rel="stylesheet"
     />
     <style>
-      * {
+      :root {
+        --bg: #09090b;
+        --panel: #121214;
+        --panel-2: #101012;
+        --border: #27272a;
+        --border-hi: #3f3f46;
+        --text: #f4f4f5;
+        --text-2: #d4d4d8;
+        --text-3: #a1a1aa;
+        --text-4: #71717a;
+        --text-5: #52525b;
+        --chip: #18181b;
+      }
+      *,
+      *::before,
+      *::after {
         box-sizing: border-box;
         margin: 0;
         padding: 0;
       }
+      html {
+        color-scheme: dark;
+        scroll-padding-top: 80px;
+      }
       body {
-        font-family: "Inter", system-ui, sans-serif;
-        background: #0c0c0e;
-        color: #e8e8ea;
+        font-family: "Geist Mono", "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+        background: var(--bg);
+        color: var(--text);
         min-height: 100vh;
         -webkit-font-smoothing: antialiased;
+        text-rendering: optimizeLegibility;
+      }
+      ::selection {
+        background: #fff;
+        color: #000;
+      }
+      ::-webkit-scrollbar {
+        width: 6px;
+        height: 6px;
+      }
+      ::-webkit-scrollbar-thumb {
+        background: #27272a;
+        border-radius: 999px;
+      }
+      ::-webkit-scrollbar-track {
+        background: transparent;
       }
       .mono {
-        font-family: "JetBrains Mono", monospace;
+        font-family: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
       }
-      .wrap {
-        max-width: 1200px;
-        margin: 0 auto;
-        padding: 28px 20px 60px;
+      :focus-visible {
+        outline: 1px solid #fff;
+        outline-offset: 2px;
       }
-      .nav {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        gap: 16px;
-        margin-bottom: 32px;
-      }
-      .nav-title {
-        font-weight: 800;
-        letter-spacing: 0.14em;
-        font-size: 13px;
-        color: #fff;
-      }
-      .nav-sub {
-        font-size: 9px;
-        letter-spacing: 0.18em;
-        color: #6a6a72;
-        margin-top: 2px;
-      }
-      .search {
-        width: 280px;
-        height: 38px;
+
+      /* badges */
+      .pill-solid {
+        font-size: 10px;
+        font-weight: 700;
+        letter-spacing: 0.1em;
+        padding: 3px 8px;
         border-radius: 9999px;
-        background: #17171a;
-        border: 1px solid #242429;
-        padding: 0 16px;
-        color: #fff;
-        font-size: 12px;
-        outline: none;
+        background: #fff;
+        color: #000;
       }
-      .search::placeholder {
-        color: #5a5a62;
+      .pill-line {
+        font-size: 10px;
+        letter-spacing: 0.1em;
+        padding: 4px 9px;
+        border-radius: 9999px;
+        border: 1px solid var(--border);
+        color: var(--text-4);
       }
-      .search:focus {
-        border-color: #32323a;
-        background: #1c1c20;
+      /* layout */
+      .wrap {
+        max-width: 1280px;
+        margin: 0 auto;
+        padding: 40px 20px 56px;
       }
       .hero {
+        padding-bottom: 28px;
+        border-bottom: 1px solid var(--border);
+        margin-bottom: 24px;
+      }
+      .hero-badges {
         display: flex;
-        justify-content: space-between;
-        align-items: flex-end;
-        gap: 20px;
         flex-wrap: wrap;
-        margin-bottom: 28px;
+        gap: 8px;
+        margin-bottom: 16px;
       }
       .hero h1 {
-        font-size: 42px;
-        line-height: 0.9;
-        letter-spacing: -0.04em;
-        font-weight: 800;
+        font-size: 36px;
+        line-height: 1.05;
+        letter-spacing: -0.03em;
+        font-weight: 700;
         color: #fff;
       }
       .hero h1 span {
-        color: #5a5a62;
+        color: var(--text-5);
       }
-      .hero p {
+
+      /* filters */
+      .toolbar {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        margin-bottom: 20px;
+      }
+      .filters {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+      }
+      .chip {
+        font-family: inherit;
         font-size: 11px;
-        color: #8a8a92;
-        line-height: 1.7;
-        max-width: 460px;
-        margin-top: 12px;
+        padding: 6px 12px;
+        border-radius: 9999px;
+        background: var(--chip);
+        border: 1px solid var(--border);
+        color: var(--text-3);
+        cursor: pointer;
+        letter-spacing: 0.04em;
+        transition: color 0.15s, border-color 0.15s, background 0.15s;
       }
+      .chip:hover {
+        color: #fff;
+        border-color: var(--border-hi);
+      }
+      .chip[aria-pressed="true"] {
+        background: #fff;
+        color: #000;
+        border-color: #fff;
+        font-weight: 700;
+      }
+      .chip .n {
+        margin-left: 6px;
+        opacity: 0.6;
+      }
+      .count {
+        font-size: 11px;
+        color: var(--text-4);
+      }
+
+      /* grid + cards */
       .grid {
         display: grid;
         grid-template-columns: repeat(3, 1fr);
-        gap: 18px;
+        gap: 16px;
       }
       @media (max-width: 1000px) {
         .grid {
@@ -106,26 +173,23 @@
         .grid {
           grid-template-columns: 1fr;
         }
-        .search {
-          width: 100%;
-        }
-        .nav {
-          flex-direction: column;
-          align-items: flex-start;
+        .hero h1 {
+          font-size: 30px;
         }
       }
       .card {
-        background: #17171a;
-        border: 1px solid #242429;
-        border-radius: 20px;
-        padding: 22px;
         display: flex;
         flex-direction: column;
-        min-height: 360px;
-        cursor: pointer;
-        transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+        min-height: 340px;
+        padding: 20px;
+        background: var(--panel);
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        color: inherit;
+        text-decoration: none;
         position: relative;
         overflow: hidden;
+        transition: border-color 0.2s, background 0.2s, transform 0.2s;
       }
       .card::before {
         content: "";
@@ -134,165 +198,132 @@
         left: 0;
         right: 0;
         height: 1px;
-        background: linear-gradient(
-          90deg,
-          transparent,
-          var(--accent),
-          transparent
-        );
+        background: linear-gradient(90deg, transparent, #fff, transparent);
         opacity: 0;
-        transition: opacity 0.3s;
+        transition: opacity 0.2s;
       }
-      .card:hover {
-        border-color: #2f2f36;
-        background: #1b1b1f;
-        transform: translateY(-3px);
-        box-shadow: 0 20px 60px -24px rgba(0, 0, 0, 0.85);
+      .card:hover,
+      .card:focus-visible {
+        border-color: var(--border-hi);
+        background: #151517;
+        transform: translateY(-2px);
       }
-      .card:hover::before {
-        opacity: 1;
+      .card:hover::before,
+      .card:focus-visible::before {
+        opacity: 0.5;
       }
-      .cat {
-        font-size: 9px;
-        letter-spacing: 0.18em;
-        color: #6a6a72;
-        text-transform: uppercase;
+      .card-top {
         display: flex;
-        justify-content: space-between;
-      }
-      .title {
-        font-size: 16px;
-        font-weight: 700;
-        color: #fff;
-        letter-spacing: -0.02em;
-        line-height: 1.15;
-        margin-top: 14px;
-      }
-      .sub {
-        font-size: 10px;
-        letter-spacing: 0.14em;
-        text-transform: uppercase;
-        margin-top: 6px;
-      }
-      .desc {
-        font-size: 11.5px;
-        color: #9ca3af;
-        line-height: 1.65;
-        margin-top: 14px;
-        flex: 1;
-      }
-      .meta {
-        margin-top: 18px;
-        padding-top: 14px;
-        border-top: 1px solid #222227;
-      }
-      .meta-row {
-        display: flex;
-        justify-content: space-between;
         align-items: center;
-        margin-bottom: 10px;
-      }
-      .meta-label {
-        font-size: 8.5px;
-        letter-spacing: 0.14em;
-        color: #5a5a62;
-        text-transform: uppercase;
-      }
-      .meta-val {
+        justify-content: space-between;
+        gap: 8px;
         font-size: 10px;
-        color: #a1a1aa;
-        max-width: 220px;
-        text-align: right;
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
+        letter-spacing: 0.14em;
+        color: var(--text-4);
       }
-      .tags {
+      .card-top .l {
         display: flex;
-        flex-wrap: wrap;
-        gap: 6px;
-        margin-top: 4px;
+        align-items: center;
+        gap: 8px;
       }
-      .tag {
-        font-size: 8px;
-        letter-spacing: 0.08em;
-        padding: 5px 8px;
-        border-radius: 9999px;
-        border: 1px solid #2a2a30;
-        background: #1e1e22;
-        color: #7a7a82;
+      .card-top .r {
+        color: var(--text-5);
+        letter-spacing: 0.06em;
       }
       .new-badge {
-        font-size: 8px;
-        padding: 3px 7px;
+        font-size: 9px;
+        padding: 2px 7px;
         border-radius: 9999px;
         background: #fff;
         color: #000;
         font-weight: 700;
         letter-spacing: 0.08em;
       }
+      .title {
+        margin-top: 16px;
+        font-size: 17px;
+        font-weight: 700;
+        letter-spacing: -0.02em;
+        line-height: 1.15;
+        color: #fff;
+      }
+      .sub {
+        margin-top: 6px;
+        font-size: 10px;
+        letter-spacing: 0.12em;
+        color: var(--text-3);
+      }
+      .desc {
+        flex: 1;
+        margin-top: 14px;
+        font-size: 12.5px;
+        line-height: 1.65;
+        color: var(--text-3);
+      }
+      .meta {
+        margin-top: 18px;
+        padding-top: 14px;
+        border-top: 1px solid var(--border);
+      }
+      .meta-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: baseline;
+        gap: 16px;
+        margin-bottom: 8px;
+      }
+      .meta-label {
+        font-size: 9px;
+        letter-spacing: 0.14em;
+        color: var(--text-5);
+        flex-shrink: 0;
+      }
+      .meta-val {
+        font-size: 11px;
+        color: var(--text-3);
+        text-align: right;
+      }
+      .tags {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 6px;
+        margin-top: 12px;
+      }
+      .tag {
+        font-size: 10px;
+        letter-spacing: 0.05em;
+        padding: 4px 8px;
+        border-radius: 9999px;
+        border: 1px solid var(--border);
+        background: var(--chip);
+        color: var(--text-4);
+      }
+      @media (prefers-reduced-motion: reduce) {
+        .card,
+        .card::before {
+          transition: none;
+        }
+        .card:hover {
+          transform: none;
+        }
+      }
     </style>
   </head>
   <body>
-    <div class="wrap">
-      <div class="nav">
-        <div>
-        </div>
-        <input
-          id="search"
-          class="search mono"
-          placeholder="Search bun, node, mongo, postgres, rust..."
-        />
+
+    <main class="wrap">
+      <section class="hero">
+        <h1>Learn stacks<br /><span>that ships.</span></h1>
+      </section>
+
+      <div class="toolbar">
+        <div class="filters" id="filters" role="group" aria-label="Filter by category"></div>
+        <span class="count mono" id="count" aria-live="polite"></span>
       </div>
-      <div class="hero">
-        <div>
-          <h1>Learn stacks<br /><span>that ships.</span></h1>
-        </div>
-        <div style="display: flex; gap: 8px; flex-wrap: wrap">
-          <span
-            style="
-              padding: 9px 14px 8px 14px;
-              border-radius: 9999px;
-              background: #fff;
-              color: #000;
-              font-size: 11px;
-              font-weight: 700;
-            "
-            >11 OS • 253 MODULES</span
-          ><span
-            style="
-              padding: 8px 14px;
-              border-radius: 9999px;
-              border: 1px solid #232328;
-              color: #8a8a92;
-              font-size: 11px;
-            "
-            >3 NEW ADDED</span
-          >
-        </div>
-      </div>
+
       <div class="grid" id="grid"></div>
-      <div
-        style="
-          margin-top: 32px;
-          padding-top: 20px;
-          border-top: 1px solid #1a1a1e;
-          display: flex;
-          justify-content: space-between;
-          flex-wrap: wrap;
-          gap: 10px;
-        "
-        class="mono"
-      >
-        <span style="font-size: 10px; color: #5a5a62"
-          >LEARN::OS • 11 CARDS • MONGODB + POSTGRESQL + RUST INCLUDED • NO ICON
-          NO BUTTON</span
-        >
-        <span style="font-size: 10px; color: #5a5a62"
-          >PRESS / TO SEARCH • CLICK CARD → OPEN OS</span
-        >
-      </div>
-    </div>
+    </main>
+
     <script>
       const OS = [
         {
@@ -300,11 +331,10 @@
           num: "01",
           title: "BUN::BACKEND",
           sub: "NO FRAMEWORK • ALL BUILT-INS",
-          accent: "#f59e0b",
           desc: "Build a backend without any framework using Bun.serve that handles 95k req/s. Master manual routing in 60 lines, file streaming with Bun.file(), secure hashing with Bun.password() bcrypt/argon2, process spawning, shell scripting with $, SQLite caching, WebSocket and TCP servers, and a production folder structure that scales to teams.",
           stack: "Bun.serve • Drizzle ORM • PostgreSQL • TypeScript",
           level: "BEGINNER → PRODUCTION",
-          mods: "23 MODULES",
+          modules: 23,
           tags: ["BUN 1.1", "DRIZZLE ORM", "POSTGRESQL", "TYPESCRIPT"],
           link: "./Bun-PostgreSQL-DrizzleORM.html",
         },
@@ -313,24 +343,22 @@
           num: "02",
           title: "NODE::EXPRESS",
           sub: "WITH FRAMEWORK • MONGOOSE",
-          accent: "#22c55e",
           desc: "Learn Express 5 with TypeScript the production way. Implement controller → service → repository pattern, optimize Mongoose with lean() and populate(), build advanced aggregations with $facet for data + count in one query, handle errors with AppError, and secure API with helmet, cors, rate-limiting.",
-          stack: "Express 5 • Mongoose 8 • MongoDB • TypeScript",
+          stack: "Express 5 • Mongoose 9 • MongoDB • TypeScript",
           level: "BEGINNER → PRODUCTION",
-          mods: "23 MODULES",
-          tags: ["EXPRESS 5", "MONGOOSE 8", "MONGODB", "REPOSITORY"],
+          modules: 24,
+          tags: ["EXPRESS 5", "MONGOOSE 9", "MONGODB", "REPOSITORY"],
           link: "./Node-Express-MongoDB-Mongoose.html",
         },
         {
           cat: "BACKEND",
           num: "03",
-          title: "UV::FASTAPI",
+          title: "UV::FASTAPI::SQLITE",
           sub: "SQLMODEL • SQLITE • WAL MODE",
-          accent: "#10b981",
           desc: "Master Astral uv toolchain 10-100x faster than pip. Build FastAPI with lifespan events, SQLModel tables with relationships and cascade deletes, async aiosqlite in WAL mode with foreign keys, JWT authentication with OAuth2 and dependency injection for clean sessions.",
           stack: "uv • FastAPI • SQLModel • aiosqlite • Pydantic",
           level: "BEGINNER → PRODUCTION",
-          mods: "23 MODULES",
+          modules: 23,
           tags: ["UV 0.5+", "FASTAPI", "SQLMODEL", "SQLITE", "JWT"],
           link: "./Uv-FastAPI-Sqlite.html",
         },
@@ -339,11 +367,10 @@
           num: "04",
           title: "JS::TS::WEB",
           sub: "FOUNDATIONS • DOM • WEB APIS",
-          accent: "#eab308",
           desc: "Deep dive into JavaScript foundations that matter. Learn closures for private state, microtasks vs macrotasks, event delegation one listener for thousand items, TypeScript generics and branded types, Fetch AbortController timeouts, IndexedDB wrapper, IntersectionObserver 200px rootMargin, Service Workers cache-first.",
           stack: "JavaScript • TypeScript • DOM • Web APIs",
           level: "BEGINNER → PRODUCTION",
-          mods: "23 MODULES",
+          modules: 23,
           tags: ["JAVASCRIPT", "TYPESCRIPT", "DOM", "FETCH", "INDEXEDDB"],
           link: "./Js-Ts-Dom-WebAPIs.html",
         },
@@ -352,11 +379,10 @@
           num: "05",
           title: "ANGULAR::NGRX",
           sub: "v20+ • SIGNALS • STANDALONE",
-          accent: "#ef4444",
           desc: "Learn Angular modern way v20+. Standalone by default, signals API input() required, output(), model() two-way, new control flow @if, @for track, @empty, @switch, @defer viewport/idle. Functional guards and interceptors, NgRx createActionGroup, createFeature, entity adapter, signalStore.",
           stack: "Angular 20 • NgRx • Signals • Standalone",
           level: "BEGINNER → PRODUCTION",
-          mods: "23 MODULES",
+          modules: 23,
           tags: ["ANGULAR 20+", "NGRX", "SIGNALS", "STANDALONE"],
           link: "./Angular-Ngrx.html",
         },
@@ -365,11 +391,10 @@
           num: "06",
           title: "REACT::NEXT",
           sub: "APP ROUTER • ZUSTAND • QUERY",
-          accent: "#3b82f6",
-          desc: "Master React 19 and Next.js 15 App Router. Understand RSC by default vs use client boundaries, file routing with layouts, loading, error, not-found, parallel slots. Learn cache, revalidate, tags, useOptimistic instant UI, Zustand slices, persist, devtools, TanStack Query v5 staleTime, gcTime, optimistic updates rollback.",
+          desc: "Master React 19 and Next.js 15 App Router. Understand RSC by default vs use client boundaries, file routing with layouts, loading, error, parallel slots. Learn cache, revalidate, tags, useOptimistic instant UI, Zustand slices, persist, devtools, TanStack Query v5 staleTime, gcTime, optimistic updates with onError restore.",
           stack: "React 19 • Next 15 • Zustand • TanStack Query",
           level: "BEGINNER → PRODUCTION",
-          mods: "23 MODULES",
+          modules: 23,
           tags: ["REACT 19", "NEXT 15", "ZUSTAND", "TANSTACK QUERY"],
           link: "./React-NextJs-Zustand-Query.html",
         },
@@ -378,11 +403,10 @@
           num: "07",
           title: "PYTHON::UV",
           sub: "ASTRAL • RUST • 10-100x FASTER",
-          accent: "#60a5fa",
           desc: "Learn modern Python toolchain replacing pip, venv, poetry, pyenv. Install uv via curl, init projects uv init --lib, add dependencies uv add including dev groups, manage Python versions uv python list/install/pin, compile sync requirements, run tools uvx without installing, understand global cache hardlinks.",
           stack: "Python 3.12+ • uv • ruff • mypy • src layout",
           level: "BEGINNER → PRODUCTION",
-          mods: "23 MODULES",
+          modules: 23,
           tags: ["PYTHON 3.12+", "UV", "RUFF", "MYPY"],
           link: "./Python-Uv.html",
         },
@@ -391,124 +415,115 @@
           num: "08",
           title: "DEPLOY::STACK",
           sub: "LINUX • NGINX • DOCKER • PM2",
-          accent: "#22c55e",
           desc: "Learn production deployment on real VPS. Harden Ubuntu 22.04 UFW 22,80,443 + fail2ban, configure Nginx reverse proxy three subdomains proxy_set_header, limit_req_zone rate limiting, gzip, multi-stage Dockerfiles, Compose six services healthchecks pg_isready mongosh ping, PM2 cluster max zero-downtime reloads, SSL Certbot auto-renew.",
           stack: "Linux • Nginx • Docker • PM2 • Reverse Proxy",
           level: "BEGINNER → PRODUCTION",
-          mods: "23 MODULES",
+          modules: 23,
           tags: ["LINUX", "NGINX", "DOCKER", "PM2", "CERTBOT SSL"],
           link: "./Linux-Nginx-Docker.html",
         },
-
-        // NEW 3 AS REQUESTED
         {
           cat: "DATABASE",
           num: "09",
-          title: "MONGODB::MONGOOSE",
+          title: "MONGO::MASTER",
           sub: "DEDICATED • ADVANCED AGGREGATIONS",
-          accent: "#00ed64",
-          isNew: true,
-          desc: "Dedicated MongoDB + Mongoose OS. Master schema design with discriminators and virtuals, deep population with match, lean() + autopopulate performance, advanced aggregations $lookup + $facet + $bucket + $graphLookup, transactions with sessions, change streams for realtime, indexing strategies compound + TTL + text + 2dsphere, sharding and replica sets in Docker.",
-          stack: "MongoDB 7 • Mongoose 8 • Aggregation • Transactions",
+          desc: "Dedicated MongoDB + Mongoose OS with an aggregation-heavy curriculum. Master schema design with discriminators and virtuals, populate with lean(), advanced pipelines with $lookup + $facet + $bucket + $graphLookup, transactions with sessions, change streams for realtime, compound + TTL + text indexes, and sharding-safe $merge.",
+          stack: "MongoDB 7 • Mongoose 7 • Aggregation • Transactions",
           level: "BEGINNER → PRODUCTION",
-          mods: "23 MODULES",
-          tags: [
-            "MONGODB 7",
-            "MONGOOSE 8",
-            "AGGREGATION",
-            "TRANSACTIONS",
-            "INDEXING",
-          ],
+          modules: 23,
+          tags: ["MONGODB 7", "MONGOOSE 7", "AGGREGATION", "TRANSACTIONS", "INDEXING"],
           link: "./Mongodb-Mongoose.html",
         },
         {
           cat: "DATABASE",
           num: "10",
-          title: "POSTGRESQL::PRO",
-          sub: "DEDICATED • PERFORMANCE • DRIZZLE",
-          accent: "#336791",
-          isNew: true,
-          desc: "Dedicated PostgreSQL OS. Master EXPLAIN ANALYZE, indexing B-tree + GIN + GiST + BRIN, partial and covering indexes, JSONB operators and jsonb_path_query, CTEs recursive + window functions row_number() lag() lead(), transactions isolation levels, LISTEN/NOTIFY, logical replication, Drizzle ORM relational queries, pgvector for embeddings, connection pooling with PgBouncer.",
-          stack: "PostgreSQL 16 • Drizzle ORM • pgvector • PgBouncer",
+          title: "POSTGRES::MASTER",
+          sub: "DEDICATED • PERFORMANCE • PRODUCTION",
+          desc: "Dedicated PostgreSQL OS from setup to production. Master EXPLAIN ANALYZE, indexing B-tree + GIN + GiST + BRIN, partial and covering indexes, JSONB operators and jsonb_path_query, recursive CTEs and window functions row_number() lag() lead(), transaction isolation levels, logical replication, pgvector for embeddings, connection pooling with PgBouncer.",
+          stack: "PostgreSQL 16 • pgvector • PgBouncer • Patroni",
           level: "BEGINNER → PRODUCTION",
-          mods: "23 MODULES",
-          tags: [
-            "POSTGRESQL 16",
-            "DRIZZLE ORM",
-            "JSONB",
-            "INDEXING",
-            "PGVECTOR",
-          ],
+          modules: 24,
+          tags: ["POSTGRESQL 16", "JSONB", "INDEXING", "PGVECTOR", "PGBOUNCER"],
           link: "./PostgreSQL.html",
         },
         {
           cat: "SYSTEMS",
           num: "11",
-          title: "RUST::SYSTEMS",
-          sub: "NEW • PERFORMANCE • SAFE SYSTEMS",
-          accent: "#f74c00",
-          isNew: true,
-          desc: "New Rust OS. Learn ownership, borrowing, lifetimes without GC. Build CLI with clap, async runtime with tokio, web server with axum + tower, database with sqlx compile-time checked queries, error handling anyhow + thiserror, testing with proptest, benchmarking with criterion, WASM with wasm-pack, and deploy with Docker scratch multi-stage for 5MB binaries.",
-          stack: "Rust • Tokio • Axum • SQLx • WASM",
+          title: "RUST::MASTER",
+          sub: "PERFORMANCE • SAFE SYSTEMS • EDITION 2024",
+          desc: "Rust OS from setup to production. Learn ownership, borrowing and lifetimes without a GC. Build CLIs with clap, async services on tokio, web servers with axum + tower, database access with sqlx compile-time checked queries, error handling anyhow + thiserror, testing with proptest, benchmarking with criterion, and ship static musl binaries in Docker scratch images.",
+          stack: "Rust 1.85+ • Tokio • Axum • SQLx",
           level: "BEGINNER → PRODUCTION",
-          mods: "23 MODULES",
-          tags: ["RUST", "TOKIO", "AXUM", "SQLX", "WASM", "CLAP"],
+          modules: 27,
+          tags: ["RUST", "TOKIO", "AXUM", "SQLX", "CLAP"],
           link: "./Rust.html",
         },
       ];
 
-      function render(search = "") {
-        const grid = document.getElementById("grid");
-        grid.innerHTML = "";
-        const q = search.toLowerCase();
-        const filtered = OS.filter(
-          (o) =>
-            !q ||
-            o.title.toLowerCase().includes(q) ||
-            o.sub.toLowerCase().includes(q) ||
-            o.desc.toLowerCase().includes(q) ||
-            o.tags.join(" ").toLowerCase().includes(q),
-        );
-        filtered.forEach((o) => {
-          const card = document.createElement("div");
-          card.className = "card";
-          card.style.setProperty("--accent", o.accent);
-          card.innerHTML = `
-      <div style="display:flex;justify-content:space-between;align-items:center">
-        <span class="cat mono">${o.cat} ${o.isNew ? '<span class="new-badge" style="margin-left:8px">NEW</span>' : ""}</span>
-        <span class="mono" style="font-size:9px;color:#3a3a42">${o.num} • ${o.mods}</span>
-      </div>
-      <div class="title">${o.title}</div>
-      <div class="sub mono" style="color:${o.accent}">${o.sub}</div>
-      <div class="desc">${o.desc}</div>
-      <div class="meta">
-        <div class="meta-row"><span class="meta-label">STACK</span><span class="meta-val mono">${o.stack}</span></div>
-        <div class="meta-row"><span class="meta-label">LEVEL</span><span class="meta-val mono">${o.level}</span></div>
-        <div class="tags">${o.tags.map((t) => `<span class="tag mono">${t}</span>`).join("")}</div>
-      </div>
-    `;
-          card.onclick = () => {
-            if (o.link === "#") return;
-            // window.open(o.link, "_blank");
-            location.href = o.link;
+      const $ = (id) => document.getElementById(id);
+      const el = (tag, cls, text) => {
+        const n = document.createElement(tag);
+        if (cls) n.className = cls;
+        if (text !== undefined) n.textContent = text;
+        return n;
+      };
+
+      const totalModules = OS.reduce((a, o) => a + o.modules, 0);
+      const cats = [...new Set(OS.map((o) => o.cat))];
+      let activeCat = "ALL";
+
+      function buildFilters() {
+        const box = $("filters");
+        box.innerHTML = "";
+        ["ALL"].concat(cats).forEach((c) => {
+          const n = c === "ALL" ? OS.length : OS.filter((o) => o.cat === c).length;
+          const b = el("button", "chip");
+          b.type = "button";
+          b.setAttribute("aria-pressed", String(c === activeCat));
+          b.append(c, el("span", "n", String(n)));
+          b.onclick = () => {
+            activeCat = c;
+            buildFilters();
+            render();
           };
-          grid.appendChild(card);
+          box.appendChild(b);
         });
-        if (filtered.length === 0)
-          grid.innerHTML =
-            '<div style="grid-column:1/-1;padding:80px;text-align:center;color:#5a5a62" class="mono">No OS found for "' +
-            search +
-            '"</div>';
       }
-      document
-        .getElementById("search")
-        .addEventListener("input", (e) => render(e.target.value));
-      document.addEventListener("keydown", (e) => {
-        if (e.key === "/") {
-          e.preventDefault();
-          document.getElementById("search").focus();
-        }
-      });
+
+      function matches(o) {
+        return activeCat === "ALL" || o.cat === activeCat;
+      }
+
+      function card(o) {
+        const a = el("a", "card");
+        a.href = o.link;
+        const top = el("div", "card-top mono");
+        const l = el("span", "l");
+        l.append(el("span", "", o.cat));
+        top.append(l, el("span", "r", o.num + " • " + o.modules + " MODULES"));
+        a.append(top, el("div", "title", o.title), el("div", "sub mono", o.sub), el("div", "desc", o.desc));
+        const meta = el("div", "meta");
+        [["STACK", o.stack], ["LEVEL", o.level]].forEach(([k, v]) => {
+          const r = el("div", "meta-row");
+          r.append(el("span", "meta-label", k), el("span", "meta-val mono", v));
+          meta.appendChild(r);
+        });
+        const tags = el("div", "tags");
+        o.tags.forEach((t) => tags.appendChild(el("span", "tag mono", t)));
+        meta.appendChild(tags);
+        a.appendChild(meta);
+        return a;
+      }
+
+      function render() {
+        const grid = $("grid");
+        grid.innerHTML = "";
+        const list = OS.filter(matches);
+        list.forEach((o) => grid.appendChild(card(o)));
+        $("count").textContent = list.length + " OF " + OS.length + " GUIDES";
+      }
+
+      buildFilters();
       render();
     </script>
   </body>

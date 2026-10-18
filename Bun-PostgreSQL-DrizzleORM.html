@@ -10770,1563 +10770,679 @@ Error generating stack: ` +
       var v = Ac,
         N = Ac;
       var cn = [
-        {
-          id: "01",
-          num: "01",
-          level: "BEGINNER",
-          title: "Why No Framework",
-          why: "Express adds 32ms per req in middleware chain. Bun.serve is bare Web API — zero abstraction tax. Production needs predictability, not magic.",
-          prodTip:
-            "Benchmark before you abstract. 95k rps vs 18k rps is not micro-optimization — it is infra cost.",
-          subs: [
-            {
-              title: "The Real Benchmark",
-              desc: "Bun.serve vs Express vs Fastify on same hardware, 100 concurrent, 30s.",
-              file: "bench/results.txt",
-              lang: "bash",
-              code: `Bun.serve (bare)    95,421 rps  p99: 2.1ms  mem: 42MB
-Fastify (Bun)       48,102 rps  p99: 5.4ms  mem: 78MB
-Express (Node)      18,334 rps  p99: 12.8ms mem: 112MB
-
-Cold start:
-Bun.serve: 5ms
-Node+Express: 89ms
-
-Why: No req/res wrapping, no next() chain,
-direct JSC bindings to uWebSockets.
-`,
-            },
-            {
-              title: "Cost of Abstraction",
-              desc: "Every framework does this on every request. You pay even if you do not use it.",
-              file: "concept/overhead.ts",
-              lang: "ts",
-              code: `// Express-style (what you avoid)
-function frameworkTax(req, res, next) {
-  req.params = {};      // alloc
-  req.query = parse();  // parse again
-  req.body = null;      // later filled
-  res.locals = {};      // unused most times
-  next(); // 12 middlewares traverse
-}
-
-// Bun.serve (what you get)
-Bun.serve({
-  fetch(req) {
-    // req is native Request, zero clone
-    // No chain unless you compose it
-    return new Response('ok');
-  }
-});`,
-            },
-          ],
-        },
-        {
-          id: "02",
-          num: "02",
-          level: "BEGINNER",
-          title: "Bun.serve Production Entry",
-          why: "Production entry must handle SIGTERM, reusePort for clustering, error hook that never leaks stack, and db close order.",
-          prodTip:
-            "Always stop server before closing DB. In-flight requests need DB during response finalization.",
-          subs: [
-            {
-              title: "src/index.ts — Graceful Production",
-              desc: "reusePort for SO_REUSEPORT, error hook, idleTimeout, graceful shutdown.",
-              file: "src/index.ts",
-              lang: "ts",
-              code: `import { db } from './config/db';
-import { app } from './app';
-
-const server = Bun.serve({
-  port: Number(Bun.env.PORT || 3000),
-  hostname: '0.0.0.0',
-  reusePort: true, // SO_REUSEPORT -> multi-process scale
-  idleTimeout: 30,
-
-  async fetch(req, server) {
-    return app.fetch(req, server);
-  },
-
-  error(err) {
-    // Never leak stack to client in prod
-    console.error('[FATAL]', err);
-    return new Response(
-      JSON.stringify({ error: 'Internal Server Error', requestId: crypto.randomUUID() }),
-      { status: 500, headers: { 'Content-Type': 'application/json' } }
-    );
-  }
-});
-
-console.log(\`[bun] listening on \${server.url} pid=\${process.pid}\`);
-
-let shutting = false;
-async function shutdown(signal: string) {
-  if (shutting) return;
-  shutting = true;
-  console.log(\`[\${signal}] draining...\`);
-
-  server.stop(true); // stop accepting, drain existing
-
-  try {
-    // @ts-ignore drizzle close
-    await db.$client?.end?.();
-  } catch {}
-  
-  // close sqlite cache if used
-  // cacheDb.close();
-
-  console.log('[shutdown] done');
-  process.exit(0);
-}
-
-process.on('SIGTERM', () => shutdown('SIGTERM'));
-process.on('SIGINT', () => shutdown('SIGINT'));
-`,
-            },
-          ],
-        },
-        {
-          id: "03",
-          num: "03",
-          level: "BEGINNER",
-          title: "Request/Response Web API",
-          why: "Bun uses WinterCG Web API, not Node req/res. Learn it once, works on edge, Cloudflare, Deno.",
-          prodTip:
-            "Always clone req before double-read. req.json() consumes body.",
-          subs: [
-            {
-              title: "Native Web API Patterns",
-              desc: "URL, headers, json, formData, Bun.file responses.",
-              file: "src/app.ts",
-              lang: "ts",
-              code: `export const app = {
-  async fetch(req: Request): Promise<Response> {
-    const url = new URL(req.url);
-    
-    // Headers - case insensitive
-    const auth = req.headers.get('authorization');
-    const requestId = req.headers.get('x-request-id') || crypto.randomUUID();
-
-    if (url.pathname === '/api/json' && req.method === 'POST') {
-      // Safe parse - never trust
-      const body = await req.json().catch(() => null);
-      if (!body) return Response.json({ error: 'Invalid JSON' }, { status: 400 });
-      return Response.json({ ok: true, data: body }, { headers: { 'x-request-id': requestId } });
-    }
-
-    if (url.pathname === '/api/upload' && req.method === 'POST') {
-      const form = await req.formData();
-      const file = form.get('avatar') as File | null;
-      if (!file) return Response.json({ error: 'Missing file' }, { status: 400 });
-      
-      // Direct stream to disk - zero memory copy
-      const path = \`./uploads/\${crypto.randomUUID()}-\${file.name}\`;
-      await Bun.write(path, file);
-      return Response.json({ path });
-    }
-
-    if (url.pathname === '/') {
-      // Zero-copy file response - kernel sendfile
-      return new Response(Bun.file('./public/index.html'), {
-        headers: { 'Content-Type': 'text/html', 'x-request-id': requestId }
-      });
-    }
-
-    if (url.pathname === '/health') {
-      return Response.json({ status: 'ok', uptime: process.uptime() });
-    }
-
-    return new Response('Not Found', { status: 404 });
-  }
-};`,
-            },
-          ],
-        },
-        {
-          id: "04",
-          num: "04",
-          level: "BEGINNER",
-          title: "Manual Router — 60 Lines",
-          why: "You do not need a router library. Map + regex does 95% with full type control and zero dep.",
-          prodTip:
-            "Compile regex once at startup. Match in O(n) but n is <100 routes in most APIs.",
-          subs: [
-            {
-              title: "lib/router.ts — Complete",
-              desc: "Param extraction :id, method+path map, compose chain without next().",
-              file: "src/lib/router.ts",
-              lang: "ts",
-              code: `type Handler = (req: Request, params: Record<string,string>, server?: any) => Promise<Response> | Response;
-type Route = { method: string; pattern: RegExp; keys: string[]; handler: Handler; };
-
-const routes: Route[] = [];
-
-function pathToRegex(path: string) {
-  const keys: string[] = [];
-  const pattern = path.replace(/:([^/]+)/g, (_, key) => {
-    keys.push(key);
-    return '([^/]+)';
-  });
-  return { regex: new RegExp(\`^\${pattern}$\`), keys };
-}
-
-export function addRoute(method: string, path: string, handler: Handler) {
-  const { regex, keys } = pathToRegex(path);
-  routes.push({ method: method.toUpperCase(), pattern: regex, keys, handler });
-}
-
-export const get = (p: string, h: Handler) => addRoute('GET', p, h);
-export const post = (p: string, h: Handler) => addRoute('POST', p, h);
-export const put = (p: string, h: Handler) => addRoute('PUT', p, h);
-export const del = (p: string, h: Handler) => addRoute('DELETE', p, h);
-
-function matchRoute(method: string, pathname: string) {
-  for (const r of routes) {
-    if (r.method !== method) continue;
-    const m = pathname.match(r.pattern);
-    if (!m) continue;
-    const params: Record<string,string> = {};
-    r.keys.forEach((k, i) => params[k] = m[i+1]);
-    return { handler: r.handler, params };
-  }
-  return null;
-}
-
-// compose without Express-style next()
-export function compose(...middlewares: ((req: Request, next: () => Promise<Response>) => Promise<Response>)[]) {
-  return async (req: Request, final: () => Promise<Response>) => {
-    let idx = -1;
-    async function dispatch(i: number): Promise<Response> {
-      if (i <= idx) throw new Error('next() called multiple times');
-      idx = i;
-      const fn = i === middlewares.length ? final : middlewares[i];
-      return fn(req, () => dispatch(i+1));
-    }
-    return dispatch(0);
-  };
-}
-
-export async function router(req: Request, server?: any): Promise<Response> {
-  const { pathname } = new URL(req.url);
-  const matched = matchRoute(req.method, pathname);
-  if (!matched) return new Response('Not Found', { status: 404 });
-  return matched.handler(req, matched.params, server);
-}`,
-            },
-          ],
-        },
-        {
-          id: "05",
-          num: "05",
-          level: "BEGINNER",
-          title: "TypeScript Env Validation",
-          why: "Fail fast at boot. Bun auto-loads .env, but without zod you get runtime undefined crashes.",
-          prodTip:
-            "Never access Bun.env directly outside config/. Always via validated env.",
-          subs: [
-            {
-              title: "src/config/env.ts",
-              desc: "Zod fail-fast with Bun.env auto-load.",
-              file: "src/config/env.ts",
-              lang: "ts",
-              code: `import { z } from 'zod';
-
-const envSchema = z.object({
-  NODE_ENV: z.enum(['development','production','test']).default('development'),
-  PORT: z.coerce.number().min(1000).default(3000),
-  DATABASE_URL: z.string().url(),
-  JWT_SECRET: z.string().min(32),
-  CORS_ORIGIN: z.string().default('*'),
-  LOG_LEVEL: z.enum(['debug','info','warn','error']).default('info'),
-});
-
-function validateEnv() {
-  const parsed = envSchema.safeParse(Bun.env);
-  if (!parsed.success) {
-    console.error('❌ Invalid env:');
-    console.error(parsed.error.flatten().fieldErrors);
-    process.exit(1); // fail fast
-  }
-  return parsed.data;
-}
-
-export const env = validateEnv();
-
-// usage: env.DATABASE_URL - typed, guaranteed
-// Bun.env loads .env automatically, no dotenv needed`,
-            },
-          ],
-        },
-        {
-          id: "06",
-          num: "06",
-          level: "BEGINNER",
-          title: "Drizzle Minimal Config",
-          why: "Drizzle is just types over SQL. No magic, no proxy, full control. Best for Bun.",
-          prodTip: "Use $client for raw pg, db for typed. Keep singleton.",
-          subs: [
-            {
-              title: "drizzle.config.ts + db client",
-              desc: "Minimal config, postgres-js driver.",
-              file: "drizzle.config.ts",
-              lang: "ts",
-              code: `import { defineConfig } from 'drizzle-kit';
-
-export default defineConfig({
-  schema: './src/db/schema/*',
-  out: './src/db/migrations',
-  dialect: 'postgresql',
-  dbCredentials: { url: process.env.DATABASE_URL! },
-  verbose: true,
-  strict: true,
-});`,
-            },
-            {
-              title: "src/config/db.ts",
-              desc: "Singleton with postgres-js, logger only in dev.",
-              file: "src/config/db.ts",
-              lang: "ts",
-              code: `import { drizzle } from 'drizzle-orm/postgres-js';
-import postgres from 'postgres';
-import * as schema from '../db/schema';
-
-const client = postgres(process.env.DATABASE_URL!, {
-  max: 10,
-  idle_timeout: 20,
-  connect_timeout: 10,
-});
-
-export const db = drizzle(client, { 
-  schema,
-  logger: process.env.NODE_ENV === 'development'
-});
-
-export type DB = typeof db;`,
-            },
-          ],
-        },
-        {
-          id: "07",
-          num: "07",
-          level: "BEGINNER",
-          title: "Structure Intro",
-          why: "Layer-based scales badly. Feature-based lets teams own modules vertically.",
-          prodTip:
-            "Feature > Layer. users/ owns its controller, service, repo, schema, routes.",
-          subs: [
-            {
-              title: "Decision Matrix",
-              desc: "Why feature-based wins for Bun monolith.",
-              file: "docs/architecture.md",
-              lang: "bash",
-              code: `# Layer-based (bad for scale)
-src/
-  controllers/ -> all controllers mixed
-  services/    -> all logic mixed
-  models/      -> circular deps hell
-
-# Feature-based (production)
-src/
-  modules/users/
-    user.controller.ts  # req/res only
-    user.service.ts      # business logic
-    user.repository.ts   # Drizzle queries only
-    user.schema.ts       # zod input
-    user.routes.ts       # route binding
-  modules/auth/
-    ...
-  lib/        # shared pure utils
-  middlewares/ # cross-cutting
-  config/     # env, db singleton
-
-Rule: modules never import from other modules controller.
-Only via service or repository.`,
-            },
-          ],
-        },
-        {
-          id: "08",
-          num: "08",
-          level: "STRUCTURE",
-          title: "Full Production Tree",
-          why: "This is the tree that survives 2 years. Every file has one reason to change.",
-          prodTip:
-            "Put everything that can fail at boot in config/. Everything that can fail at request in modules/.",
-          subs: [
-            {
-              title: "Complete Tree",
-              desc: "Feature-based, Bun idiomatic, Drizzle-ready.",
-              file: "tree",
-              lang: "bash",
-              code: `src/
-├── index.ts                 # entry: Bun.serve + graceful shutdown
-├── app.ts                   # router + middlewares composition
-├── config/
-│   ├── env.ts               # zod validation fail-fast
-│   └── db.ts                # drizzle singleton
-├── db/
-│   ├── schema/
-│   │   ├── users.ts         # pgTable + indexes
-│   │   └── index.ts         # re-exports
-│   └── migrations/
-├── modules/
-│   └── users/
-│       ├── user.controller.ts
-│       ├── user.service.ts
-│       ├── user.repository.ts
-│       ├── user.routes.ts
-│       └── user.schema.ts
-├── lib/
-│   ├── errors.ts            # AppError
-│   ├── logger.ts            # pino-like minimal
-│   └── hash.ts              # Bun.CryptoHasher wrapper
-├── middlewares/
-│   ├── auth.ts
-│   ├── cors.ts
-│   ├── rateLimiter.ts
-│   └── requestId.ts
-├── utils/
-│   └── jwt.ts
-└── workers/
-    └── hash.worker.ts`,
-            },
-            {
-              title: "Feature vs Layer",
-              desc: "Layer: auth touches 5 folders. Feature: auth is one folder.",
-              file: "docs/why-feature.ts",
-              lang: "ts",
-              code: `// LAYER - change auth = touch 5 files in 5 folders
-// controllers/auth.ts -> services/auth.ts -> models/user.ts -> middlewares/auth.ts -> routes/auth.ts
-
-// FEATURE - change auth = one folder
-// modules/auth/
-//   auth.controller.ts
-//   auth.service.ts  // uses Bun.password
-//   auth.repository.ts
-//   auth.routes.ts
-//   auth.schema.ts
-
-// Import rule enforced by lint:
-// modules/* cannot import from modules/*/*controller
-// modules/* can import from lib/, config/, middlewares/`,
-            },
-          ],
-        },
-        {
-          id: "09",
-          num: "09",
-          level: "STRUCTURE",
-          title: "config/ — Env + DB",
-          why: "Config that fails should kill process at boot, not at 3am first request.",
-          prodTip:
-            "Singleton db with max 10, idle 20s. Prevents connection leaks under load.",
-          subs: [
-            {
-              title: "env.ts — Zod Fail Fast",
-              desc: "Typed env, no Bun.env outside.",
-              file: "src/config/env.ts",
-              lang: "ts",
-              code: `import { z } from 'zod';
-
-const schema = z.object({
-  DATABASE_URL: z.string().url(),
-  JWT_SECRET: z.string().min(32),
-  PORT: z.coerce.number().default(3000),
-  REDIS_URL: z.string().optional(), // not needed, we use bun:sqlite
-});
-
-export const env = schema.parse(Bun.env); // throws at boot if invalid`,
-            },
-            {
-              title: "db.ts — Drizzle Singleton",
-              desc: "One client, shared everywhere.",
-              file: "src/config/db.ts",
-              lang: "ts",
-              code: `import postgres from 'postgres';
-import { drizzle } from 'drizzle-orm/postgres-js';
-import { env } from './env';
-
-const pg = postgres(env.DATABASE_URL, {
-  max: 10,
-  idle_timeout: 20,
-  connect_timeout: 10,
-  prepare: false, // for pgbouncer
-});
-
-export const db = drizzle(pg);
-export type DB = typeof db;
-
-// Graceful close in index.ts: await pg.end()`,
-            },
-          ],
-        },
-        {
-          id: "10",
-          num: "10",
-          level: "STRUCTURE",
-          title: "db/schema/ — Tables",
-          why: "Indexes are not optional. Missing index on email = full scan on login.",
-          prodTip:
-            "Always add .unique() index on email, .index() on foreign keys, timestamps with defaultNow().",
-          subs: [
-            {
-              title: "users.ts — Production Table",
-              desc: "pgTable with indexes, relations, timestamps.",
-              file: "src/db/schema/users.ts",
-              lang: "ts",
-              code: `import { pgTable, text, timestamp, varchar, index, uniqueIndex, boolean } from 'drizzle-orm/pg-core';
-import { relations } from 'drizzle-orm';
-
-export const users = pgTable('users', {
-  id: text('id').primaryKey().$defaultFn(() => crypto.randomUUID()),
-  email: varchar('email', { length: 255 }).notNull(),
-  name: varchar('name', { length: 100 }).notNull(),
-  passwordHash: text('password_hash').notNull(),
-  role: varchar('role', { length: 20 }).notNull().default('user'),
-  isActive: boolean('is_active').default(true),
-  createdAt: timestamp('created_at').defaultNow().notNull(),
-  updatedAt: timestamp('updated_at').defaultNow().$onUpdate(() => new Date()).notNull(),
-}, (t) => ({
-  emailIdx: uniqueIndex('users_email_unique').on(t.email),
-  roleIdx: index('users_role_idx').on(t.role),
-  createdIdx: index('users_created_idx').on(t.createdAt),
-}));
-
-// relations.ts in same folder
-export const usersRelations = relations(users, ({ many }) => ({
-  // sessions: many(sessions) if you use pg for sessions
-}));`,
-            },
-          ],
-        },
-        {
-          id: "11",
-          num: "11",
-          level: "STRUCTURE",
-          title: "Repository Pattern",
-          why: "Separation: repo = SQL only, service = business + hashing, controller = req/res only. Testable.",
-          prodTip:
-            "Repo never throws business errors. Service throws AppError. Controller catches only.",
-          subs: [
-            {
-              title: "user.repository.ts — SQL Only",
-              desc: "Drizzle queries isolated, no logic.",
-              file: "src/modules/users/user.repository.ts",
-              lang: "ts",
-              code: `import { eq } from 'drizzle-orm';
-import { db } from '../../config/db';
-import { users } from '../../db/schema/users';
-
-export const userRepo = {
-  findById: (id: string) => db.query.users.findFirst({ where: eq(users.id, id) }),
-  findByEmail: (email: string) => db.query.users.findFirst({ where: eq(users.email, email) }),
-  
-  create: async (data: { email: string; name: string; passwordHash: string }) => {
-    const [row] = await db.insert(users).values(data).returning();
-    return row;
-  },
-
-  list: (limit = 20, offset = 0) => db.query.users.findMany({ limit, offset, orderBy: (u, { desc }) => [desc(u.createdAt)] }),
-};`,
-            },
-            {
-              title: "user.service.ts — Business Logic",
-              desc: "Hashing with Bun.password, validation, errors.",
-              file: "src/modules/users/user.service.ts",
-              lang: "ts",
-              code: `import { userRepo } from './user.repository';
-import { AppError } from '../../lib/errors';
-
-export const userService = {
-  async createUser(input: { email: string; name: string; password: string }) {
-    const exists = await userRepo.findByEmail(input.email);
-    if (exists) throw new AppError('Email taken', 409);
-
-    // Bun built-in, no bcrypt dep
-    const passwordHash = await Bun.password.hash(input.password, {
-      algorithm: 'bcrypt',
-      cost: 12
-    });
-
-    const user = await userRepo.create({ email: input.email, name: input.name, passwordHash });
-    return { id: user.id, email: user.email, name: user.name };
-  },
-
-  async verifyLogin(email: string, password: string) {
-    const user = await userRepo.findByEmail(email);
-    if (!user) throw new AppError('Invalid credentials', 401);
-    
-    const ok = await Bun.password.verify(password, user.passwordHash);
-    if (!ok) throw new AppError('Invalid credentials', 401);
-    
-    return user;
-  }
-};`,
-            },
-            {
-              title: "user.controller.ts — Req/Res Only",
-              desc: "Parse, call service, respond. No logic.",
-              file: "src/modules/users/user.controller.ts",
-              lang: "ts",
-              code: `import { userService } from './user.service';
-import { validateBody } from '../../lib/validation';
-import { createUserSchema } from './user.schema';
-
-export const userController = {
-  async create(req: Request) {
-    const body = await validateBody(req, createUserSchema);
-    const user = await userService.createUser(body);
-    return Response.json(user, { status: 201 });
-  },
-
-  async list(_req: Request) {
-    // controller does not touch db directly
-    const users = await userService.listUsers();
-    return Response.json(users);
-  }
-};`,
-            },
-          ],
-        },
-        {
-          id: "12",
-          num: "12",
-          level: "STRUCTURE",
-          title: "Router routes.ts",
-          why: "Manual router with prefix, param extraction, no framework magic.",
-          prodTip: "Group routes by feature. Prefix /api applied once.",
-          subs: [
-            {
-              title: "user.routes.ts",
-              desc: "createRoute helper, prefix handling.",
-              file: "src/modules/users/user.routes.ts",
-              lang: "ts",
-              code: `import { addRoute, get, post } from '../../lib/router';
-import { userController } from './user.controller';
-import { auth } from '../../middlewares/auth';
-
-export function registerUserRoutes() {
-  // public
-  post('/api/users', userController.create);
-  
-  // protected - middleware inline
-  get('/api/users', async (req, params, server) => {
-    const authRes = await auth(req);
-    if (authRes) return authRes; // 401
-    return userController.list(req);
-  });
-
-  get('/api/users/:id', async (req, params) => {
-    const authCheck = await auth(req);
-    if (authCheck) return authCheck;
-    return userController.getById(req, params.id);
-  });
-}
-
-// in app.ts
-// registerUserRoutes();
-// addRoute('GET', '/health', () => Response.json({ ok: true }));`,
-            },
-            {
-              title: "lib/router.ts — Prefix Support",
-              desc: "Add prefix wrapper.",
-              file: "src/lib/router.ts",
-              lang: "ts",
-              code: `function createGroup(prefix: string) {
-  return {
-    get: (path: string, handler: any) => addRoute('GET', prefix + path, handler),
-    post: (path: string, handler: any) => addRoute('POST', prefix + path, handler),
-  };
-}
-
-export const api = createGroup('/api/v1');
-
-// usage
-// api.get('/users', handler) -> /api/v1/users
-// api.post('/users/:id/ban', handler)`,
-            },
-          ],
-        },
-        {
-          id: "13",
-          num: "13",
-          level: "STRUCTURE",
-          title: "Middlewares Without Framework",
-          why: "Cors, auth, rate limit are just functions returning Response | null. No next().",
-          prodTip:
-            "Rate limiter: Map + setInterval cleanup. For distributed, replace with bun:sqlite or pg.",
-          subs: [
-            {
-              title: "cors.ts — Manual Headers",
-              desc: "No cors package. 10 lines.",
-              file: "src/middlewares/cors.ts",
-              lang: "ts",
-              code: `export function cors(req: Request, res: Response): Response {
-  const origin = req.headers.get('origin') || '*';
-  const headers = new Headers(res.headers);
-  headers.set('Access-Control-Allow-Origin', origin);
-  headers.set('Access-Control-Allow-Methods', 'GET,POST,PUT,DELETE,OPTIONS');
-  headers.set('Access-Control-Allow-Headers', 'Content-Type, Authorization, X-Request-Id');
-  headers.set('Access-Control-Max-Age', '86400');
-  return new Response(res.body, { status: res.status, headers });
-}
-
-export function handleOptions(req: Request) {
-  if (req.method === 'OPTIONS') {
-    return new Response(null, {
-      status: 204,
-      headers: {
-        'Access-Control-Allow-Origin': '*',
-        'Access-Control-Allow-Methods': 'GET,POST,PUT,DELETE,OPTIONS',
-        'Access-Control-Allow-Headers': 'Content-Type, Authorization',
+  {
+    "id": "01",
+    "num": "01",
+    "level": "BEGINNER",
+    "title": "Why No Framework",
+    "why": "Bun.serve is a thin layer over a native HTTP server that speaks the standard Request/Response API, so little sits between the socket and your handler. Fewer layers means less per-request overhead and fewer surprises, but the gain only matters if you measure it on your own workload.",
+    "prodTip": "Benchmark your real endpoints with the database in the loop before deciding. Query time usually dwarfs framework overhead, so choose no-framework for control and a small dependency surface, not for headline rps.",
+    "subs": [
+      {
+        "title": "Measure, Do Not Trust Headline Numbers",
+        "desc": "Throughput claims depend on hardware, payload, and whether a DB is involved. Run the same test against each candidate on your own machine. (An earlier version of this guide quoted fixed rps and ms figures; those were illustrative, not measured, and have been removed.)",
+        "file": "bench/run.sh",
+        "lang": "bash",
+        "code": "# 1. Install a load tool (any of these works)\nbunx autocannon -c 100 -d 30 http://localhost:3000/health\n# or: oha -c 100 -z 30s http://localhost:3000/health\n\n# 2. Benchmark the endpoints that matter, not just /health:\n#    - one that hits Postgres (e.g. GET /api/users/:id)\n#    - one that does auth (Bun.password / JWT verify)\n#    - one that returns a file\n\n# 3. Record for every candidate:\n#    requests/sec, p50/p99 latency, RSS memory (ps -o rss= -p \u003cpid>),\n#    cold start (time bun src/index.ts until first 200)\n\n# 4. Compare under the SAME conditions: same box, same payload,\n#    same concurrency, warmed up, client not on the same CPU cores.\n"
+      },
+      {
+        "title": "Cost of Abstraction",
+        "desc": "Frameworks add work per request: wrapping req/res, building param and query objects, running middleware chains. Bun.serve hands you the native Request and you compose only what you need.",
+        "file": "concept/overhead.ts",
+        "lang": "ts",
+        "code": "// Express-style: objects are built and middleware runs on every request\nfunction frameworkTax(req, res, next) {\n  req.params = {};      // allocated\n  req.query = parse();  // parsed even if unused\n  res.locals = {};      // allocated even if unused\n  next();               // then each registered middleware runs in turn\n}\n\n// Bun.serve: req is the native Request, nothing is added unless you add it\nBun.serve({\n  fetch(req) {\n    return new Response('ok');\n  }\n});\n"
+      },
+      {
+        "title": "Built-in Routing (Bun 1.2.3+)",
+        "desc": "Bun.serve now has a native routes option with :params, per-method handlers and wildcards. This guide builds a manual router in section 04 to teach how routing works; in a new project you can use routes directly and keep the same module layout.",
+        "file": "src/native-routes.ts",
+        "lang": "ts",
+        "code": "Bun.serve({\n  routes: {\n    '/health': () => Response.json({ ok: true }),\n    '/api/users/:id': (req) => Response.json({ id: req.params.id }),\n    '/api/users': {\n      GET: () => Response.json([]),\n      POST: async (req) => Response.json(await req.json(), { status: 201 }),\n    },\n    '/public/*': () => new Response('static handler here'),\n  },\n  // anything not matched by routes\n  fetch() {\n    return new Response('Not Found', { status: 404 });\n  },\n});\n"
       }
-    });
-  }
-  return null;
-}`,
-            },
-            {
-              title: "auth.ts — JWT Verify",
-              desc: "Manual verify, no library wrapper.",
-              file: "src/middlewares/auth.ts",
-              lang: "ts",
-              code: `import { verifyJwt } from '../utils/jwt';
-
-export async function auth(req: Request): Promise<Response | null> {
-  const header = req.headers.get('authorization');
-  if (!header?.startsWith('Bearer ')) {
-    return Response.json({ error: 'Unauthorized' }, { status: 401 });
-  }
-  const token = header.slice(7);
-  try {
-    const payload = await verifyJwt(token);
-    // attach to req via custom prop or context
-    (req as any).user = payload;
-    return null; // pass
-  } catch {
-    return Response.json({ error: 'Invalid token' }, { status: 401 });
-  }
-}`,
-            },
-            {
-              title: "rateLimiter.ts — Map + Cleanup",
-              desc: "In-memory sliding window, no Redis.",
-              file: "src/middlewares/rateLimiter.ts",
-              lang: "ts",
-              code: `const hits = new Map<string, { count: number; reset: number }>();
-const WINDOW = 60_000; // 1 min
-const MAX = 100;
-
-// cleanup every 5 min
-setInterval(() => {
-  const now = Date.now();
-  for (const [k, v] of hits) if (v.reset < now) hits.delete(k);
-}, 5 * 60_000).unref();
-
-export function rateLimiter(req: Request): Response | null {
-  const ip = req.headers.get('x-forwarded-for') || '127.0.0.1';
-  const now = Date.now();
-  const entry = hits.get(ip);
-
-  if (!entry || entry.reset < now) {
-    hits.set(ip, { count: 1, reset: now + WINDOW });
-    return null;
-  }
-
-  entry.count++;
-  if (entry.count > MAX) {
-    return Response.json({ error: 'Too many requests' }, { 
-      status: 429,
-      headers: { 'Retry-After': String(Math.ceil((entry.reset - now)/1000)) }
-    });
-  }
-  return null;
-}`,
-            },
-            {
-              title: "requestId + logger",
-              desc: "Trace every request.",
-              file: "src/middlewares/requestId.ts",
-              lang: "ts",
-              code: `export function requestId(req: Request) {
-  const id = req.headers.get('x-request-id') || crypto.randomUUID().slice(0,8);
-  return { id, header: { 'x-request-id': id } };
-}
-
-// in app.ts compose:
-// const { id, header } = requestId(req);
-// console.log(\`[\${id}] \${req.method} \${new URL(req.url).pathname}\`);
-// response.headers.set('x-request-id', id);`,
-            },
-          ],
-        },
-        {
-          id: "14",
-          num: "14",
-          level: "STRUCTURE",
-          title: "Errors + Validation",
-          why: "Never throw raw Error. Always AppError with statusCode. Zod safeParse for body.",
-          prodTip:
-            "safeParse returns success false — no try/catch needed. Perfect for validation.",
-          subs: [
-            {
-              title: "lib/errors.ts — AppError",
-              desc: "Status code + isOperational flag.",
-              file: "src/lib/errors.ts",
-              lang: "ts",
-              code: `export class AppError extends Error {
-  constructor(
-    public message: string,
-    public statusCode: number = 500,
-    public isOperational = true
-  ) {
-    super(message);
-    this.name = 'AppError';
-  }
-}
-
-export function errorHandler(err: unknown): Response {
-  if (err instanceof AppError) {
-    return Response.json(
-      { error: err.message, code: err.statusCode },
-      { status: err.statusCode }
-    );
-  }
-
-  console.error('[UNHANDLED]', err);
-  return Response.json(
-    { error: 'Internal Server Error' },
-    { status: 500 }
-  );
-}`,
-            },
-            {
-              title: "lib/validation.ts",
-              desc: "validateBody with zod.",
-              file: "src/lib/validation.ts",
-              lang: "ts",
-              code: `import { z } from 'zod';
-import { AppError } from './errors';
-
-export async function validateBody<T extends z.ZodType>(req: Request, schema: T): Promise<z.infer<T>> {
-  const json = await req.json().catch(() => null);
-  if (!json) throw new AppError('Invalid JSON body', 400);
-
-  const result = schema.safeParse(json);
-  if (!result.success) {
-    const msg = result.error.errors.map(e => \`\${e.path.join('.')}: \${e.message}\`).join(', ');
-    throw new AppError(msg, 400);
-  }
-  return result.data;
-}`,
-            },
-            {
-              title: "user.schema.ts — Zod",
-              desc: "Input schemas, not Drizzle schemas.",
-              file: "src/modules/users/user.schema.ts",
-              lang: "ts",
-              code: `import { z } from 'zod';
-
-export const createUserSchema = z.object({
-  email: z.string().email().max(255),
-  name: z.string().min(2).max(100),
-  password: z.string().min(8).max(100),
-});
-
-export const loginSchema = z.object({
-  email: z.string().email(),
-  password: z.string().min(1),
-});`,
-            },
-          ],
-        },
-        {
-          id: "15",
-          num: "15",
-          level: "STRUCTURE",
-          title: "Service Layer Deep Dive",
-          why: "Service orchestrates repo + built-ins (hash, mail, cache). No HTTP knowledge.",
-          prodTip:
-            "Service returns plain objects, never Response. Keeps logic framework-agnostic.",
-          subs: [
-            {
-              title: "user.service.ts — Full",
-              desc: "Business rules, transaction, events.",
-              file: "src/modules/users/user.service.ts",
-              lang: "ts",
-              code: `import { db } from '../../config/db';
-import { users } from '../../db/schema/users';
-import { eq } from 'drizzle-orm';
-import { AppError } from '../../lib/errors';
-
-export const userService = {
-  async listUsers() {
-    return db.query.users.findMany({
-      columns: { passwordHash: false },
-      limit: 50,
-      orderBy: (u, { desc }) => [desc(u.createdAt)]
-    });
+    ]
   },
-
-  async banUser(id: string, actorRole: string) {
-    if (actorRole !== 'admin') throw new AppError('Forbidden', 403);
-    
-    const [updated] = await db.update(users)
-      .set({ isActive: false })
-      .where(eq(users.id, id))
-      .returning({ id: users.id });
-
-    if (!updated) throw new AppError('User not found', 404);
-    return updated;
+  {
+    "id": "02",
+    "num": "02",
+    "level": "BEGINNER",
+    "title": "Bun.serve Production Entry",
+    "why": "A production entry must handle SIGTERM, cap request body size, turn off development mode, never leak stack traces, and shut down in the right order: stop accepting traffic, let in-flight requests finish, then close the database pool.",
+    "prodTip": "server.stop() without arguments is the graceful one (it lets in-flight requests finish). server.stop(true) force-closes active connections. Always add a hard timeout so a stuck request cannot block deploys forever.",
+    "subs": [
+      {
+        "title": "src/index.ts — Graceful Production",
+        "desc": "reusePort (Linux) lets several processes share one port. maxRequestBodySize bounds memory per request. development:false disables dev error pages.",
+        "file": "src/index.ts",
+        "lang": "ts",
+        "code": "import { env } from './config/env';\nimport { pg } from './config/db';\nimport { app } from './app';\nimport { logger } from './lib/logger';\n\nconst server = Bun.serve({\n  port: env.PORT,\n  hostname: '0.0.0.0',\n  reusePort: true,                     // SO_REUSEPORT: run N processes on one port (Linux)\n  idleTimeout: 30,                     // seconds\n  maxRequestBodySize: 10 * 1024 * 1024, // 10 MB; default is much larger\n  development: env.NODE_ENV !== 'production',\n\n  fetch: (req, server) => app.fetch(req, server),\n\n  // Runs only if fetch throws/rejects without your own try/catch\n  error(err) {\n    const requestId = crypto.randomUUID();\n    logger.error('fatal', { err, requestId });\n    return Response.json({ error: 'Internal Server Error', requestId }, { status: 500 });\n  },\n});\n\nlogger.info('listening', { url: server.url.href, pid: process.pid });\n\nlet shuttingDown = false;\nasync function shutdown(signal: string) {\n  if (shuttingDown) return;\n  shuttingDown = true;\n  logger.info('draining', { signal });\n\n  // Hard deadline: never hang a deploy\n  setTimeout(() => process.exit(1), 10_000).unref();\n\n  await server.stop();          // stop accepting; in-flight requests complete\n  await pg.end({ timeout: 5 }); // then close DB pool (in-flight work may still need it)\n\n  logger.info('shutdown complete');\n  process.exit(0);\n}\n\nprocess.on('SIGTERM', () => shutdown('SIGTERM'));\nprocess.on('SIGINT', () => shutdown('SIGINT'));\n"
+      }
+    ]
   },
-
-  async getProfile(id: string) {
-    const user = await db.query.users.findFirst({
-      where: eq(users.id, id),
-      columns: { passwordHash: false }
-    });
-    if (!user) throw new AppError('Not found', 404);
-    return user;
-  }
-};`,
-            },
-          ],
-        },
-        {
-          id: "16",
-          num: "16",
-          level: "BUN",
-          title: "Bun.serve + WebSocket Server",
-          why: "WebSocket is built-in to Bun.serve. No ws library, no upgrade headache. Production ready.",
-          prodTip:
-            "Check server.upgrade(req) first in fetch. If true, return undefined to hijack.",
-          subs: [
-            {
-              title: "Full WebSocket + HTTP Server",
-              desc: "One server handles both http and ws.",
-              file: "src/index.ts",
-              lang: "ts",
-              code: `Bun.serve({
-  port: 3000,
-  fetch(req, server) {
-    // Upgrade ws:// -> WebSocket, no extra port
-    if (server.upgrade(req)) return; // hijacked
-
-    // regular http
-    return new Response('Hello HTTP');
+  {
+    "id": "03",
+    "num": "03",
+    "level": "BEGINNER",
+    "title": "Request/Response Web API",
+    "why": "Bun uses the standard Fetch API (Request/Response/Headers/URL/FormData), not Node's req/res. What you learn here also works on Deno, Cloudflare Workers and other web-standard runtimes.",
+    "prodTip": "req.json() and req.formData() consume the body and buffer it in memory; use req.clone() before reading twice, and cap size with maxRequestBodySize. Never put a client-supplied filename into a filesystem path.",
+    "subs": [
+      {
+        "title": "Native Web API Patterns",
+        "desc": "URL, headers, JSON, safe file upload, Bun.file responses. Note: formData() buffers the upload in memory, so it is not streaming to disk; the safe pattern is to bound size, allowlist types, and generate your own filename.",
+        "file": "src/app.ts",
+        "lang": "ts",
+        "code": "const MAX_UPLOAD = 5 * 1024 * 1024; // keep \u003c= maxRequestBodySize\nconst EXT: Record\u003cstring, string> = {\n  'image/png': '.png',\n  'image/jpeg': '.jpg',\n  'image/webp': '.webp',\n};\n\nexport const app = {\n  async fetch(req: Request): Promise\u003cResponse> {\n    const url = new URL(req.url);\n    const requestId = req.headers.get('x-request-id') || crypto.randomUUID();\n\n    if (url.pathname === '/api/json' && req.method === 'POST') {\n      const body = await req.json().catch(() => null);\n      if (body === null) return Response.json({ error: 'Invalid JSON' }, { status: 400 });\n      return Response.json({ ok: true, data: body }, { headers: { 'x-request-id': requestId } });\n    }\n\n    if (url.pathname === '/api/upload' && req.method === 'POST') {\n      const form = await req.formData();\n      const file = form.get('avatar');\n      if (!(file instanceof File)) return Response.json({ error: 'Missing file' }, { status: 400 });\n      if (file.size > MAX_UPLOAD) return Response.json({ error: 'File too large' }, { status: 413 });\n\n      // file.type is client-supplied: allowlist it (and sniff magic bytes for real safety)\n      const ext = EXT[file.type];\n      if (!ext) return Response.json({ error: 'Unsupported type' }, { status: 415 });\n\n      // NEVER use file.name in the path (../../ traversal). Generate your own name.\n      const path = `./uploads/${crypto.randomUUID()}${ext}`;\n      await Bun.write(path, file); // creates parent dirs by default\n      return Response.json({ path }, { status: 201 });\n    }\n\n    if (url.pathname === '/') {\n      // Bun serves Bun.file bodies efficiently (sendfile where supported)\n      return new Response(Bun.file('./public/index.html'), {\n        headers: { 'x-request-id': requestId },\n      });\n    }\n\n    if (url.pathname === '/health') {\n      return Response.json({ status: 'ok', uptime: process.uptime() });\n    }\n\n    return new Response('Not Found', { status: 404 });\n  },\n};\n"
+      }
+    ]
   },
-  websocket: {
-    open(ws) {
-      ws.send('Welcome');
-      console.log('[ws] open', ws.remoteAddress);
-      // ws.subscribe('chat'); for pub/sub
-    },
-    message(ws, msg) {
-      // msg can be string | Buffer
-      ws.send(\`Echo: \${msg}\`);
-      // server.publish('chat', \`\${ws.data}: \${msg}\`);
-    },
-    close(ws, code, reason) {
-      console.log('[ws] close', code, reason);
-      // ws.unsubscribe('chat');
-    },
-    // per-message deflate, max payload
-    perMessageDeflate: true,
-    maxPayloadLength: 1024 * 1024,
-  }
-});`,
-            },
-            {
-              title: "Production Chat Example",
-              desc: "Room pub/sub without Redis.",
-              file: "src/modules/chat/ws.ts",
-              lang: "ts",
-              code: `type WSData = { userId: string; room: string };
-
-Bun.serve<WSData>({
-  port: 3000,
-  fetch(req, server) {
-    const url = new URL(req.url);
-    if (url.pathname !== '/ws') return new Response('Not WS', { status: 400 });
-    
-    const userId = url.searchParams.get('userId') || 'anon';
-    const room = url.searchParams.get('room') || 'general';
-    
-    // Pass data to ws
-    const ok = server.upgrade(req, { data: { userId, room } });
-    if (!ok) return new Response('Upgrade failed', { status: 500 });
+  {
+    "id": "04",
+    "num": "04",
+    "level": "BEGINNER",
+    "title": "Manual Router",
+    "why": "You do not need a router library for most APIs: a route table plus compiled regexes is enough, with full type control and zero dependencies. (Bun also ships native routes, see section 01; this version shows how routing actually works.)",
+    "prodTip": "Compile patterns once at startup and escape static segments. Return 405 (not 404) when the path exists with another method, and decode params safely because decodeURIComponent throws on malformed input.",
+    "subs": [
+      {
+        "title": "lib/router.ts — Complete",
+        "desc": ":param segments, * wildcard, regex-escaped static parts, 404 vs 405, safe decoding, and a next()-style compose helper.",
+        "file": "src/lib/router.ts",
+        "lang": "ts",
+        "code": "import type { Server } from 'bun';\nimport { AppError } from './errors';\n\nexport type Params = Record\u003cstring, string>;\nexport type Handler = (req: Request, params: Params, server?: Server) => Promise\u003cResponse> | Response;\ntype Route = { method: string; pattern: RegExp; keys: string[]; handler: Handler };\n\nconst routes: Route[] = [];\n\nfunction pathToRegex(path: string) {\n  const keys: string[] = [];\n  const src = path\n    .split('/')\n    .map((seg) => {\n      if (seg === '*') { keys.push('*'); return '(.*)'; }\n      if (seg.startsWith(':')) { keys.push(seg.slice(1)); return '([^/]+)'; }\n      return seg.replace(/[.*+?^${}()|[\\]\\\\]/g, '\\\\$&'); // escape static parts\n    })\n    .join('/');\n  return { regex: new RegExp(`^${src}$`), keys };\n}\n\nexport function addRoute(method: string, path: string, handler: Handler) {\n  const { regex, keys } = pathToRegex(path);\n  routes.push({ method: method.toUpperCase(), pattern: regex, keys, handler });\n}\n\nexport const get = (p: string, h: Handler) => addRoute('GET', p, h);\nexport const post = (p: string, h: Handler) => addRoute('POST', p, h);\nexport const put = (p: string, h: Handler) => addRoute('PUT', p, h);\nexport const del = (p: string, h: Handler) => addRoute('DELETE', p, h);\n\ntype Match =\n  | { kind: 'match'; handler: Handler; params: Params }\n  | { kind: 'method' }\n  | { kind: 'none' };\n\nfunction matchRoute(method: string, pathname: string): Match {\n  let pathMatched = false;\n  for (const r of routes) {\n    const m = pathname.match(r.pattern);\n    if (!m) continue;\n    pathMatched = true;\n    if (r.method !== method) continue;\n    const params: Params = {};\n    try {\n      r.keys.forEach((k, i) => (params[k] = decodeURIComponent(m[i + 1])));\n    } catch {\n      throw new AppError('Malformed URL encoding', 400);\n    }\n    return { kind: 'match', handler: r.handler, params };\n  }\n  return pathMatched ? { kind: 'method' } : { kind: 'none' };\n}\n\nexport async function router(req: Request, server?: Server): Promise\u003cResponse> {\n  const { pathname } = new URL(req.url);\n  const m = matchRoute(req.method, pathname);\n  if (m.kind === 'match') return m.handler(req, m.params, server);\n  if (m.kind === 'method') return Response.json({ error: 'Method Not Allowed' }, { status: 405 });\n  return Response.json({ error: 'Not Found' }, { status: 404 });\n}\n\n// Optional: Express-style composition without global state\nexport type Middleware = (req: Request, next: () => Promise\u003cResponse>) => Promise\u003cResponse>;\n\nexport function compose(...mws: Middleware[]) {\n  return (req: Request, final: () => Promise\u003cResponse>) => {\n    let idx = -1;\n    const dispatch = (i: number): Promise\u003cResponse> => {\n      if (i \u003c= idx) return Promise.reject(new Error('next() called multiple times'));\n      idx = i;\n      if (i === mws.length) return final();\n      return mws[i](req, () => dispatch(i + 1));\n    };\n    return dispatch(0);\n  };\n}\n"
+      }
+    ]
   },
-  websocket: {
-    open(ws) {
-      ws.subscribe(ws.data.room);
-      ws.send(\`Joined \${ws.data.room}\`);
-    },
-    message(ws, msg) {
-      // broadcast to room
-      ws.publish(ws.data.room, \`\${ws.data.userId}: \${msg}\`);
-    },
-    close(ws) {
-      ws.unsubscribe(ws.data.room);
-    }
-  }
-});`,
-            },
-          ],
-        },
-        {
-          id: "17",
-          num: "17",
-          level: "BUN",
-          title: "Bun.file + Bun.write — No fs",
-          why: "fs is blocking, callback hell. Bun.file is lazy, zero-copy, MIME auto, stream native.",
-          prodTip:
-            "Return new Response(Bun.file(path)) — kernel sends file, Bun does not buffer.",
-          subs: [
-            {
-              title: "Bun.file — Lazy, Fast",
-              desc: "No fs.readFileSync, no manual MIME.",
-              file: "src/lib/files.ts",
-              lang: "ts",
-              code: `// Read
-const pkg = await Bun.file('./package.json').json();
-const text = await Bun.file('./data.csv').text();
-const buf = await Bun.file('./logo.png').arrayBuffer();
-const exists = await Bun.file('./config.json').exists();
-const size = Bun.file('./video.mp4').size; // lazy, no IO
-
-// Write - handles string, Blob, ArrayBuffer, File
-await Bun.write('./logs/app.log', 'line\\n');
-await Bun.write('./logs/app.log', 'append\\n', { createPath: true }); // careful: overwrites, use append logic
-await Bun.write('./uploads/avatar.png', fileBlob);
-
-// Zero-copy HTTP response
-return new Response(Bun.file('./public/index.html'), {
-  headers: { 'Content-Type': 'text/html' }
-});
-
-// Stream big file without RAM
-return new Response(Bun.file('./videos/intro.mp4'), {
-  headers: { 'Content-Type': 'video/mp4', 'Content-Length': String(Bun.file('./videos/intro.mp4').size) }
-});
-
-// Upload handling
-export async function handleUpload(req: Request) {
-  const form = await req.formData();
-  const file = form.get('avatar') as File;
-  if (!file) throw new Error('No file');
-  
-  const path = \`./uploads/\${crypto.randomUUID()}-\${file.name}\`;
-  await Bun.write(path, file); // File is Blob, direct write
-  
-  // also write meta
-  await Bun.write(\`./uploads/\${crypto.randomUUID()}.json\`, JSON.stringify({ 
-    original: file.name, 
-    size: file.size, 
-    type: file.type 
-  }));
-  
-  return Response.json({ path });
-}`,
-            },
-          ],
-        },
-        {
-          id: "18",
-          num: "18",
-          level: "BUN",
-          title: "Bun.password — No bcrypt",
-          why: "bcryptjs is 80ms. Bun.password is C++ binding, 12ms. Argon2id also built-in.",
-          prodTip: "Always cost 12 for bcrypt prod. Lower cost only in tests.",
-          subs: [
-            {
-              title: "Hash + Verify",
-              desc: "No bcrypt, no argon2 npm. Built-in.",
-              file: "src/utils/password.ts",
-              lang: "ts",
-              code: `// Bcrypt - most compatible
-const hash = await Bun.password.hash('pass123', {
-  algorithm: 'bcrypt',
-  cost: 12 // 4-31, 12 = prod
-});
-
-const ok = await Bun.password.verify('pass123', hash);
-console.log(ok); // true
-
-// Argon2id - stronger, memory hard
-const argon = await Bun.password.hash('pass', {
-  algorithm: 'argon2id',
-  memoryCost: 4, // 1 = 1MB, 4 = 4MB
-  timeCost: 3    // iterations
-});
-
-const argonOk = await Bun.password.verify('pass', argon);
-
-// Usage in service
-export async function createUser(password: string) {
-  return Bun.password.hash(password, { algorithm: 'bcrypt', cost: 12 });
-}
-
-export async function checkPassword(password: string, hash: string) {
-  return Bun.password.verify(password, hash);
-}
-
-// Benchmark
-// bcryptjs: 82ms per hash
-// Bun.password bcrypt: 12ms
-// Bun.password argon2id: 18ms (more secure)`,
-            },
-          ],
-        },
-        {
-          id: "19",
-          num: "19",
-          level: "BUN",
-          title: "Bun.spawn + Bun.$ Shell",
-          why: "Child_process is callback hell. Bun.spawn is Promise + streams. $ is bash in JS.",
-          prodTip:
-            "Use spawn for long processes (ffmpeg), spawnSync for quick git rev. $ for shell scripts.",
-          subs: [
-            {
-              title: "Bun.spawn — Streaming",
-              desc: "ffmpeg, pipe stdout, wait exit.",
-              file: "src/lib/process.ts",
-              lang: "ts",
-              code: `// Async spawn - streaming
-const proc = Bun.spawn(['ffmpeg', '-i', 'in.mp4', 'out.webm'], {
-  stdout: 'pipe',
-  stderr: 'pipe',
-});
-
-const text = await new Response(proc.stdout).text();
-const errText = await new Response(proc.stderr).text();
-
-await proc.exited; // wait
-console.log(\`Exit code: \${proc.exitCode}\`);
-
-// Sync - for quick commands
-const { stdout, stderr, exitCode } = Bun.spawnSync(['git', 'rev-parse', 'HEAD']);
-console.log(stdout.toString().trim()); // commit hash
-
-// With env, cwd
-Bun.spawn(['node', 'script.js'], {
-  cwd: './scripts',
-  env: { ...process.env, NODE_ENV: 'production' },
-  stdout: 'inherit', // pipe to parent stdout
-});`,
-            },
-            {
-              title: "Bun.$ — Shell Template",
-              desc: "Magical bash in JS, typed.",
-              file: "src/scripts/build.ts",
-              lang: "ts",
-              code: `import { $ } from 'bun';
-
-// Shell as template literal - escaped automatically
-await $\`mkdir -p ./uploads\`;
-const files = await $\`ls -la\`.text();
-console.log(files);
-
-await $\`docker build -t myapp .\`.quiet(); // quiet = no stdout
-
-// Variables interpolation - safe
-const branch = 'main';
-await $\`git checkout \${branch}\`; // auto escaped, no injection
-
-// Pipe + json
-const count = await $\`find ./src -name "*.ts" | wc -l\`.text();
-
-// Parallel
-await Promise.all([
-  $\`bun run build:client\`,
-  $\`bun run build:server\`,
-]);
-
-// Check which binary exists
-const hasFfmpeg = !!Bun.which('ffmpeg');
-if (!hasFfmpeg) console.warn('ffmpeg not found');`,
-            },
-          ],
-        },
-        {
-          id: "20",
-          num: "20",
-          level: "BUN",
-          title: "bun:sqlite — Cache Without Redis",
-          why: "Redis is extra infra. For sessions, rate limit, cache, sqlite WAL is 10x faster local.",
-          prodTip:
-            "PRAGMA journal_mode=WAL + synchronous=NORMAL = prod safe, fast.",
-          subs: [
-            {
-              title: "SQLite Cache",
-              desc: "Sessions, cache, no Redis.",
-              file: "src/config/cache.ts",
-              lang: "ts",
-              code: `import { Database } from 'bun:sqlite';
-
-const db = new Database('./data/cache.db', { create: true });
-
-// WAL mode - allows concurrent readers
-db.exec('PRAGMA journal_mode = WAL;');
-db.exec('PRAGMA synchronous = NORMAL;');
-db.exec('PRAGMA cache_size = -64000;'); // 64MB
-
-db.exec(\`
-  CREATE TABLE IF NOT EXISTS sessions (
-    id TEXT PRIMARY KEY,
-    data TEXT NOT NULL,
-    expires_at INTEGER NOT NULL
-  );
-  CREATE INDEX IF NOT EXISTS idx_sessions_expires ON sessions(expires_at);
-\`);
-
-const insert = db.query('INSERT OR REPLACE INTO sessions VALUES (?1, ?2, ?3)');
-const get = db.query('SELECT data FROM sessions WHERE id = ?1 AND expires_at > ?2');
-const del = db.query('DELETE FROM sessions WHERE id = ?1');
-
-// Usage
-export const cache = {
-  set: (id: string, data: any, ttlMs = 3600_000) => {
-    insert.run(id, JSON.stringify(data), Date.now() + ttlMs);
+  {
+    "id": "05",
+    "num": "05",
+    "level": "BEGINNER",
+    "title": "TypeScript Env Validation",
+    "why": "Fail at boot, not at 3am on the first request that touches a missing variable. Bun loads .env automatically, but without validation everything is string | undefined.",
+    "prodTip": "Only config/env.ts reads Bun.env. Everything else imports the validated, typed env. Beware z.coerce.boolean(): it turns the string \"false\" into true, so parse booleans explicitly.",
+    "subs": [
+      {
+        "title": "src/config/env.ts",
+        "desc": "Zod validation with fail-fast exit. Uses error.issues (works in zod 3 and 4) and a scheme check instead of z.string().url(), which behaves differently across versions.",
+        "file": "src/config/env.ts",
+        "lang": "ts",
+        "code": "import { z } from 'zod';\n\nconst bool = z.enum(['true', 'false']).default('false').transform((v) => v === 'true');\n\nconst schema = z.object({\n  NODE_ENV: z.enum(['development', 'production', 'test']).default('development'),\n  PORT: z.coerce.number().int().min(1).max(65535).default(3000),\n  DATABASE_URL: z\n    .string()\n    .refine((v) => /^postgres(ql)?:\\/\\//.test(v), 'must be a postgres:// URL'),\n  JWT_SECRET: z.string().min(32),\n  // comma-separated allowlist, e.g. \"https://app.example.com,https://admin.example.com\"\n  CORS_ORIGINS: z.string().default('').transform((s) => s.split(',').map((x) => x.trim()).filter(Boolean)),\n  LOG_LEVEL: z.enum(['debug', 'info', 'warn', 'error']).default('info'),\n  DB_POOL_MAX: z.coerce.number().int().min(1).default(10),\n  PGBOUNCER_TXN_MODE: bool,  // true only if using PgBouncer in transaction pooling mode\n  TRUST_PROXY: bool,         // true only when behind Caddy/nginx you control\n});\n\nfunction validateEnv() {\n  const parsed = schema.safeParse(Bun.env);\n  if (!parsed.success) {\n    console.error('Invalid environment:');\n    for (const i of parsed.error.issues) console.error(`  - ${i.path.join('.')}: ${i.message}`);\n    process.exit(1);\n  }\n  return parsed.data;\n}\n\nexport const env = validateEnv();\n// Bun auto-loads .env, .env.local and .env.\u003cNODE_ENV>. No dotenv needed.\n"
+      }
+    ]
   },
-  get: <T>(id: string): T | null => {
-    const row = get.get(id, Date.now()) as any;
-    return row ? JSON.parse(row.data) : null;
+  {
+    "id": "06",
+    "num": "06",
+    "level": "BEGINNER",
+    "title": "Drizzle Minimal Config",
+    "why": "Drizzle is a typed layer over SQL with no runtime magic. You need two things: drizzle.config.ts for drizzle-kit (migrations) and a single db client for the app.",
+    "prodTip": "Pass { schema } to drizzle() or db.query.* (the relational query API used later) will not exist. Keep one client per process.",
+    "subs": [
+      {
+        "title": "drizzle.config.ts",
+        "desc": "drizzle-kit runs outside your app, so it reads process.env directly; it cannot import src/config/env.ts.",
+        "file": "drizzle.config.ts",
+        "lang": "ts",
+        "code": "import { defineConfig } from 'drizzle-kit';\n\nexport default defineConfig({\n  schema: './src/db/schema/index.ts',\n  out: './src/db/migrations',\n  dialect: 'postgresql',\n  dbCredentials: { url: process.env.DATABASE_URL! },\n  verbose: true,\n  strict: true,\n});\n"
+      },
+      {
+        "title": "Minimal db client",
+        "desc": "postgres-js driver with the schema attached. Section 09 shows the production-tuned version.",
+        "file": "src/config/db.ts",
+        "lang": "ts",
+        "code": "import { drizzle } from 'drizzle-orm/postgres-js';\nimport postgres from 'postgres';\nimport * as schema from '../db/schema';\n\nconst client = postgres(process.env.DATABASE_URL!, { max: 10 });\nexport const db = drizzle(client, { schema });\n"
+      },
+      {
+        "title": "Alternative: Bun's Native Postgres Client",
+        "desc": "Bun ships a built-in SQL client, and recent drizzle-orm versions include a bun-sql adapter. It removes the postgres npm dependency. Verify the adapter exists in your installed drizzle-orm version and check its docs, since this is newer than postgres-js.",
+        "file": "src/config/db.bun-sql.ts",
+        "lang": "ts",
+        "code": "import { drizzle } from 'drizzle-orm/bun-sql';\nimport { SQL } from 'bun';\nimport * as schema from '../db/schema';\n\nconst client = new SQL(process.env.DATABASE_URL!);\nexport const db = drizzle({ client, schema });\n"
+      }
+    ]
   },
-  del: (id: string) => del.run(id),
-};
-
-// Example
-insert.run('sess_123', JSON.stringify({ role: 'admin', userId: 'u_1' }), Date.now() + 86400_000);
-const sess = db.query('SELECT * FROM sessions WHERE id = ?').get('sess_123');
-console.log(sess);`,
-            },
-            {
-              title: "Rate Limiter with SQLite",
-              desc: "Distributed-ish without Redis.",
-              file: "src/middlewares/rateLimiterSqlite.ts",
-              lang: "ts",
-              code: `import { Database } from 'bun:sqlite';
-const db = new Database('./data/ratelimit.db');
-db.exec('PRAGMA journal_mode = WAL;');
-db.exec('CREATE TABLE IF NOT EXISTS hits (ip TEXT PRIMARY KEY, count INTEGER, reset_at INTEGER)');
-
-const inc = db.query(\`
-  INSERT INTO hits (ip, count, reset_at) 
-  VALUES (?1, 1, ?2)
-  ON CONFLICT(ip) DO UPDATE SET count = count + 1
-  RETURNING count, reset_at
-\`);
-
-export function rateLimitSqlite(ip: string) {
-  const now = Date.now();
-  const windowEnd = now + 60_000;
-  
-  // cleanup expired
-  db.exec('DELETE FROM hits WHERE reset_at < ' + now);
-  
-  const row = inc.get(ip, windowEnd) as any;
-  if (row.count > 100) {
-    return { limited: true, retryAfter: Math.ceil((row.reset_at - now)/1000) };
-  }
-  return { limited: false };
-}`,
-            },
-          ],
-        },
-        {
-          id: "21",
-          num: "21",
-          level: "BUN",
-          title: "Bun.CryptoHasher + Bun.hash + gzip",
-          why: "Crypto, hash, compression without Node crypto, no zlib, single API.",
-          prodTip:
-            "Use CryptoHasher for ETag, Bun.hash for cache keys (fast non-crypto), gzipSync for small payloads.",
-          subs: [
-            {
-              title: "Hashing & Compression",
-              desc: "All built-in.",
-              file: "src/lib/crypto.ts",
-              lang: "ts",
-              code: `// SHA256 streaming
-const hasher = new Bun.CryptoHasher('sha256');
-hasher.update('hello');
-hasher.update(' world');
-const hex = hasher.digest('hex'); // or 'base64', 'base64url'
-
-// Fast non-crypto hash for cache keys
-const cacheKey = Bun.hash('user:123'); // u64 number
-const cacheKeyStr = Bun.hash('user:123').toString(16);
-const crc = Bun.hash.crc32('data'); // crc32
-
-// Gzip
-const compressed = Bun.gzipSync(Buffer.from('big data repeated '.repeat(1000)));
-console.log(compressed.length, 'vs', Buffer.from('big data').length);
-
-const decompressed = Bun.gunzipSync(compressed);
-console.log(new TextDecoder().decode(decompressed));
-
-// ETag helper
-async function getETag(filePath: string) {
-  const buf = await Bun.file(filePath).arrayBuffer();
-  const h = new Bun.CryptoHasher('md5');
-  h.update(buf);
-  return h.digest('hex');
-}
-
-// Usage in response
-export async function serveWithETag(req: Request, path: string) {
-  const file = Bun.file(path);
-  if (!(await file.exists())) return new Response('Not Found', { status: 404 });
-  
-  const etag = await getETag(path);
-  if (req.headers.get('if-none-match') === etag) {
-    return new Response(null, { status: 304 });
-  }
-  
-  return new Response(file, {
-    headers: {
-      'ETag': etag,
-      'Content-Type': file.type,
-      'Cache-Control': 'public, max-age=3600'
-    }
-  });
-}`,
-            },
-          ],
-        },
-        {
-          id: "22",
-          num: "22",
-          level: "BUN",
-          title: "Bun.sleep + Bun.which + Bun.semver + TCP + Workers",
-          why: "All tiny utils that replace 10 npm packages. Bun provides runtime introspection.",
-          prodTip:
-            "Bun.which checks binary exists before spawn — avoids ENOENT crash.",
-          subs: [
-            {
-              title: "Utils + TCP + Workers",
-              desc: "Everything else built-in.",
-              file: "src/lib/builtins.ts",
-              lang: "ts",
-              code: `// Sleep - no setTimeout promise wrapper
-await Bun.sleep(1000); // 1s
-await Bun.sleep(100);  // 100ms
-
-// Which - find binary
-const ffmpeg = Bun.which('ffmpeg'); // /usr/bin/ffmpeg or null
-if (!ffmpeg) throw new Error('ffmpeg not installed');
-
-// Semver
-Bun.semver.satisfies('1.2.3', '^1.0.0'); // true
-Bun.semver.order('1.0.0', '2.0.0'); // -1
-const parsed = Bun.semver.parse('1.2.3-beta'); // { major, minor, patch }
-
-// String width - for CLI tables
-Bun.stringWidth('\uD83D\uDC4B'); // 2, emoji width
-Bun.stringWidth('hello'); // 5
-
-// Deep equals - no lodash
-Bun.deepEquals({ a: 1 }, { a: 1 }); // true
-Bun.deepEquals([1,2], [1,2]); // true
-
-// Env - auto loads .env, .env.local
-console.log(Bun.env.DATABASE_URL);
-console.log(Bun.env.PORT);
-
-// TCP server - raw sockets
-Bun.listen({
-  hostname: '0.0.0.0',
-  port: 8080,
-  socket: {
-    data(socket, data) {
-      console.log('Got', data.toString());
-      socket.write(data); // echo
-    },
-    open(socket) {
-      console.log('Client connected', socket.remoteAddress);
-    },
-    close(socket) {
-      console.log('Client disconnected');
-    },
-    error(socket, err) {
-      console.error('Socket error', err);
-    }
-  }
-});
-
-// Workers - true threads
-const worker = new Worker(new URL('./workers/hash.worker.ts', import.meta.url).href);
-worker.postMessage({ password: 'secret' });
-worker.onmessage = (e) => console.log('Hash', e.data);
-
-// hash.worker.ts
-// self.onmessage = async (e) => {
-//   const hash = await Bun.password.hash(e.data.password, { algorithm: 'bcrypt', cost: 12 });
-//   self.postMessage(hash);
-// };
-`,
-            },
-          ],
-        },
-        {
-          id: "23",
-          num: "23",
-          level: "BUN",
-          title: "Complete Production App",
-          why: "Putting all built-ins together: router + middlewares + Bun.file static + rate limit + requestId + error + shutdown.",
-          prodTip:
-            "This file is deployable. Copy to VPS, bun run src/index.ts, behind Caddy.",
-          subs: [
-            {
-              title: "src/app.ts — Full",
-              desc: "Router + middlewares + static + all built-ins.",
-              file: "src/app.ts",
-              lang: "ts",
-              code: `import { router, addRoute, get, post } from './lib/router';
-import { cors, handleOptions } from './middlewares/cors';
-import { rateLimiter } from './middlewares/rateLimiter';
-import { AppError, errorHandler } from './lib/errors';
-import { Database } from 'bun:sqlite';
-
-// SQLite cache
-const cacheDb = new Database('./data/cache.db');
-cacheDb.exec('PRAGMA journal_mode = WAL;');
-
-// Rate limit Map
-const hits = new Map<string, { count: number; reset: number }>();
-
-// --- Middlewares chain ---
-async function runMiddlewares(req: Request): Promise<Response | null> {
-  // 1. OPTIONS
-  const opt = handleOptions(req);
-  if (opt) return opt;
-
-  // 2. Rate limit
-  const ip = req.headers.get('x-forwarded-for') || 'local';
-  const now = Date.now();
-  const entry = hits.get(ip);
-  if (entry && entry.reset > now && entry.count > 100) {
-    return Response.json({ error: 'Too many requests' }, { status: 429 });
-  }
-
-  // 3. Auth example (skip for /health, /public)
-  // if (!req.url.includes('/health')) { ... }
-
-  return null;
-}
-
-// --- Routes ---
-get('/health', () => Response.json({ ok: true, uptime: process.uptime() }));
-
-get('/api/users/:id', async (_req, params) => {
-  // Check cache first - bun:sqlite
-  const cached = cacheDb.query('SELECT data FROM cache WHERE key = ?').get(\`user:\${params.id}\`) as any;
-  if (cached) return Response.json(JSON.parse(cached.data), { headers: { 'x-cache': 'HIT' } });
-
-  // Simulate DB
-  const user = { id: params.id, name: 'John', email: 'john@example.com' };
-  
-  // ETag via CryptoHasher
-  const hasher = new Bun.CryptoHasher('sha256');
-  hasher.update(JSON.stringify(user));
-  const etag = hasher.digest('hex').slice(0, 16);
-
-  // Cache set
-  cacheDb.query('INSERT OR REPLACE INTO cache VALUES (?1, ?2)').run(\`user:\${params.id}\`, JSON.stringify(user));
-
-  return Response.json(user, { headers: { 'ETag': etag, 'x-cache': 'MISS' } });
-});
-
-post('/api/upload', async (req) => {
-  const form = await req.formData();
-  const file = form.get('file') as File;
-  if (!file) throw new AppError('No file', 400);
-  
-  // Bun.file write
-  const path = \`./uploads/\${crypto.randomUUID()}-\${file.name}\`;
-  await Bun.write(path, file);
-  
-  // Hash file for dedup
-  const buf = await file.arrayBuffer();
-  const h = new Bun.CryptoHasher('sha256');
-  h.update(buf);
-  const hash = h.digest('hex');
-  
-  return Response.json({ path, hash, size: file.size });
-});
-
-get('/public/*', async (req) => {
-  const url = new URL(req.url);
-  const filePath = '.' + url.pathname; // ./public/...
-  const file = Bun.file(filePath);
-  if (!(await file.exists())) return new Response('Not Found', { status: 404 });
-  return new Response(file); // zero-copy
-});
-
-// Main app fetch
-export const app = {
-  async fetch(req: Request, server: any): Promise<Response> {
-    const requestId = crypto.randomUUID().slice(0, 8);
-    const start = performance.now();
-    
-    try {
-      // middlewares
-      const blocked = await runMiddlewares(req);
-      if (blocked) return cors(req, blocked);
-
-      // router
-      let res = await router(req, server);
-      
-      // cors + requestId
-      res = cors(req, res);
-      res.headers.set('x-request-id', requestId);
-      res.headers.set('x-response-time', \`\${(performance.now()-start).toFixed(1)}ms\`);
-      
-      return res;
-    } catch (err) {
-      const res = errorHandler(err);
-      res.headers.set('x-request-id', requestId);
-      return cors(req, res);
-    }
-  }
-};`,
-            },
-            {
-              title: "src/index.ts — Final",
-              desc: "Entry with graceful shutdown.",
-              file: "src/index.ts",
-              lang: "ts",
-              code: `import { app } from './app';
-import { db } from './config/db';
-
-const server = Bun.serve({
-  port: 3000,
-  reusePort: true,
-  fetch: app.fetch,
-  websocket: {
-    open(ws) { ws.send('connected'); },
-    message(ws, m) { ws.send(\`echo: \${m}\`); },
-    close() {}
+  {
+    "id": "07",
+    "num": "07",
+    "level": "BEGINNER",
+    "title": "Structure Intro",
+    "why": "Layer-based scales badly. Feature-based lets teams own modules vertically.",
+    "prodTip": "Feature > Layer. users/ owns its controller, service, repo, schema, routes.",
+    "subs": [
+      {
+        "title": "Decision Matrix",
+        "desc": "Why feature-based wins for Bun monolith.",
+        "file": "docs/architecture.md",
+        "lang": "bash",
+        "code": "# Layer-based (bad for scale)\nsrc/\n  controllers/ -> all controllers mixed\n  services/    -> all logic mixed\n  models/      -> circular deps hell\n\n# Feature-based (production)\nsrc/\n  modules/users/\n    user.controller.ts  # req/res only\n    user.service.ts      # business logic\n    user.repository.ts   # Drizzle queries only\n    user.schema.ts       # zod input\n    user.routes.ts       # route binding\n  modules/auth/\n    ...\n  lib/        # shared pure utils\n  middlewares/ # cross-cutting\n  config/     # env, db singleton\n\nRule: modules never import from other modules controller.\nOnly via service or repository."
+      }
+    ]
   },
-  error(err) {
-    console.error(err);
-    return new Response('Internal', { status: 500 });
+  {
+    "id": "08",
+    "num": "08",
+    "level": "STRUCTURE",
+    "title": "Full Production Tree",
+    "why": "This tree survives years of growth because every file has one reason to change. Added here: tests, migrations runner, deploy files, and the schema index that drizzle-kit and db.ts both import.",
+    "prodTip": "Put everything that can fail at boot in config/. Everything that can fail per request lives in modules/.",
+    "subs": [
+      {
+        "title": "Complete Tree",
+        "desc": "Feature-based, Bun idiomatic, Drizzle-ready.",
+        "file": "tree",
+        "lang": "bash",
+        "code": ".\n├── package.json\n├── drizzle.config.ts\n├── Dockerfile\n├── .env / .env.test\n├── tests/\n│   └── users.test.ts\n└── src/\n    ├── index.ts                 # Bun.serve + graceful shutdown\n    ├── app.ts                   # routes + middleware composition\n    ├── config/\n    │   ├── env.ts               # zod validation, fail-fast\n    │   └── db.ts                # postgres-js pool + drizzle\n    ├── db/\n    │   ├── schema/\n    │   │   ├── users.ts         # pgTable + indexes\n    │   │   └── index.ts         # re-exports (used by db.ts and drizzle-kit)\n    │   ├── migrations/          # generated SQL, committed to git\n    │   └── migrate.ts           # one-off migration runner\n    ├── modules/\n    │   └── users/\n    │       ├── user.controller.ts\n    │       ├── user.service.ts\n    │       ├── user.repository.ts\n    │       ├── user.routes.ts\n    │       └── user.schema.ts\n    ├── lib/\n    │   ├── errors.ts            # AppError + errorHandler\n    │   ├── logger.ts            # JSON-line logger\n    │   ├── router.ts            # manual router\n    │   ├── files.ts             # safe static + upload helpers\n    │   ├── security.ts          # response security headers\n    │   └── validation.ts\n    ├── middlewares/\n    │   ├── auth.ts\n    │   ├── cors.ts\n    │   ├── rateLimiter.ts\n    │   └── requestId.ts\n    ├── utils/\n    │   └── jwt.ts\n    └── workers/\n        └── cpu.worker.ts        # only for CPU-bound JS work\n"
+      },
+      {
+        "title": "Feature vs Layer",
+        "desc": "Layer: auth touches 5 folders. Feature: auth is one folder.",
+        "file": "docs/why-feature.ts",
+        "lang": "ts",
+        "code": "// LAYER - change auth = touch 5 files in 5 folders\n// controllers/auth.ts -> services/auth.ts -> models/user.ts -> middlewares/auth.ts -> routes/auth.ts\n\n// FEATURE - change auth = one folder\n// modules/auth/\n//   auth.controller.ts\n//   auth.service.ts  // uses Bun.password\n//   auth.repository.ts\n//   auth.routes.ts\n//   auth.schema.ts\n\n// Import rule enforced by lint:\n// modules/* cannot import from modules/*/*controller\n// modules/* can import from lib/, config/, middlewares/\n"
+      }
+    ]
+  },
+  {
+    "id": "09",
+    "num": "09",
+    "level": "STRUCTURE",
+    "title": "config/ — Env + DB",
+    "why": "Config that fails should kill the process at boot. The DB client is the one shared resource every request touches, so its pool settings decide how you behave under load.",
+    "prodTip": "Pool size is per process. With reusePort and N processes, total connections = N x max, and that must stay below Postgres max_connections (default 100). Set prepare:false only when using PgBouncer in transaction mode; otherwise you lose prepared-statement performance.",
+    "subs": [
+      {
+        "title": "env.ts",
+        "desc": "One validated env module. The full version is in section 05; this shows only how other files consume it.",
+        "file": "src/config/env.ts",
+        "lang": "ts",
+        "code": "import { env } from './config/env';\n\nenv.DATABASE_URL;   // string, guaranteed postgres://\nenv.PORT;           // number\nenv.CORS_ORIGINS;   // string[]\nenv.TRUST_PROXY;    // boolean (parsed explicitly)\n\n// Never read Bun.env / process.env anywhere else (except drizzle.config.ts).\n"
+      },
+      {
+        "title": "db.ts — Drizzle Singleton",
+        "desc": "Exports both the raw pg client (for health checks and shutdown) and the typed db. Schema is passed so db.query.* works.",
+        "file": "src/config/db.ts",
+        "lang": "ts",
+        "code": "import postgres from 'postgres';\nimport { drizzle } from 'drizzle-orm/postgres-js';\nimport { env } from './env';\nimport * as schema from '../db/schema';\n\nexport const pg = postgres(env.DATABASE_URL, {\n  max: env.DB_POOL_MAX,\n  idle_timeout: 20,          // seconds\n  connect_timeout: 10,       // seconds\n  max_lifetime: 60 * 30,     // recycle connections every 30 min\n  prepare: !env.PGBOUNCER_TXN_MODE, // false only for PgBouncer transaction pooling\n});\n\nexport const db = drizzle(pg, {\n  schema,\n  logger: env.NODE_ENV === 'development',\n});\nexport type DB = typeof db;\n\n// readiness probe: await pg`select 1`\n// graceful close (index.ts): await pg.end({ timeout: 5 })\n"
+      }
+    ]
+  },
+  {
+    "id": "10",
+    "num": "10",
+    "level": "STRUCTURE",
+    "title": "db/schema/ — Tables",
+    "why": "Schema is where correctness lives: unique indexes stop duplicate accounts, enums stop invalid roles, and timestamptz stops timezone bugs.",
+    "prodTip": "Use uuid columns, timestamptz, pgEnum, and index foreign keys. Normalize email to lowercase before insert so the plain unique index is case-insensitive in practice (or use the citext extension). Do not index low-cardinality columns like role.",
+    "subs": [
+      {
+        "title": "users.ts — Production Table",
+        "desc": "Uses the array form of the extra-config callback (the object form is deprecated in current Drizzle). $onUpdate runs in the app layer only; it is not a DB trigger.",
+        "file": "src/db/schema/users.ts",
+        "lang": "ts",
+        "code": "import { pgTable, pgEnum, uuid, varchar, text, boolean, timestamp, uniqueIndex, index } from 'drizzle-orm/pg-core';\n\nexport const userRole = pgEnum('user_role', ['user', 'admin']);\n\nexport const users = pgTable(\n  'users',\n  {\n    id: uuid('id').primaryKey().defaultRandom(),\n    email: varchar('email', { length: 255 }).notNull(), // stored lowercase\n    name: varchar('name', { length: 100 }).notNull(),\n    passwordHash: text('password_hash').notNull(),\n    role: userRole('role').notNull().default('user'),\n    isActive: boolean('is_active').notNull().default(true),\n    createdAt: timestamp('created_at', { withTimezone: true }).notNull().defaultNow(),\n    updatedAt: timestamp('updated_at', { withTimezone: true })\n      .notNull()\n      .defaultNow()\n      .$onUpdate(() => new Date()),\n  },\n  (t) => [\n    uniqueIndex('users_email_unique').on(t.email),\n    index('users_created_idx').on(t.createdAt),\n  ],\n);\n\nexport type User = typeof users.$inferSelect;\nexport type NewUser = typeof users.$inferInsert;\n"
+      },
+      {
+        "title": "schema/index.ts",
+        "desc": "Single entry point imported by db.ts and drizzle.config.ts. Add every new table file here.",
+        "file": "src/db/schema/index.ts",
+        "lang": "ts",
+        "code": "export * from './users';\n// export * from './sessions';\n// relations(...) definitions go here or in their own file, only when you use db.query joins\n"
+      }
+    ]
+  },
+  {
+    "id": "11",
+    "num": "11",
+    "level": "STRUCTURE",
+    "title": "Repository Pattern",
+    "why": "Repo = SQL only, service = business rules and hashing, controller = Request/Response only. Each layer is testable on its own.",
+    "prodTip": "Do not check-then-insert for uniqueness: two requests can both pass the check. Insert and handle the unique violation (SQLSTATE 23505). Newer Drizzle versions wrap driver errors, so check both err.code and err.cause.code.",
+    "subs": [
+      {
+        "title": "user.repository.ts — SQL Only",
+        "desc": "All Drizzle queries live here. Public reads exclude passwordHash.",
+        "file": "src/modules/users/user.repository.ts",
+        "lang": "ts",
+        "code": "import { eq } from 'drizzle-orm';\nimport { db } from '../../config/db';\nimport { users } from '../../db/schema';\n\nexport function isUniqueViolation(e: unknown): boolean {\n  const err = e as { code?: string; cause?: { code?: string } };\n  return err?.code === '23505' || err?.cause?.code === '23505';\n}\n\nexport const userRepo = {\n  findByEmail: (email: string) => db.query.users.findFirst({ where: eq(users.email, email) }),\n\n  findPublicById: (id: string) =>\n    db.query.users.findFirst({ where: eq(users.id, id), columns: { passwordHash: false } }),\n\n  create: async (data: { email: string; name: string; passwordHash: string }) => {\n    const [row] = await db.insert(users).values(data).returning();\n    return row;\n  },\n\n  list: (limit: number, offset: number) =>\n    db.query.users.findMany({\n      columns: { passwordHash: false },\n      limit,\n      offset,\n      orderBy: (u, { desc }) => [desc(u.createdAt)],\n    }),\n\n  setActive: async (id: string, isActive: boolean) => {\n    const [row] = await db.update(users).set({ isActive }).where(eq(users.id, id)).returning({ id: users.id });\n    return row ?? null;\n  },\n};\n"
+      },
+      {
+        "title": "user.service.ts — First Version",
+        "desc": "Business rules. This is the first version; section 15 shows the final merged file that replaces it. Bun.password defaults to argon2id.",
+        "file": "src/modules/users/user.service.ts",
+        "lang": "ts",
+        "code": "import { userRepo, isUniqueViolation } from './user.repository';\nimport { AppError } from '../../lib/errors';\n\nexport const userService = {\n  async createUser(input: { email: string; name: string; password: string }) {\n    const email = input.email.trim().toLowerCase();\n    const passwordHash = await Bun.password.hash(input.password); // argon2id by default\n    try {\n      const user = await userRepo.create({ email, name: input.name, passwordHash });\n      return { id: user.id, email: user.email, name: user.name };\n    } catch (e) {\n      if (isUniqueViolation(e)) throw new AppError('Email taken', 409);\n      throw e;\n    }\n  },\n};\n"
+      },
+      {
+        "title": "user.controller.ts — Req/Res Only",
+        "desc": "Parse, call service, respond. Handlers share the router signature (req, params, auth) so withAuth can wrap them directly.",
+        "file": "src/modules/users/user.controller.ts",
+        "lang": "ts",
+        "code": "import { userService } from './user.service';\nimport { validateBody } from '../../lib/validation';\nimport { createUserSchema, loginSchema } from './user.schema';\nimport { signJwt } from '../../utils/jwt';\nimport type { Params } from '../../lib/router';\nimport type { JwtPayload } from '../../utils/jwt';\n\nfunction page(req: Request) {\n  const q = new URL(req.url).searchParams;\n  const limit = Math.min(Math.max(Number(q.get('limit') ?? 20) || 20, 1), 100);\n  const offset = Math.max(Number(q.get('offset') ?? 0) || 0, 0);\n  return { limit, offset };\n}\n\nexport const userController = {\n  async create(req: Request) {\n    const body = await validateBody(req, createUserSchema);\n    return Response.json(await userService.createUser(body), { status: 201 });\n  },\n\n  async login(req: Request) {\n    const { email, password } = await validateBody(req, loginSchema);\n    const user = await userService.verifyLogin(email, password);\n    const token = await signJwt({ sub: user.id, role: user.role });\n    return Response.json({ token });\n  },\n\n  async list(req: Request) {\n    const { limit, offset } = page(req);\n    return Response.json(await userService.listUsers(limit, offset));\n  },\n\n  async getById(_req: Request, params: Params) {\n    return Response.json(await userService.getProfile(params.id));\n  },\n\n  async ban(_req: Request, params: Params, auth: JwtPayload) {\n    return Response.json(await userService.banUser(params.id, auth.role));\n  },\n};\n"
+      }
+    ]
+  },
+  {
+    "id": "12",
+    "num": "12",
+    "level": "STRUCTURE",
+    "title": "Router routes.ts",
+    "why": "Routes bind URL + method to a handler. Keeping them per feature means a module registers itself in one function and app.ts just calls it.",
+    "prodTip": "Use one prefix helper so /api is declared once. Protect routes by wrapping handlers (withAuth), not by repeating auth checks inline in every route.",
+    "subs": [
+      {
+        "title": "lib/router.ts — Prefix Group",
+        "desc": "Append to the router from section 04.",
+        "file": "src/lib/router.ts",
+        "lang": "ts",
+        "code": "export function createGroup(prefix: string) {\n  return {\n    get: (path: string, h: Handler) => addRoute('GET', prefix + path, h),\n    post: (path: string, h: Handler) => addRoute('POST', prefix + path, h),\n    put: (path: string, h: Handler) => addRoute('PUT', prefix + path, h),\n    del: (path: string, h: Handler) => addRoute('DELETE', prefix + path, h),\n  };\n}\n\nexport const api = createGroup('/api');\n// api.get('/users', h)  -> GET /api/users\n// Versioning later: createGroup('/api/v1')\n"
+      },
+      {
+        "title": "user.routes.ts",
+        "desc": "Public routes, authenticated routes, and an admin-only route. The authenticated payload comes from the verified token, never from the request body.",
+        "file": "src/modules/users/user.routes.ts",
+        "lang": "ts",
+        "code": "import { api } from '../../lib/router';\nimport { userController } from './user.controller';\nimport { withAuth } from '../../middlewares/auth';\n\nexport function registerUserRoutes() {\n  // public\n  api.post('/users', userController.create);\n  api.post('/auth/login', userController.login);\n\n  // authenticated\n  api.get('/users', withAuth(userController.list));\n  api.get('/users/:id', withAuth(userController.getById));\n\n  // admin only: the check is inside the service (role comes from the verified JWT)\n  api.post('/users/:id/ban', withAuth(userController.ban));\n}\n\n// in app.ts: call registerUserRoutes() once at module load\n"
+      }
+    ]
+  },
+  {
+    "id": "13",
+    "num": "13",
+    "level": "STRUCTURE",
+    "title": "Middlewares Without Framework",
+    "why": "CORS, auth, and rate limiting are plain functions that return a Response (to short-circuit) or null/the user (to continue). No framework needed, but each one has security details that are easy to get wrong.",
+    "prodTip": "Never reflect any Origin back (that defeats CORS). Never trust x-forwarded-for unless a proxy you control sets it. In-memory rate limiting is per process; with reusePort or several replicas, use a shared store.",
+    "subs": [
+      {
+        "title": "cors.ts — Allowlist",
+        "desc": "Origins come from CORS_ORIGINS. Headers are set in place (so Bun.file responses are not re-wrapped), with a fallback copy if the Response headers are immutable. Never combine * with credentials.",
+        "file": "src/middlewares/cors.ts",
+        "lang": "ts",
+        "code": "import { env } from '../config/env';\n\nconst allowed = new Set(env.CORS_ORIGINS);\n\nfunction originFor(req: Request): string | null {\n  const origin = req.headers.get('origin');\n  if (!origin) return null;\n  if (allowed.has('*')) return '*';\n  return allowed.has(origin) ? origin : null;\n}\n\nfunction setCors(res: Response, origin: string) {\n  res.headers.set('Access-Control-Allow-Origin', origin);\n  res.headers.append('Vary', 'Origin');\n  res.headers.set('Access-Control-Expose-Headers', 'X-Request-Id');\n}\n\nexport function applyCors(req: Request, res: Response): Response {\n  const origin = originFor(req);\n  if (!origin) return res;\n  try {\n    setCors(res, origin);\n    return res;\n  } catch {\n    const copy = new Response(res.body, res); // immutable headers (e.g. redirects)\n    setCors(copy, origin);\n    return copy;\n  }\n}\n\nexport function handleOptions(req: Request): Response | null {\n  if (req.method !== 'OPTIONS') return null;\n  const origin = originFor(req);\n  if (!origin) return new Response(null, { status: 403 });\n  return new Response(null, {\n    status: 204,\n    headers: {\n      'Access-Control-Allow-Origin': origin,\n      'Access-Control-Allow-Methods': 'GET,POST,PUT,DELETE,OPTIONS',\n      'Access-Control-Allow-Headers': 'Content-Type, Authorization, X-Request-Id',\n      'Access-Control-Max-Age': '86400',\n      Vary: 'Origin',\n    },\n  });\n}\n"
+      },
+      {
+        "title": "utils/jwt.ts — Sign + Verify",
+        "desc": "This file was referenced but missing in the original. Uses the jose library (Web Crypto, runs on Bun). The algorithm is pinned on verify to prevent algorithm-confusion attacks. Install: bun add jose.",
+        "file": "src/utils/jwt.ts",
+        "lang": "ts",
+        "code": "import { SignJWT, jwtVerify } from 'jose';\nimport { env } from '../config/env';\n\nconst secret = new TextEncoder().encode(env.JWT_SECRET);\n\nexport type JwtPayload = { sub: string; role: 'user' | 'admin' };\n\nexport function signJwt(p: JwtPayload, ttl = '15m') {\n  return new SignJWT({ role: p.role })\n    .setProtectedHeader({ alg: 'HS256' })\n    .setSubject(p.sub)\n    .setIssuedAt()\n    .setExpirationTime(ttl)\n    .sign(secret);\n}\n\nexport async function verifyJwt(token: string): Promise\u003cJwtPayload> {\n  const { payload } = await jwtVerify(token, secret, { algorithms: ['HS256'] });\n  if (typeof payload.sub !== 'string' || (payload.role !== 'user' && payload.role !== 'admin')) {\n    throw new Error('Invalid claims');\n  }\n  return { sub: payload.sub, role: payload.role };\n}\n"
+      },
+      {
+        "title": "auth.ts — withAuth",
+        "desc": "The verified user is passed to the handler as an argument instead of being stuck onto the Request object.",
+        "file": "src/middlewares/auth.ts",
+        "lang": "ts",
+        "code": "import type { Handler, Params } from '../lib/router';\nimport { verifyJwt, type JwtPayload } from '../utils/jwt';\n\nexport type AuthedHandler = (\n  req: Request,\n  params: Params,\n  user: JwtPayload,\n  server?: any,\n) => Response | Promise\u003cResponse>;\n\nasync function authenticate(req: Request): Promise\u003cJwtPayload | null> {\n  const header = req.headers.get('authorization');\n  if (!header?.startsWith('Bearer ')) return null;\n  try {\n    return await verifyJwt(header.slice(7));\n  } catch {\n    return null;\n  }\n}\n\nexport const withAuth =\n  (handler: AuthedHandler): Handler =>\n  async (req, params, server) => {\n    const user = await authenticate(req);\n    if (!user) return Response.json({ error: 'Unauthorized' }, { status: 401 });\n    return handler(req, params, user, server);\n  };\n"
+      },
+      {
+        "title": "rateLimiter.ts — Fixed Window",
+        "desc": "A fixed-window counter (the original called it sliding window). Client IP comes from the socket; x-forwarded-for is only used when TRUST_PROXY is set, and then only the last entry (the one your own proxy appended).",
+        "file": "src/middlewares/rateLimiter.ts",
+        "lang": "ts",
+        "code": "import type { Server } from 'bun';\nimport { env } from '../config/env';\n\nconst WINDOW_MS = 60_000;\nconst MAX = 100;\nconst hits = new Map\u003cstring, { count: number; reset: number }>();\n\nsetInterval(() => {\n  const now = Date.now();\n  for (const [k, v] of hits) if (v.reset \u003c= now) hits.delete(k);\n}, 60_000).unref();\n\nfunction clientIp(req: Request, server?: Server): string {\n  if (env.TRUST_PROXY) {\n    const xff = req.headers.get('x-forwarded-for');\n    if (xff) return xff.split(',').map((s) => s.trim()).pop()!;\n  }\n  return server?.requestIP(req)?.address ?? 'unknown';\n}\n\nexport function rateLimiter(req: Request, server?: Server): Response | null {\n  const ip = clientIp(req, server);\n  const now = Date.now();\n  const entry = hits.get(ip);\n\n  if (!entry || entry.reset \u003c= now) {\n    hits.set(ip, { count: 1, reset: now + WINDOW_MS });\n    return null;\n  }\n  if (++entry.count > MAX) {\n    return Response.json(\n      { error: 'Too many requests' },\n      { status: 429, headers: { 'Retry-After': String(Math.ceil((entry.reset - now) / 1000)) } },\n    );\n  }\n  return null;\n}\n"
+      },
+      {
+        "title": "requestId",
+        "desc": "Trace every request through logs.",
+        "file": "src/middlewares/requestId.ts",
+        "lang": "ts",
+        "code": "export function getRequestId(req: Request): string {\n  // accept an upstream id (Caddy/load balancer) or create one\n  return req.headers.get('x-request-id') || crypto.randomUUID();\n}\n"
+      }
+    ]
+  },
+  {
+    "id": "14",
+    "num": "14",
+    "level": "STRUCTURE",
+    "title": "Errors + Validation",
+    "why": "Throw AppError with a status code for expected failures and let everything else become a logged 500. Validate every body with Zod safeParse so handlers only see typed, trusted data.",
+    "prodTip": "Use error.issues, not error.errors (removed in zod 4). Return a requestId in error bodies so users can quote it and you can find the log line.",
+    "subs": [
+      {
+        "title": "lib/errors.ts — AppError",
+        "desc": "Status code plus optional machine-readable code. Unknown errors are logged and returned as a generic 500.",
+        "file": "src/lib/errors.ts",
+        "lang": "ts",
+        "code": "import { logger } from './logger';\n\nexport class AppError extends Error {\n  constructor(\n    message: string,\n    public readonly statusCode: number = 500,\n    public readonly code?: string,\n  ) {\n    super(message);\n    this.name = 'AppError';\n  }\n}\n\nexport function errorHandler(err: unknown, requestId?: string): Response {\n  if (err instanceof AppError) {\n    return Response.json(\n      { error: err.message, code: err.code ?? err.statusCode, requestId },\n      { status: err.statusCode },\n    );\n  }\n  logger.error('unhandled', { err, requestId });\n  return Response.json({ error: 'Internal Server Error', requestId }, { status: 500 });\n}\n"
+      },
+      {
+        "title": "lib/validation.ts",
+        "desc": "validateBody with zod, using issues. Requires a JSON content type.",
+        "file": "src/lib/validation.ts",
+        "lang": "ts",
+        "code": "import { z } from 'zod';\nimport { AppError } from './errors';\n\nexport async function validateBody\u003cT extends z.ZodType>(req: Request, schema: T): Promise\u003cz.infer\u003cT>> {\n  if (!req.headers.get('content-type')?.includes('application/json')) {\n    throw new AppError('Content-Type must be application/json', 415);\n  }\n  const json = await req.json().catch(() => undefined);\n  if (json === undefined) throw new AppError('Invalid JSON body', 400);\n\n  const result = schema.safeParse(json);\n  if (!result.success) {\n    const msg = result.error.issues.map((i) => `${i.path.join('.')}: ${i.message}`).join(', ');\n    throw new AppError(msg, 400, 'VALIDATION_ERROR');\n  }\n  return result.data;\n}\n"
+      },
+      {
+        "title": "user.schema.ts — Zod",
+        "desc": "Input schemas (what clients send), separate from Drizzle table schemas (what the DB stores).",
+        "file": "src/modules/users/user.schema.ts",
+        "lang": "ts",
+        "code": "import { z } from 'zod';\n\nexport const createUserSchema = z.object({\n  email: z.string().email().max(255),\n  name: z.string().min(2).max(100),\n  password: z.string().min(8).max(128),\n});\n\nexport const loginSchema = z.object({\n  email: z.string().email(),\n  password: z.string().min(1).max(128),\n});\n"
+      }
+    ]
+  },
+  {
+    "id": "15",
+    "num": "15",
+    "level": "STRUCTURE",
+    "title": "Service Layer Deep Dive",
+    "why": "The service orchestrates repositories and built-ins (hashing, mail, cache). It has no HTTP knowledge and returns plain objects, never Response.",
+    "prodTip": "Authorization inputs (role, user id) must come from the verified token, never from the request body. Hash a dummy password when the user does not exist so login timing does not reveal which emails are registered.",
+    "subs": [
+      {
+        "title": "user.service.ts — Final",
+        "desc": "This is the final merged file and replaces the first version in section 11 (the original sections 11 and 15 defined conflicting versions of this object, so createUser disappeared).",
+        "file": "src/modules/users/user.service.ts",
+        "lang": "ts",
+        "code": "import { userRepo, isUniqueViolation } from './user.repository';\nimport { AppError } from '../../lib/errors';\n\n// Verified against when the user does not exist -> equalizes timing\nconst DUMMY_HASH = await Bun.password.hash('dummy-password-for-timing');\n\nexport const userService = {\n  async createUser(input: { email: string; name: string; password: string }) {\n    const email = input.email.trim().toLowerCase();\n    const passwordHash = await Bun.password.hash(input.password);\n    try {\n      const user = await userRepo.create({ email, name: input.name, passwordHash });\n      return { id: user.id, email: user.email, name: user.name };\n    } catch (e) {\n      if (isUniqueViolation(e)) throw new AppError('Email taken', 409);\n      throw e;\n    }\n  },\n\n  async verifyLogin(email: string, password: string) {\n    const user = await userRepo.findByEmail(email.trim().toLowerCase());\n    const ok = await Bun.password.verify(password, user?.passwordHash ?? DUMMY_HASH);\n    if (!user || !ok || !user.isActive) throw new AppError('Invalid credentials', 401);\n    return user;\n  },\n\n  listUsers(limit: number, offset: number) {\n    return userRepo.list(limit, offset);\n  },\n\n  async getProfile(id: string) {\n    const user = await userRepo.findPublicById(id);\n    if (!user) throw new AppError('Not found', 404);\n    return user;\n  },\n\n  async banUser(id: string, actorRole: string) {\n    if (actorRole !== 'admin') throw new AppError('Forbidden', 403);\n    const updated = await userRepo.setActive(id, false);\n    if (!updated) throw new AppError('User not found', 404);\n    return updated;\n  },\n};\n"
+      }
+    ]
+  },
+  {
+    "id": "16",
+    "num": "16",
+    "level": "BUN",
+    "title": "Bun.serve + WebSocket Server",
+    "why": "WebSocket support is built into Bun.serve: no ws library, no extra port. One server handles HTTP and WebSocket, with built-in pub/sub topics.",
+    "prodTip": "Authenticate and check Origin during the upgrade, never trust ids from the query string. Pub/sub is per process: with reusePort or multiple replicas, messages will not cross processes unless you add a shared bus (Postgres LISTEN/NOTIFY, Redis, NATS).",
+    "subs": [
+      {
+        "title": "Minimal HTTP + WebSocket Server",
+        "desc": "Return after a successful upgrade (the response is handled by Bun). Handler data typing: newer Bun typings prefer declaring data in the websocket object instead of a generic.",
+        "file": "src/ws-minimal.ts",
+        "lang": "ts",
+        "code": "Bun.serve({\n  port: 3000,\n  fetch(req, server) {\n    if (server.upgrade(req)) return; // upgraded: do not return a Response\n    return new Response('Hello HTTP');\n  },\n  websocket: {\n    open(ws) {\n      ws.send('Welcome');\n    },\n    message(ws, msg) {\n      ws.send(`Echo: ${msg}`); // msg is string | Buffer\n    },\n    close(ws, code, reason) {\n      console.log('[ws] close', code, reason);\n    },\n    perMessageDeflate: true,\n    maxPayloadLength: 1024 * 1024,\n  },\n});\n"
+      },
+      {
+        "title": "Authenticated Rooms",
+        "desc": "JWT verified at upgrade, Origin allowlist (blocks cross-site WebSocket hijacking), room name bounded, and server.publish so the sender also receives the message. Query-string tokens can end up in logs: prefer a short-lived ticket or a cookie.",
+        "file": "src/modules/chat/ws.ts",
+        "lang": "ts",
+        "code": "import { env } from '../../config/env';\nimport { verifyJwt } from '../../utils/jwt';\n\ntype WSData = { userId: string; room: string };\nconst allowedOrigins = new Set(env.CORS_ORIGINS);\n\nconst server = Bun.serve({\n  port: 3000,\n  async fetch(req, server) {\n    const url = new URL(req.url);\n    if (url.pathname !== '/ws') return new Response('Not Found', { status: 404 });\n\n    const origin = req.headers.get('origin');\n    if (origin && !allowedOrigins.has(origin)) return new Response('Forbidden', { status: 403 });\n\n    const token = url.searchParams.get('token');\n    const user = token ? await verifyJwt(token).catch(() => null) : null;\n    if (!user) return new Response('Unauthorized', { status: 401 });\n\n    const room = (url.searchParams.get('room') || 'general').slice(0, 64);\n    // TODO: check this user is allowed in this room\n\n    if (server.upgrade(req, { data: { userId: user.sub, room } })) return;\n    return new Response('Upgrade failed', { status: 400 });\n  },\n  websocket: {\n    data: {} as WSData,\n    idleTimeout: 60,\n    maxPayloadLength: 64 * 1024,\n    open(ws) {\n      ws.subscribe(ws.data.room);\n    },\n    message(ws, msg) {\n      if (typeof msg !== 'string') return; // ignore binary\n      // server.publish also delivers to the sender (ws.publish does not)\n      server.publish(ws.data.room, JSON.stringify({ from: ws.data.userId, text: msg }));\n    },\n    close(ws) {\n      ws.unsubscribe(ws.data.room);\n    },\n  },\n});\n"
+      }
+    ]
+  },
+  {
+    "id": "17",
+    "num": "17",
+    "level": "BUN",
+    "title": "Bun.file + Bun.write — File I/O",
+    "why": "Bun.file is a lazy file handle with MIME detection and efficient Response bodies; Bun.write handles strings, Blobs and Files. For directories, appends and stat you still use node:fs/promises, which Bun fully supports.",
+    "prodTip": "Bun.write overwrites and creates parent dirs by default. Append with node:fs appendFile. Resolve and verify static paths stay inside your root, and never use a client-supplied filename on disk.",
+    "subs": [
+      {
+        "title": "Basics",
+        "desc": "Read, write, append, and what still needs node:fs.",
+        "file": "src/lib/files-basics.ts",
+        "lang": "ts",
+        "code": "import { appendFile, readdir, mkdir } from 'node:fs/promises';\n\n// Read (lazy: nothing is read until you call a reader)\nconst pkg = await Bun.file('./package.json').json();\nconst text = await Bun.file('./data.csv').text();\nconst buf = await Bun.file('./logo.png').arrayBuffer();\nconst exists = await Bun.file('./config.json').exists();\nconst size = Bun.file('./video.mp4').size; // no read; 0 if the file does not exist\nconst mime = Bun.file('./logo.png').type;  // image/png\n\n// Write: OVERWRITES, creates parent dirs automatically\nawait Bun.write('./logs/app.log', 'first line\\n');\n\n// Append is NOT Bun.write: use node:fs\nawait appendFile('./logs/app.log', 'another line\\n');\n\n// Directory listing / mkdir: node:fs\nconst names = await readdir('./uploads');\nawait mkdir('./data', { recursive: true });\n"
+      },
+      {
+        "title": "lib/files.ts — Safe Static, Range, Upload",
+        "desc": "servePublic blocks path traversal by resolving and checking the prefix. serveFile adds Range support (video seeking). saveUpload bounds size and type and generates its own filename.",
+        "file": "src/lib/files.ts",
+        "lang": "ts",
+        "code": "import { resolve, sep } from 'node:path';\nimport { AppError } from './errors';\n\nconst ROOT = resolve('./public');\n\nexport async function servePublic(rel: string): Promise\u003cResponse> {\n  const full = resolve(ROOT, rel);\n  if (full !== ROOT && !full.startsWith(ROOT + sep)) return new Response('Not Found', { status: 404 });\n  const file = Bun.file(full);\n  if (!(await file.exists())) return new Response('Not Found', { status: 404 });\n  return new Response(file, { headers: { 'Cache-Control': 'public, max-age=3600' } });\n}\n\nexport async function serveFile(req: Request, path: string): Promise\u003cResponse> {\n  const file = Bun.file(path);\n  if (!(await file.exists())) return new Response('Not Found', { status: 404 });\n  const size = file.size;\n  const m = /^bytes=(\\d*)-(\\d*)$/.exec(req.headers.get('range') ?? '');\n  if (!m || (!m[1] && !m[2])) {\n    return new Response(file, { headers: { 'Accept-Ranges': 'bytes' } });\n  }\n  let start: number, end: number;\n  if (!m[1]) { start = Math.max(size - Number(m[2]), 0); end = size - 1; } // suffix range\n  else { start = Number(m[1]); end = m[2] ? Math.min(Number(m[2]), size - 1) : size - 1; }\n  if (start > end || start >= size) {\n    return new Response(null, { status: 416, headers: { 'Content-Range': `bytes */${size}` } });\n  }\n  return new Response(file.slice(start, end + 1), {\n    status: 206,\n    headers: {\n      'Content-Range': `bytes ${start}-${end}/${size}`,\n      'Accept-Ranges': 'bytes',\n      'Content-Type': file.type,\n    },\n  });\n}\n\nconst MAX_UPLOAD = 5 * 1024 * 1024;\nconst EXT: Record\u003cstring, string> = { 'image/png': '.png', 'image/jpeg': '.jpg', 'image/webp': '.webp' };\n\nexport async function saveUpload(req: Request): Promise\u003cResponse> {\n  const form = await req.formData();\n  const file = form.get('file');\n  if (!(file instanceof File)) throw new AppError('No file', 400);\n  if (file.size > MAX_UPLOAD) throw new AppError('File too large', 413);\n  const ext = EXT[file.type];\n  if (!ext) throw new AppError('Unsupported file type', 415);\n\n  const path = `./uploads/${crypto.randomUUID()}${ext}`; // never file.name\n  await Bun.write(path, file);\n\n  const hasher = new Bun.CryptoHasher('sha256');\n  hasher.update(await file.arrayBuffer());\n  return Response.json({ path, size: file.size, sha256: hasher.digest('hex') }, { status: 201 });\n}\n"
+      }
+    ]
+  },
+  {
+    "id": "18",
+    "num": "18",
+    "level": "BUN",
+    "title": "Bun.password — No bcrypt Package",
+    "why": "Bun.password is a built-in, async, off-main-thread password hasher supporting argon2id (the default) and bcrypt. No native npm module to install, and verify() reads the algorithm from the hash itself.",
+    "prodTip": "Tune the cost to your hardware (aim for roughly 100-250 ms per hash on the production machine) rather than copying numbers. Hashing cost is deliberately slow, so any claim like \"12 ms vs 80 ms\" mostly reflects cost settings, not a better implementation.",
+    "subs": [
+      {
+        "title": "Hash + Verify",
+        "desc": "The original example used memoryCost: 4 with a comment saying 4 MB. Per Bun's docs memoryCost is in kibibytes, so 4 would be 4 KiB, which is far too weak. Use a real value (OWASP's argon2id minimum is 19 MiB, 2 iterations) and confirm by inspecting the m= value in the produced hash string.",
+        "file": "src/utils/password.ts",
+        "lang": "ts",
+        "code": "// Default: argon2id with Bun's defaults. Usually the right choice.\nconst hash = await Bun.password.hash('pass123');\nconsole.log(await Bun.password.verify('pass123', hash)); // true\n\n// Explicit argon2id (memoryCost is in KiB: 19456 = 19 MiB, 65536 = 64 MiB)\nconst strong = await Bun.password.hash('pass123', {\n  algorithm: 'argon2id',\n  memoryCost: 65536,\n  timeCost: 3,\n});\nconsole.log(strong.slice(0, 40)); // $argon2id$v=19$m=65536,t=3,p=1$...  \u003c- check m=\n\n// bcrypt: use only for compatibility with existing hashes\nconst legacy = await Bun.password.hash('pass123', { algorithm: 'bcrypt', cost: 12 });\n// bcrypt only uses the first 72 bytes of the password: cap input length (max 128 in the zod schema)\n\n// Measure on your own hardware and tune cost to ~100-250ms\nconst t = performance.now();\nawait Bun.password.hash('benchmark');\nconsole.log(`hash took ${(performance.now() - t).toFixed(0)}ms`);\n"
+      },
+      {
+        "title": "Upgrade Old Hashes on Login",
+        "desc": "Because verify() auto-detects the algorithm, you can migrate bcrypt users to argon2id gradually: after a successful login, rehash and store.",
+        "file": "src/modules/users/rehash.ts",
+        "lang": "ts",
+        "code": "import { eq } from 'drizzle-orm';\nimport { db } from '../../config/db';\nimport { users } from '../../db/schema';\n\nexport async function maybeRehash(userId: string, password: string, currentHash: string) {\n  if (currentHash.startsWith('$argon2id$')) return;           // already modern\n  const newHash = await Bun.password.hash(password);           // argon2id default\n  await db.update(users).set({ passwordHash: newHash }).where(eq(users.id, userId));\n}\n"
+      }
+    ]
+  },
+  {
+    "id": "19",
+    "num": "19",
+    "level": "BUN",
+    "title": "Bun.spawn + Bun.$ Shell",
+    "why": "Bun.spawn is a promise- and stream-based child process API; Bun.$ is a cross-platform shell with safely escaped interpolation. Both replace most child_process boilerplate.",
+    "prodTip": "Read stdout and stderr concurrently (sequential reads can deadlock when one pipe fills). Never build commands from user input, and run long jobs (ffmpeg) from a queue or worker, not inside the request.",
+    "subs": [
+      {
+        "title": "Bun.spawn — Streaming",
+        "desc": "Read both pipes with Promise.all, then await exit.",
+        "file": "src/lib/process.ts",
+        "lang": "ts",
+        "code": "if (!Bun.which('ffmpeg')) throw new Error('ffmpeg not installed');\n\nconst proc = Bun.spawn(['ffmpeg', '-y', '-i', 'in.mp4', 'out.webm'], {\n  stdout: 'pipe',\n  stderr: 'pipe',\n});\n\nconst [out, err, code] = await Promise.all([\n  new Response(proc.stdout).text(),\n  new Response(proc.stderr).text(),\n  proc.exited, // resolves to the exit code\n]);\nif (code !== 0) throw new Error(`ffmpeg failed (${code}): ${err.slice(-500)}`);\n\n// Sync: only for quick commands at startup/scripts, never inside hot request paths\nconst r = Bun.spawnSync(['git', 'rev-parse', 'HEAD']);\nconsole.log(r.stdout.toString().trim(), r.success);\n\n// env and cwd\nBun.spawn(['node', 'script.js'], {\n  cwd: './scripts',\n  env: { ...process.env, NODE_ENV: 'production' },\n  stdout: 'inherit',\n});\n"
+      },
+      {
+        "title": "Bun.$ — Shell Template",
+        "desc": "Interpolated values are escaped as a single argument. A non-zero exit throws by default; use .nothrow() to inspect the exit code. Escaping does not protect you if you pass user text to sh -c or similar.",
+        "file": "src/scripts/build.ts",
+        "lang": "ts",
+        "code": "import { $ } from 'bun';\n\nawait $`mkdir -p ./uploads`;\nconst files = await $`ls -la`.text();\nconsole.log(files);\n\nawait $`docker build -t myapp .`.quiet(); // throws on non-zero exit\n\n// Interpolation is escaped (safe as ONE argument)\nconst branch = 'main';\nawait $`git checkout ${branch}`;\n\n// Check an exit code without throwing\nconst { exitCode } = await $`grep -q TODO src/index.ts`.nothrow().quiet();\nconsole.log(exitCode === 0 ? 'has TODOs' : 'clean');\n\n// Pipes work like bash\nconst count = Number((await $`find ./src -name \"*.ts\" | wc -l`.text()).trim());\n\n// Parallel\nawait Promise.all([$`bun run build:client`, $`bun run build:server`]);\n\n// DANGEROUS even with escaping: user input as a shell program\n// await $`sh -c ${userInput}`;  // never do this\n"
+      }
+    ]
+  },
+  {
+    "id": "20",
+    "num": "20",
+    "level": "BUN",
+    "title": "bun:sqlite — Local Cache",
+    "why": "bun:sqlite is a fast, synchronous, built-in SQLite driver. In WAL mode it is a good local cache or session store with no extra service to run.",
+    "prodTip": "SQLite is local to one machine. It works across several processes on the same host (reusePort), but not across several servers. If you scale to multiple hosts, use Postgres, or Redis (Bun also ships a built-in Redis client).",
+    "subs": [
+      {
+        "title": "SQLite Cache",
+        "desc": "TTL cache and sessions with WAL, a periodic sweep of expired rows, and prepared statements.",
+        "file": "src/config/cache.ts",
+        "lang": "ts",
+        "code": "import { Database } from 'bun:sqlite';\n\nconst db = new Database('./data/cache.db', { create: true });\n\ndb.exec('PRAGMA journal_mode = WAL;');   // concurrent readers during writes\ndb.exec('PRAGMA synchronous = NORMAL;'); // safe with WAL, faster than FULL\ndb.exec('PRAGMA busy_timeout = 5000;');  // wait instead of failing on lock\ndb.exec('PRAGMA cache_size = -64000;');  // negative = KiB (64 MB)\n\ndb.exec(`\n  CREATE TABLE IF NOT EXISTS cache (\n    key TEXT PRIMARY KEY,\n    value TEXT NOT NULL,\n    expires_at INTEGER NOT NULL\n  );\n  CREATE INDEX IF NOT EXISTS idx_cache_expires ON cache(expires_at);\n`);\n\nconst setStmt = db.query('INSERT OR REPLACE INTO cache (key, value, expires_at) VALUES (?1, ?2, ?3)');\nconst getStmt = db.query('SELECT value FROM cache WHERE key = ?1 AND expires_at > ?2');\nconst delStmt = db.query('DELETE FROM cache WHERE key = ?1');\nconst sweepStmt = db.query('DELETE FROM cache WHERE expires_at \u003c= ?1');\n\nsetInterval(() => sweepStmt.run(Date.now()), 60_000).unref();\n\nexport const cache = {\n  set: (key: string, value: unknown, ttlMs = 3_600_000) => {\n    setStmt.run(key, JSON.stringify(value), Date.now() + ttlMs);\n  },\n  get: \u003cT>(key: string): T | null => {\n    const row = getStmt.get(key, Date.now()) as { value: string } | null;\n    return row ? (JSON.parse(row.value) as T) : null;\n  },\n  del: (key: string) => delStmt.run(key),\n};\n"
+      },
+      {
+        "title": "Rate Limiter with SQLite",
+        "desc": "One atomic upsert resets the window when it has expired and increments otherwise. (The original never reset the window in the SQL and ran a full-table DELETE on every request, with string-concatenated SQL.) RETURNING needs SQLite 3.35+, which Bun bundles.",
+        "file": "src/middlewares/rateLimiterSqlite.ts",
+        "lang": "ts",
+        "code": "import { Database } from 'bun:sqlite';\n\nconst db = new Database('./data/ratelimit.db', { create: true });\ndb.exec('PRAGMA journal_mode = WAL;');\ndb.exec('PRAGMA busy_timeout = 5000;');\ndb.exec('CREATE TABLE IF NOT EXISTS hits (ip TEXT PRIMARY KEY, count INTEGER NOT NULL, reset_at INTEGER NOT NULL)');\n\nconst hit = db.query(`\n  INSERT INTO hits (ip, count, reset_at) VALUES (?1, 1, ?2)\n  ON CONFLICT(ip) DO UPDATE SET\n    count    = CASE WHEN reset_at \u003c= ?3 THEN 1  ELSE count + 1 END,\n    reset_at = CASE WHEN reset_at \u003c= ?3 THEN ?2 ELSE reset_at END\n  RETURNING count, reset_at\n`);\nconst sweep = db.query('DELETE FROM hits WHERE reset_at \u003c= ?1');\nsetInterval(() => sweep.run(Date.now()), 60_000).unref();\n\nconst WINDOW_MS = 60_000;\nconst MAX = 100;\n\nexport function rateLimitSqlite(ip: string) {\n  const now = Date.now();\n  const row = hit.get(ip, now + WINDOW_MS, now) as { count: number; reset_at: number };\n  if (row.count > MAX) {\n    return { limited: true, retryAfter: Math.ceil((row.reset_at - now) / 1000) };\n  }\n  return { limited: false, retryAfter: 0 };\n}\n"
+      }
+    ]
+  },
+  {
+    "id": "21",
+    "num": "21",
+    "level": "BUN",
+    "title": "Bun.CryptoHasher + Bun.hash + gzip",
+    "why": "Hashing, HMAC, fast non-crypto hashes and gzip are all built in, with one API and no Node crypto/zlib imports needed.",
+    "prodTip": "Use CryptoHasher for integrity and HMAC, Bun.hash for cache keys only (not security), and crypto.timingSafeEqual when comparing secrets. For static files, derive ETags from size + mtime instead of hashing the whole file on every request.",
+    "subs": [
+      {
+        "title": "Hashing & Compression",
+        "desc": "ETags must be quoted strings. Bun.hash returns a bigint for 64-bit hashes (wyhash) and a number for 32-bit ones like crc32.",
+        "file": "src/lib/crypto.ts",
+        "lang": "ts",
+        "code": "import { timingSafeEqual } from 'node:crypto';\n\n// SHA-256, streaming\nconst hasher = new Bun.CryptoHasher('sha256');\nhasher.update('hello');\nhasher.update(' world');\nconst hex = hasher.digest('hex'); // also 'base64', 'base64url'\n\n// HMAC (e.g. webhook signatures): pass the key as 2nd argument\nconst sig = new Bun.CryptoHasher('sha256', 'webhook-secret').update('payload').digest('hex');\n\nfunction safeEqual(a: string, b: string) {\n  const ab = Buffer.from(a), bb = Buffer.from(b);\n  return ab.length === bb.length && timingSafeEqual(ab, bb); // constant time\n}\n\n// Fast NON-crypto hash for cache keys\nconst key = Bun.hash('user:123');        // bigint (wyhash, 64-bit)\nconst keyStr = key.toString(16);\nconst crc = Bun.hash.crc32('data');      // number\n\n// Gzip\nconst original = Buffer.from('big data repeated '.repeat(1000));\nconst compressed = Bun.gzipSync(original);\nconsole.log(`${original.length} bytes -> ${compressed.length} bytes`);\nconst restored = Bun.gunzipSync(compressed);\nconsole.log(new TextDecoder().decode(restored).length);\n\n// Cheap ETag from size + mtime (no file read)\nexport async function serveWithETag(req: Request, path: string) {\n  const file = Bun.file(path);\n  if (!(await file.exists())) return new Response('Not Found', { status: 404 });\n\n  const etag = `W/\"${file.size.toString(16)}-${Math.floor(file.lastModified).toString(16)}\"`;\n  if (req.headers.get('if-none-match') === etag) {\n    return new Response(null, { status: 304, headers: { ETag: etag } });\n  }\n  return new Response(file, {\n    headers: { ETag: etag, 'Cache-Control': 'public, max-age=3600' },\n  });\n}\n"
+      }
+    ]
+  },
+  {
+    "id": "22",
+    "num": "22",
+    "level": "BUN",
+    "title": "Bun.sleep + Bun.which + Bun.semver + TCP + Workers",
+    "why": "Small built-ins that replace several npm packages. Workers give you real threads for CPU-bound JavaScript.",
+    "prodTip": "Workers are for CPU-bound JS (parsing, image processing, heavy loops). Bun.password.hash is already async and off the main thread, so wrapping it in a worker adds nothing. Bun.which avoids ENOENT crashes before spawning.",
+    "subs": [
+      {
+        "title": "Utils + TCP + Workers",
+        "desc": "Bun.semver exposes satisfies and order only (the original also called a non-existent parse). Worker path is relative to this file.",
+        "file": "src/lib/builtins.ts",
+        "lang": "ts",
+        "code": "// Sleep\nawait Bun.sleep(1000); // 1s\n\n// Find a binary\nconst ffmpeg = Bun.which('ffmpeg'); // '/usr/bin/ffmpeg' or null\n\n// Semver: satisfies + order\nBun.semver.satisfies('1.2.3', '^1.0.0'); // true\nBun.semver.order('1.0.0', '2.0.0');      // -1\n\n// Display width (CLI tables, emoji aware)\nBun.stringWidth('hello'); // 5\n\n// Deep equality\nBun.deepEquals({ a: 1 }, { a: 1 }); // true\n\n// TCP server\nBun.listen({\n  hostname: '0.0.0.0',\n  port: 8080,\n  socket: {\n    data(socket, data) { socket.write(data); },          // echo\n    open(socket) { console.log('connected', socket.remoteAddress); },\n    close() { console.log('disconnected'); },\n    error(socket, err) { console.error('socket error', err); },\n  },\n});\n\n// Worker for CPU-bound work. This file lives in src/lib/, worker in src/workers/\nconst worker = new Worker(new URL('../workers/cpu.worker.ts', import.meta.url).href);\nworker.postMessage({ n: 40 });\nworker.onmessage = (e) => console.log('result', e.data);\n"
+      },
+      {
+        "title": "workers/cpu.worker.ts",
+        "desc": "The worker body: runs in its own thread, so a long loop here does not block Bun.serve.",
+        "file": "src/workers/cpu.worker.ts",
+        "lang": "ts",
+        "code": "declare var self: Worker;\n\nfunction fib(n: number): number {\n  return n \u003c 2 ? n : fib(n - 1) + fib(n - 2);\n}\n\nself.onmessage = (e: MessageEvent\u003c{ n: number }>) => {\n  self.postMessage(fib(e.data.n));\n};\n"
+      }
+    ]
+  },
+  {
+    "id": "23",
+    "num": "23",
+    "level": "BUN",
+    "title": "Complete Production App",
+    "why": "This puts the pieces together: routes, middleware order, CORS, rate limiting, request ids, structured logs, safe static files, uploads, health and readiness probes, and consistent error handling.",
+    "prodTip": "Order matters: preflight, then rate limit, then router. Apply CORS and security headers to every response, including errors. Liveness (/health) must not touch the DB; readiness (/ready) should.",
+    "subs": [
+      {
+        "title": "src/app.ts — Full",
+        "desc": "The original demo had a rate limiter that never incremented, a cache table that was never created, a wildcard route the router could not match, and routes never registered. All fixed here.",
+        "file": "src/app.ts",
+        "lang": "ts",
+        "code": "import type { Server } from 'bun';\nimport { router, get, post } from './lib/router';\nimport { applyCors, handleOptions } from './middlewares/cors';\nimport { rateLimiter } from './middlewares/rateLimiter';\nimport { getRequestId } from './middlewares/requestId';\nimport { errorHandler } from './lib/errors';\nimport { servePublic, saveUpload } from './lib/files';\nimport { applySecurityHeaders } from './lib/security';\nimport { registerUserRoutes } from './modules/users/user.routes';\nimport { withAuth } from './middlewares/auth';\nimport { pg } from './config/db';\nimport { logger } from './lib/logger';\n\n// --- routes ---\nget('/health', () => Response.json({ ok: true, uptime: process.uptime() })); // liveness\nget('/ready', async () => {                                                  // readiness\n  try {\n    await pg`select 1`;\n    return Response.json({ ready: true });\n  } catch {\n    return Response.json({ ready: false }, { status: 503 });\n  }\n});\nget('/public/*', (_req, params) => servePublic(params['*']));\npost('/api/upload', withAuth((req) => saveUpload(req)));\nregisterUserRoutes();\n\n// --- response helpers ---\nfunction setHeader(res: Response, k: string, v: string): Response {\n  try {\n    res.headers.set(k, v);\n    return res;\n  } catch {\n    const copy = new Response(res.body, res); // immutable headers\n    copy.headers.set(k, v);\n    return copy;\n  }\n}\n\n// --- app ---\nexport const app = {\n  async fetch(req: Request, server: Server): Promise\u003cResponse> {\n    const requestId = getRequestId(req);\n    const start = performance.now();\n    const { pathname } = new URL(req.url);\n\n    let res: Response;\n    try {\n      res = handleOptions(req) ?? rateLimiter(req, server) ?? (await router(req, server));\n    } catch (err) {\n      res = errorHandler(err, requestId);\n    }\n\n    res = applyCors(req, res);\n    res = applySecurityHeaders(res);\n    res = setHeader(res, 'x-request-id', requestId);\n\n    const ms = Math.round(performance.now() - start);\n    logger.info('request', { requestId, method: req.method, path: pathname, status: res.status, ms });\n    return res;\n  },\n};\n"
+      },
+      {
+        "title": "package.json — Scripts",
+        "desc": "src/index.ts is exactly the entry from section 02. Scripts for dev, start, migrations and tests.",
+        "file": "package.json",
+        "lang": "bash",
+        "code": "{\n  \"name\": \"bun-backend\",\n  \"type\": \"module\",\n  \"scripts\": {\n    \"dev\": \"bun --watch src/index.ts\",\n    \"start\": \"bun src/index.ts\",\n    \"db:generate\": \"drizzle-kit generate\",\n    \"db:migrate\": \"bun src/db/migrate.ts\",\n    \"db:studio\": \"drizzle-kit studio\",\n    \"test\": \"bun test\",\n    \"typecheck\": \"bunx tsc --noEmit\"\n  },\n  \"dependencies\": {\n    \"drizzle-orm\": \"latest\",\n    \"jose\": \"latest\",\n    \"postgres\": \"latest\",\n    \"zod\": \"latest\"\n  },\n  \"devDependencies\": {\n    \"@types/bun\": \"latest\",\n    \"drizzle-kit\": \"latest\",\n    \"typescript\": \"latest\"\n  }\n}\n// Pin real versions in your project (bun add writes them); \"latest\" is a placeholder here.\n"
+      }
+    ]
+  },
+  {
+    "id": "24",
+    "num": "24",
+    "level": "PRODUCTION",
+    "title": "Migrations + Transactions",
+    "why": "The original guide had a schema but no way to evolve it safely. Production needs versioned migrations, one-off migration runs, and transactions for multi-step writes.",
+    "prodTip": "Commit generated migrations to git. Use drizzle-kit push only on a throwaway dev DB. Run migrations as a single release step, not on every instance boot. Inside db.transaction, throwing rolls back; do not swallow errors.",
+    "subs": [
+      {
+        "title": "drizzle-kit Workflow",
+        "desc": "Generate SQL from schema changes, review it, commit it, apply it.",
+        "file": "docs/migrations.sh",
+        "lang": "bash",
+        "code": "# 1. Edit src/db/schema/*.ts\n# 2. Generate a SQL migration into src/db/migrations\nbun run db:generate\n\n# 3. READ the generated .sql (renames can show up as drop+create), commit it\ngit add src/db/migrations && git commit -m \"add users.role enum\"\n\n# 4. Apply (local / CI / release step)\nbun run db:migrate\n\n# dev only, never on production data:\n# bunx drizzle-kit push\n"
+      },
+      {
+        "title": "db/migrate.ts — One-off Runner",
+        "desc": "Uses a dedicated single connection, separate from the app pool, and exits when done.",
+        "file": "src/db/migrate.ts",
+        "lang": "ts",
+        "code": "import postgres from 'postgres';\nimport { drizzle } from 'drizzle-orm/postgres-js';\nimport { migrate } from 'drizzle-orm/postgres-js/migrator';\nimport { env } from '../config/env';\n\nconst client = postgres(env.DATABASE_URL, { max: 1 });\ntry {\n  await migrate(drizzle(client), { migrationsFolder: './src/db/migrations' });\n  console.log('migrations applied');\n} catch (err) {\n  console.error('migration failed', err);\n  process.exitCode = 1;\n} finally {\n  await client.end();\n}\n"
+      },
+      {
+        "title": "Transactions + Row Locks",
+        "desc": "Move money atomically. Both rows are locked in a fixed id order (prevents deadlocks) with FOR UPDATE, so two concurrent transfers cannot overspend.",
+        "file": "src/modules/accounts/account.service.ts",
+        "lang": "ts",
+        "code": "import { eq, inArray, sql } from 'drizzle-orm';\nimport { pgTable, uuid, integer } from 'drizzle-orm/pg-core';\nimport { db } from '../../config/db';\nimport { AppError } from '../../lib/errors';\n\nexport const accounts = pgTable('accounts', {\n  id: uuid('id').primaryKey().defaultRandom(),\n  balanceCents: integer('balance_cents').notNull(),\n});\n\nexport async function transfer(fromId: string, toId: string, amountCents: number) {\n  if (!Number.isInteger(amountCents) || amountCents \u003c= 0) throw new AppError('Invalid amount', 400);\n  if (fromId === toId) throw new AppError('Same account', 400);\n\n  await db.transaction(async (tx) => {\n    // lock both rows in a deterministic order\n    const rows = await tx\n      .select()\n      .from(accounts)\n      .where(inArray(accounts.id, [fromId, toId]))\n      .orderBy(accounts.id)\n      .for('update');\n\n    const from = rows.find((r) => r.id === fromId);\n    if (!from || rows.length !== 2) throw new AppError('Account not found', 404);\n    if (from.balanceCents \u003c amountCents) throw new AppError('Insufficient funds', 409);\n\n    await tx.update(accounts)\n      .set({ balanceCents: sql`${accounts.balanceCents} - ${amountCents}` })\n      .where(eq(accounts.id, fromId));\n    await tx.update(accounts)\n      .set({ balanceCents: sql`${accounts.balanceCents} + ${amountCents}` })\n      .where(eq(accounts.id, toId));\n  }); // any throw above rolls everything back\n}\n"
+      }
+    ]
+  },
+  {
+    "id": "25",
+    "num": "25",
+    "level": "PRODUCTION",
+    "title": "Testing with bun:test",
+    "why": "There were no tests in the original guide. Because app.fetch is a plain function of Request to Response, you can test the whole stack without opening a port.",
+    "prodTip": "Run tests against a dedicated test database, and guard against pointing at a real one. bun test sets NODE_ENV=test, so Bun loads .env.test automatically.",
+    "subs": [
+      {
+        "title": "tests/users.test.ts",
+        "desc": "Integration tests through app.fetch with a fake server object (the rate limiter calls server.requestIP). Truncate between tests.",
+        "file": "tests/users.test.ts",
+        "lang": "ts",
+        "code": "import { describe, expect, test, beforeAll, afterEach } from 'bun:test';\nimport { migrate } from 'drizzle-orm/postgres-js/migrator';\nimport { app } from '../src/app';\nimport { db } from '../src/config/db';\nimport { users } from '../src/db/schema';\n\nconst fakeServer = { requestIP: () => ({ address: '127.0.0.1', family: 'IPv4', port: 0 }) } as any;\n\nconst call = (path: string, init?: RequestInit) =>\n  app.fetch(new Request(`http://test${path}`, init), fakeServer);\n\nconst json = (body: unknown): RequestInit => ({\n  method: 'POST',\n  headers: { 'content-type': 'application/json' },\n  body: JSON.stringify(body),\n});\n\nbeforeAll(async () => {\n  if (!process.env.DATABASE_URL?.endsWith('_test')) {\n    throw new Error('Refusing to run tests against a non-test database');\n  }\n  await migrate(db, { migrationsFolder: './src/db/migrations' });\n});\n\nafterEach(async () => {\n  await db.delete(users);\n});\n\ndescribe('users', () => {\n  const valid = { email: 'A@Example.com', name: 'Ada', password: 'correct-horse' };\n\n  test('creates a user (email normalized)', async () => {\n    const res = await call('/api/users', json(valid));\n    expect(res.status).toBe(201);\n    expect((await res.json()).email).toBe('a@example.com');\n  });\n\n  test('rejects a duplicate email with 409', async () => {\n    await call('/api/users', json(valid));\n    const res = await call('/api/users', json(valid));\n    expect(res.status).toBe(409);\n  });\n\n  test('login returns a token; wrong password is 401', async () => {\n    await call('/api/users', json(valid));\n    const ok = await call('/api/auth/login', json({ email: valid.email, password: valid.password }));\n    expect(ok.status).toBe(200);\n    expect(typeof (await ok.json()).token).toBe('string');\n\n    const bad = await call('/api/auth/login', json({ email: valid.email, password: 'nope-nope' }));\n    expect(bad.status).toBe(401);\n  });\n\n  test('protected route requires a token', async () => {\n    const res = await call('/api/users');\n    expect(res.status).toBe(401);\n  });\n});\n"
+      }
+    ]
+  },
+  {
+    "id": "26",
+    "num": "26",
+    "level": "PRODUCTION",
+    "title": "Docker + Reverse Proxy",
+    "why": "The original tip said to copy to a VPS and run behind Caddy but showed nothing. This is a minimal, working container and proxy setup with health checks and non-root execution.",
+    "prodTip": "Inside containers scale by running more replicas rather than reusePort. Persist uploads/ and data/ on volumes. Run migrations as a one-off command before starting the new version.",
+    "subs": [
+      {
+        "title": "Dockerfile",
+        "desc": "Multi-stage build, production dependencies only, non-root user, and a healthcheck that needs no curl. The Bun process handles SIGTERM via the handlers in section 02 (it runs as PID 1).",
+        "file": "Dockerfile",
+        "lang": "bash",
+        "code": "FROM oven/bun:1 AS deps\nWORKDIR /app\nCOPY package.json bun.lock* ./\nRUN bun install --frozen-lockfile --production\n\nFROM oven/bun:1-slim\nWORKDIR /app\nENV NODE_ENV=production\nCOPY --from=deps /app/node_modules ./node_modules\nCOPY . .\nRUN mkdir -p uploads data && chown -R bun:bun uploads data\nUSER bun\nEXPOSE 3000\nHEALTHCHECK --interval=15s --timeout=3s --start-period=10s \\\n  CMD bun -e \"fetch('http://localhost:3000/health').then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))\"\nCMD [\"bun\", \"src/index.ts\"]\n\n# .dockerignore: node_modules, .git, .env*, uploads, data\n"
+      },
+      {
+        "title": "Caddyfile + Compose",
+        "desc": "Caddy gets TLS automatically and adds X-Forwarded-For. Set TRUST_PROXY=true only for this setup so the rate limiter reads the real client IP.",
+        "file": "deploy/Caddyfile",
+        "lang": "bash",
+        "code": "# Caddyfile\napi.example.com {\n    encode zstd gzip\n    reverse_proxy app:3000 {\n        health_uri /ready\n        health_interval 10s\n    }\n}\n\n# docker-compose.yml (excerpt)\n# services:\n#   app:\n#     build: .\n#     environment:\n#       DATABASE_URL: postgres://app:secret@db:5432/app\n#       JWT_SECRET: ${JWT_SECRET}\n#       CORS_ORIGINS: https://app.example.com\n#       TRUST_PROXY: \"true\"\n#     volumes: [ \"uploads:/app/uploads\", \"data:/app/data\" ]\n#     stop_grace_period: 15s\n#   db:\n#     image: postgres:17\n#   caddy:\n#     image: caddy:2\n#     ports: [ \"80:80\", \"443:443\" ]\n"
+      }
+    ]
+  },
+  {
+    "id": "27",
+    "num": "27",
+    "level": "PRODUCTION",
+    "title": "Logging + Security Hardening",
+    "why": "app.ts, errors.ts and index.ts import a logger and security headers that the original guide never defined. This section provides them plus a checklist of the security points corrected across the guide.",
+    "prodTip": "Log JSON lines with a request id; Error objects serialize to {} with JSON.stringify, so convert them explicitly. Never log passwords, tokens or full request bodies.",
+    "subs": [
+      {
+        "title": "lib/logger.ts — JSON Lines",
+        "desc": "Minimal structured logger honoring LOG_LEVEL. Output goes to stdout for Docker or journald to collect.",
+        "file": "src/lib/logger.ts",
+        "lang": "ts",
+        "code": "import { env } from '../config/env';\n\nconst LEVELS = { debug: 10, info: 20, warn: 30, error: 40 } as const;\ntype Level = keyof typeof LEVELS;\n\nfunction serialize(ctx?: Record\u003cstring, unknown>) {\n  if (!ctx) return {};\n  const out: Record\u003cstring, unknown> = {};\n  for (const [k, v] of Object.entries(ctx)) {\n    out[k] = v instanceof Error ? { name: v.name, message: v.message, stack: v.stack } : v;\n  }\n  return out;\n}\n\nfunction log(level: Level, msg: string, ctx?: Record\u003cstring, unknown>) {\n  if (LEVELS[level] \u003c LEVELS[env.LOG_LEVEL]) return;\n  console.log(JSON.stringify({ ts: new Date().toISOString(), level, msg, ...serialize(ctx) }));\n}\n\nexport const logger = {\n  debug: (m: string, c?: Record\u003cstring, unknown>) => log('debug', m, c),\n  info: (m: string, c?: Record\u003cstring, unknown>) => log('info', m, c),\n  warn: (m: string, c?: Record\u003cstring, unknown>) => log('warn', m, c),\n  error: (m: string, c?: Record\u003cstring, unknown>) => log('error', m, c),\n};\n"
+      },
+      {
+        "title": "lib/security.ts — Response Headers",
+        "desc": "Sensible defaults for a JSON API. HSTS is better set by Caddy at the TLS edge. If you serve HTML from public/, relax the CSP for those routes.",
+        "file": "src/lib/security.ts",
+        "lang": "ts",
+        "code": "const HEADERS: Record\u003cstring, string> = {\n  'X-Content-Type-Options': 'nosniff',\n  'X-Frame-Options': 'DENY',\n  'Referrer-Policy': 'no-referrer',\n  'Content-Security-Policy': \"default-src 'none'; frame-ancestors 'none'\",\n  'Cross-Origin-Resource-Policy': 'same-site',\n};\n\nexport function applySecurityHeaders(res: Response): Response {\n  try {\n    for (const [k, v] of Object.entries(HEADERS)) res.headers.set(k, v);\n    return res;\n  } catch {\n    const copy = new Response(res.body, res);\n    for (const [k, v] of Object.entries(HEADERS)) copy.headers.set(k, v);\n    return copy;\n  }\n}\n"
+      },
+      {
+        "title": "Hardening Checklist",
+        "desc": "Quick pre-launch review.",
+        "file": "docs/security-checklist.md",
+        "lang": "bash",
+        "code": "[ ] JWT_SECRET >= 32 random bytes, loaded from env/secret manager, rotated on leak\n[ ] JWT verify pins algorithms; access tokens short-lived (15m)\n[ ] Passwords: Bun.password argon2id; login timing equalized; max length enforced\n[ ] CORS: explicit origin allowlist; never reflect arbitrary Origin\n[ ] Uploads: size cap, type allowlist, generated filename, stored outside web root\n[ ] Static files: resolved path must stay inside ./public\n[ ] maxRequestBodySize set; development:false in production\n[ ] Rate limiting on login and signup; real client IP only via trusted proxy\n[ ] WebSocket: authenticate + Origin check during upgrade\n[ ] SQL: only Drizzle builders or tagged sql`` templates, never string concatenation\n[ ] Errors: no stack traces to clients; requestId in the response, details in logs\n[ ] Dependencies: bun audit / lockfile committed / frozen installs in CI\n[ ] DB user has least privilege; migrations run by a separate, more privileged role\n"
+      }
+    ]
+  },
+  {
+    "id": "28",
+    "num": "28",
+    "level": "REVIEW",
+    "title": "Review Changelog",
+    "why": "A record of what was checked and what changed in this revision, so you can see the reasoning and re-verify against your installed versions. Library behavior changes between releases; run the code against your pinned versions.",
+    "prodTip": "Items marked verify depend on version-specific APIs (Bun.serve routes, drizzle-orm/bun-sql, argon2 memoryCost units). Confirm them against the official docs for the versions in your lockfile.",
+    "subs": [
+      {
+        "title": "Corrections Made",
+        "desc": "Technical errors fixed in the original sections.",
+        "file": "CHANGELOG.md",
+        "lang": "bash",
+        "code": "BUGS THAT WOULD BREAK AT RUNTIME\n- 09: drizzle(pg) had no { schema }, so db.query.* (used in 11/15) would not exist\n- 04/23: router could not match /public/* (no wildcard support) and did not escape regex chars\n- 23: cache table was never created; rate limiter never incremented; routes never registered\n- 11/15: two conflicting userService objects (createUser lost); controller called missing methods\n- 12/13: utils/jwt.ts, getById, lib/logger.ts and lib/hash.ts were referenced but never defined\n- 22: Bun.semver.parse does not exist; worker path pointed to the wrong directory\n- 20: SQLite rate limiter never reset its window; per-request DELETE; string-built SQL\n\nSECURITY FIXES\n- 03/17/23: upload filename used in path (traversal); no size or type limits\n- 13: CORS reflected any Origin; rate limiter trusted spoofable x-forwarded-for\n- 16: WebSocket userId taken from query string (impersonation); no Origin check\n- 23: static file serving now resolves and checks the root prefix\n- 15: login timing leaked which emails exist; role must come from verified token\n- 11: check-then-insert uniqueness race replaced with unique-violation handling\n\nINACCURATE CLAIMS CORRECTED\n- 01/hero: fixed rps/ms/cold-start figures were unmeasured; replaced with a benchmark method\n- 02: server.stop(true) force-closes connections; graceful is await server.stop()\n- 03: formData() buffers in memory, it does not stream to disk\n- 17: Bun.file does not replace fs (append, readdir, mkdir still need node:fs)\n- 18: \"bcryptjs 82ms vs Bun 12ms\" is cost-setting dependent; argon2 memoryCost: 4 is 4 KiB, not 4 MB\n- 20: \"Redis not needed\" only holds on a single host\n- 21: Bun.hash returns bigint (wyhash); ETag must be quoted; hashing whole file per request is costly\n- 22: Bun.password in a worker is pointless (already off the main thread)\n- hero: \"DEPS FOR CORE 0\" is false (zod, drizzle, postgres, jose)\n\nMODERNIZATION\n- 10: array-form index callback, uuid, pgEnum, timestamptz, inferred types\n- 14: zod error.issues instead of removed error.errors\n- 05: boolean env parsing (z.coerce.boolean pitfall), version-neutral URL check\n- 01: native Bun.serve routes option; 06: bun-sql adapter note (verify)\n\nGAPS FILLED\n- 24 migrations + transactions, 25 tests, 26 Docker + Caddy, 27 logger + security headers\n"
+      }
+    ]
   }
-});
-
-console.log(\`Listening \${server.url}\`);
-
-process.on('SIGTERM', async () => {
-  console.log('SIGTERM -> draining');
-  server.stop(true);
-  await db.$client.end();
-  process.exit(0);
-});`,
-            },
-          ],
-        },
-      ];
+];
 var $jx = v, $jxs = N, $R = Fc.default, $F = null;
 function $Tree({ tree: e, file: n }) {
   return $jxs("div", {
@@ -12742,15 +11858,17 @@ var $SECTIONS = $D.map((d) => ({
 }));
 var $CFG = {
   brand: ["B", " ", "BUN::BACKEND"],
-  tags: ["NO FRAMEWORK", "ALL BUILT-INS", "TS + DRIZZLE"],
+  tags: ["NO FRAMEWORK", "BUN BUILT-INS", "TS + DRIZZLE"],
   copy: ["COPY", "COPIED"],
   placeholder: "Search Bun.serve, file, password, spawn, sqlite, hash...",
   placeholderMobile: "Search...",
-  headerRight: () => [$jx("span", { className: "text-[11px] text-zinc-500 hidden sm:block", children: "bun 1.1" }), $jx("span", { className: "text-[11px] text-zinc-500 hidden sm:block", children: "FULL OS" })],
+  headerRight: () => [$jx("span", { className: "text-[11px] text-zinc-500 hidden sm:block", children: "bun 1.2+" }), $jx("span", { className: "text-[11px] text-zinc-500 hidden sm:block", children: "FULL OS" })],
   groups: [
     { label: "BEGINNER", tag: null, test: (m) => m.group === "BEGINNER" },
     { label: "STRUCTURE CORE", tag: "STRUCT", test: (m) => m.group === "STRUCTURE" },
     { label: "BUN BUILT-INS", tag: "BUN", test: (m) => m.group === "BUN" },
+    { label: "PRODUCTION OPS", tag: "OPS", test: (m) => m.group === "PRODUCTION" },
+    { label: "REVIEW NOTES", tag: null, test: (m) => m.group === "REVIEW" },
   ],
   sidebarBox: () => $jx($Box, { title: "PROD CHECKLIST", children: $jx("div", { className: "space-y-1.5 text-[11px] font-code text-zinc-500", children:
     [" reusePort + SIGTERM", " Bun.password not bcryptjs", " Bun.file zero-copy", " bun:sqlite WAL cache", " CryptoHasher ETag"].map((t) =>
@@ -12758,19 +11876,19 @@ var $CFG = {
   hero: {
     badges: ["FULL PRODUCTION OS — SINGLE HTML"],
     title: ["BACKEND WITH", $jx("br", {}), "BUNJS", " WITHOUT", $jx("br", {}), "FRAMEWORK"],
-    desc: ["No Express. No Fastify. Just ", $jx("span", { className: "text-zinc-200 font-code", children: "Bun.serve" }), ", Web API, ", $jx("span", { className: "text-zinc-200 font-code", children: "Drizzle ORM" }), " and every Bun built-in used in production.", $jx("br", {}), "23 modules, 5ms cold start, 95k rps."],
-    stats: [["RPS", "95k"], ["COLD START", "5ms"], ["DEPS FOR CORE", "0"]],
+    desc: ["No Express. No Fastify. Just ", $jx("span", { className: "text-zinc-200 font-code", children: "Bun.serve" }), ", Web API, ", $jx("span", { className: "text-zinc-200 font-code", children: "Drizzle ORM" }), " and every Bun built-in used in production.", $jx("br", {}), "28 modules: routing, auth, Drizzle, Bun built-ins, testing and deployment. Technically reviewed and corrected."],
+    stats: [["MODULES", "28"], ["RUNTIME DEPS", "zod · drizzle · postgres · jose"], ["REVIEWED", "Oct 2026"]],
     chips: ["Bun.serve", "Bun.file", "Bun.password", "Bun.spawn", "bun:sqlite", "Bun.hash", "WebSocket", "Workers"],
   },
-  afterMain: () => $jx("div", { className: "mt-16", children: $jx($Box, { title: "END OF OS — 23 MODULES", children: $jxs("div", { children: [
-    $jx("div", { className: "text-[12.5px] leading-[1.6] text-zinc-400", children: "Copy any block. Paste into src/. bun run src/index.ts — production." }),
-    $jxs("div", { className: "mt-2 flex flex-wrap gap-2", children: [$jx("span", { className: "text-[11px] px-2.5 py-1 rounded-full bg-zinc-900 border border-zinc-800 text-zinc-400", children: "bun run dev — 5ms" }), $jx("span", { className: "text-[11px] px-2.5 py-1 rounded-full bg-zinc-900 border border-zinc-800 text-zinc-400", children: "Download as single HTML" })] }),
+  afterMain: () => $jx("div", { className: "mt-16", children: $jx($Box, { title: "END OF OS — 28 MODULES", children: $jxs("div", { children: [
+    $jx("div", { className: "text-[12.5px] leading-[1.6] text-zinc-400", children: "Copy blocks into src/, pin dependency versions, run bun run db:migrate, then bun src/index.ts. See section 28 for what changed in this revision." }),
+    $jxs("div", { className: "mt-2 flex flex-wrap gap-2", children: [$jx("span", { className: "text-[11px] px-2.5 py-1 rounded-full bg-zinc-900 border border-zinc-800 text-zinc-400", children: "bun --watch src/index.ts" }), $jx("span", { className: "text-[11px] px-2.5 py-1 rounded-full bg-zinc-900 border border-zinc-800 text-zinc-400", children: "Download as single HTML" })] }),
   ] }) }) }),
   toc: (a) => a.visible.slice(0, 12).map((d) => ({ id: d.id, label: [d.num, " ", d.title] })).concat(a.visible.length > 12 ? [{ label: ["+", a.visible.length - 12, " more"] }] : []),
   railBoxes: (a) => $jxs("div", { children: [
     $jx($Box, { title: "PROD TIP", mb: true, children: $jx("p", { className: "text-[12.5px] leading-[1.6] text-zinc-400", children: a.current.raw.prodTip }) }),
     $jx($Box, { title: "BUN BUILT-INS COVERAGE", mb: true, children: $jx("div", { className: "space-y-1.5 text-[11px] font-code text-zinc-500", children:
-      [["Bun.serve", "16,23"], ["Bun.file/write", "17,23"], ["Bun.password", "18,11"], ["Bun.spawn/$", "19"], ["bun:sqlite", "20,23"], ["CryptoHasher", "21,23"], ["sleep/which/semver", "22"], ["TCP/Workers", "22"]].map((r) =>
+      [["Bun.serve", "01,02,16"], ["Bun.file/write", "17,23"], ["Bun.password", "18,11"], ["Bun.spawn/$", "19"], ["bun:sqlite", "20,23"], ["CryptoHasher", "21,23"], ["sleep/which/semver", "22"], ["TCP/Workers", "22"]].map((r) =>
         $jxs("div", { className: "flex justify-between", children: [$jx("span", { children: r[0] }), $jx("span", { className: "text-zinc-300", children: r[1] })] }, r[0])) }) }),
   ] }),
   railEnd: () => $jxs("div", { className: "text-[11px] leading-[1.5] text-zinc-500 font-code", children: ["Dark mode default.", $jx("br", {}), "JetBrains Mono for code,", $jx("br", {}), "Geist Mono for UI.", $jx("br", {}), $jx("br", {}), $jx("span", { className: "text-zinc-300", children: "Press / to search" })] }),
